@@ -19,6 +19,7 @@
 		E241A8FF2AE9CCED00203F24 /* FirebaseStorage in Frameworks */ = {isa = PBXBuildFile; productRef = E241A8FE2AE9CCED00203F24 /* FirebaseStorage */; };
 		E241A9012AE9CCED00203F24 /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = E241A9002AE9CCED00203F24 /* FirebaseAuth */; };
 		E241A9032AE9CCED00203F24 /* FirebaseFirestore in Frameworks */ = {isa = PBXBuildFile; productRef = E241A9022AE9CCED00203F24 /* FirebaseFirestore */; };
+		E241A90C2AE9E11000203F24 /* AuthViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E241A90B2AE9E11000203F24 /* AuthViewModel.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -31,6 +32,7 @@
 		937616762AE9C5D0008C5147 /* InputView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InputView.swift; sourceTree = "<group>"; };
 		937616782AE9CFD9008C5147 /* SignUpView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpView.swift; sourceTree = "<group>"; };
 		E241A8F82AE9C9CB00203F24 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		E241A90B2AE9E11000203F24 /* AuthViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthViewModel.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -130,8 +132,8 @@
 		937616722AE9C27F008C5147 /* Authentication */ = {
 			isa = PBXGroup;
 			children = (
-				937616742AE9C362008C5147 /* LoginView.swift */,
-				937616782AE9CFD9008C5147 /* SignUpView.swift */,
+				E241A90A2AE9E0F700203F24 /* ViewModel */,
+				E241A9092AE9E0E400203F24 /* View */,
 			);
 			path = Authentication;
 			sourceTree = "<group>";
@@ -141,6 +143,23 @@
 			children = (
 			);
 			path = Profile;
+			sourceTree = "<group>";
+		};
+		E241A9092AE9E0E400203F24 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				937616742AE9C362008C5147 /* LoginView.swift */,
+				937616782AE9CFD9008C5147 /* SignUpView.swift */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		E241A90A2AE9E0F700203F24 /* ViewModel */ = {
+			isa = PBXGroup;
+			children = (
+				E241A90B2AE9E11000203F24 /* AuthViewModel.swift */,
+			);
+			path = ViewModel;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -225,6 +244,7 @@
 			files = (
 				937616752AE9C362008C5147 /* LoginView.swift in Sources */,
 				937616792AE9CFD9008C5147 /* SignUpView.swift in Sources */,
+				E241A90C2AE9E11000203F24 /* AuthViewModel.swift in Sources */,
 				937616772AE9C5D0008C5147 /* InputView.swift in Sources */,
 				933B08CB2AE89091009BD0D2 /* ContentView.swift in Sources */,
 				933B08C92AE89091009BD0D2 /* Plan_My_DayApp.swift in Sources */,
