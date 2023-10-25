@@ -11,6 +11,9 @@
 		933B08CB2AE89091009BD0D2 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 933B08CA2AE89091009BD0D2 /* ContentView.swift */; };
 		933B08CD2AE89092009BD0D2 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 933B08CC2AE89092009BD0D2 /* Assets.xcassets */; };
 		933B08D02AE89092009BD0D2 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 933B08CF2AE89092009BD0D2 /* Preview Assets.xcassets */; };
+		937616752AE9C362008C5147 /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 937616742AE9C362008C5147 /* LoginView.swift */; };
+		937616772AE9C5D0008C5147 /* InputView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 937616762AE9C5D0008C5147 /* InputView.swift */; };
+		937616792AE9CFD9008C5147 /* SignUpView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 937616782AE9CFD9008C5147 /* SignUpView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -19,6 +22,9 @@
 		933B08CA2AE89091009BD0D2 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		933B08CC2AE89092009BD0D2 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		933B08CF2AE89092009BD0D2 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
+		937616742AE9C362008C5147 /* LoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
+		937616762AE9C5D0008C5147 /* InputView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InputView.swift; sourceTree = "<group>"; };
+		937616782AE9CFD9008C5147 /* SignUpView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -51,8 +57,10 @@
 		933B08C72AE89091009BD0D2 /* Plan My Day */ = {
 			isa = PBXGroup;
 			children = (
-				933B08C82AE89091009BD0D2 /* Plan_My_DayApp.swift */,
-				933B08CA2AE89091009BD0D2 /* ContentView.swift */,
+				937616702AE9C224008C5147 /* App */,
+				9376166F2AE9C222008C5147 /* Components */,
+				9376166E2AE9C221008C5147 /* Core */,
+				9376166D2AE9C21F008C5147 /* Model */,
 				933B08CC2AE89092009BD0D2 /* Assets.xcassets */,
 				933B08CE2AE89092009BD0D2 /* Preview Content */,
 			);
@@ -65,6 +73,63 @@
 				933B08CF2AE89092009BD0D2 /* Preview Assets.xcassets */,
 			);
 			path = "Preview Content";
+			sourceTree = "<group>";
+		};
+		9376166D2AE9C21F008C5147 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		9376166E2AE9C221008C5147 /* Core */ = {
+			isa = PBXGroup;
+			children = (
+				937616722AE9C27F008C5147 /* Authentication */,
+				937616732AE9C284008C5147 /* Profile */,
+				937616712AE9C26A008C5147 /* Root */,
+			);
+			path = Core;
+			sourceTree = "<group>";
+		};
+		9376166F2AE9C222008C5147 /* Components */ = {
+			isa = PBXGroup;
+			children = (
+				937616762AE9C5D0008C5147 /* InputView.swift */,
+			);
+			path = Components;
+			sourceTree = "<group>";
+		};
+		937616702AE9C224008C5147 /* App */ = {
+			isa = PBXGroup;
+			children = (
+				933B08C82AE89091009BD0D2 /* Plan_My_DayApp.swift */,
+			);
+			path = App;
+			sourceTree = "<group>";
+		};
+		937616712AE9C26A008C5147 /* Root */ = {
+			isa = PBXGroup;
+			children = (
+				933B08CA2AE89091009BD0D2 /* ContentView.swift */,
+			);
+			path = Root;
+			sourceTree = "<group>";
+		};
+		937616722AE9C27F008C5147 /* Authentication */ = {
+			isa = PBXGroup;
+			children = (
+				937616742AE9C362008C5147 /* LoginView.swift */,
+				937616782AE9CFD9008C5147 /* SignUpView.swift */,
+			);
+			path = Authentication;
+			sourceTree = "<group>";
+		};
+		937616732AE9C284008C5147 /* Profile */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Profile;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -137,6 +202,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				937616752AE9C362008C5147 /* LoginView.swift in Sources */,
+				937616792AE9CFD9008C5147 /* SignUpView.swift in Sources */,
+				937616772AE9C5D0008C5147 /* InputView.swift in Sources */,
 				933B08CB2AE89091009BD0D2 /* ContentView.swift in Sources */,
 				933B08C92AE89091009BD0D2 /* Plan_My_DayApp.swift in Sources */,
 			);
@@ -275,6 +343,7 @@
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -304,6 +373,7 @@
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",

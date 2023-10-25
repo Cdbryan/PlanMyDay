@@ -11,7 +11,7 @@ import SwiftUI
 struct Plan_My_DayApp: App {
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            LoginView()
         }
     }
 }
