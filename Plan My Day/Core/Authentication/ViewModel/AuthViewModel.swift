@@ -10,7 +10,7 @@ import Firebase
 
 class AuthViewModel: ObservableObject {
     //to see if user is logged in currently
-    @Published var UserSession: FirebaseAuth.User?
+    @Published var userSession: FirebaseAuth.User?
     @Published var currentUser: User?
     
     init(){
