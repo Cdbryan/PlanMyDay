@@ -4,7 +4,6 @@
 //
 //  Created by Itzel Villanueva on 10/25/23.
 //
-
 import SwiftUI
 
 @available(iOS 16.0, *)
@@ -46,7 +45,7 @@ struct LoginView: View {
                     //print("Log User In")
                     Task {
                         //call signin function with click button
-                        try await viewModel.signIn(withEmail email: email, password: password)
+                        try await viewModel.signIn(withEmail: email, password: password)
                     }
                     
                 }label: {
