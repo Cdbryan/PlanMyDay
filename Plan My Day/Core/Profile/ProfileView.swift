@@ -9,6 +9,8 @@ import SwiftUI
 
 struct ProfileView: View {
     @EnvironmentObject var viewModel: AuthViewModel
+    @State private var shouldNavigateToLogin = false // New state variable
+    
     var body: some View {
         if let user = viewModel.currentUser{
             List{
@@ -29,7 +31,7 @@ struct ProfileView: View {
                                 .fontWeight(.semibold)
                                 .accentColor(Color(.systemGray))
                                 .font(.subheadline)
-
+                            
                         }
                     }
                 }
@@ -48,21 +50,21 @@ struct ProfileView: View {
                     //sign out
                     Button{
                         viewModel.signOut()
+                        shouldNavigateToLogin = true
                     }label: {
                         SettingsRowView(imageName: "arrow.left.circle.fill",
                                         title: "Sign Out",
                                         tintColor: Color(.red))
                     }
-                    //delete account
-                    Button{
-                        print("Deleted Account")
-                    }label: {
-                        SettingsRowView(imageName: "xmark.circle.fill",
-                                        title: "Delete Account",
-                                        tintColor: Color(.red))
-                    }
                 }
             }
+            .background(
+                NavigationLink(
+                    destination: LoginView().navigationBarBackButtonHidden(true),
+                    isActive: $shouldNavigateToLogin,
+                    label: { EmptyView() }
+                )
+            )
         }
     }
 }

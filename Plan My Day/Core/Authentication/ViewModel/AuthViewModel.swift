@@ -58,7 +58,8 @@ class AuthViewModel: ObservableObject {
             throw error // Re-throw the error so it can be caught by the caller.
         }
     }
-    func signOut(){
+
+    func signOut() {
         do{
             //backend sign out
             try Auth.auth().signOut()
@@ -69,10 +70,6 @@ class AuthViewModel: ObservableObject {
         catch{
             print("DEBUG: Failed to create user with error \(error.localizedDescription)")
         }
-    }
-    
-    func deleteAccount(){
-        
     }
     
     func fetchUser() async {
