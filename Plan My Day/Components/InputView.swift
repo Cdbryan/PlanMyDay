@@ -3,8 +3,6 @@
 //  Plan My Day
 //
 //  Created by Itzel Villanueva on 10/25/23.
-//
-
 
 //resuable component for the textfields
 import SwiftUI
@@ -16,20 +14,40 @@ struct InputView: View {
     var isSecureField = false
     
     var body: some View {
-        VStack(alignment: .leading, spacing: 12){
+        VStack(alignment: .leading, spacing: 12) {
             Text(title)
                 .foregroundColor(Color(.darkGray))
                 .fontWeight(.semibold)
                 .font(.footnote)
-            if isSecureField{
-                SecureField(placeholder, text: $text)
+            
+            if isSecureField {
+                SecureInputField(placeholder: placeholder, text: $text)
+            } else {
+                TextField(placeholder, text: $text)
                     .font(.system(size: 14))
             }
-            else{
-                SecureField(placeholder, text: $text)
-                    .font(.system(size: 14))
-            }
+            
             Divider()
+        }
+    }
+}
+
+struct SecureInputField: View {
+    var placeholder: String
+    @Binding var text: String
+    
+    var body: some View {
+        ZStack {
+            if text.isEmpty {
+                HStack{
+                    Text(placeholder)
+                        .foregroundColor(Color(.placeholderText))
+                        .font(.system(size: 14))
+                    Spacer()
+                }
+            }
+            
+            SecureField("", text: $text)
         }
     }
 }
