@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import Firebase
 
 struct SignUpView: View {
     @State private var email = ""
@@ -16,6 +17,8 @@ struct SignUpView: View {
     @EnvironmentObject var viewModel: AuthViewModel
     @State private var isSignUpSuccessful = false
     @State private var showAlert = false
+    @State private var alertMessage = "" // Store error message
+    
     
     var body: some View {
         VStack{
@@ -72,21 +75,13 @@ struct SignUpView: View {
             Button {
                 Task {
                     do {
-                        try await viewModel.createUser(withEmail: email,
-                                                       password: password,
-                                                       fullname: fullName)
+                        try await viewModel.createUser(withEmail: email, password: password, fullname: fullName)
                         isSignUpSuccessful = true
                     } catch {
-                        print("Error: \(error)")
+                        isSignUpSuccessful = false
+                        alertMessage = (error as? AuthErrorCode)?.localizedDescription ?? "An error occurred."
                     }
-                    
-                    if isSignUpSuccessful {
-                        showAlert = true
-                        //                        // Navigate to the desired view upon successful sign-up
-                        //                        NavigationLink(destination: ProfileView().navigationBarBackButtonHidden(true)) {
-                        //                            EmptyView()
-                        //                        }
-                    }
+                    showAlert = true
                 }
             } label: {
                 HStack {
@@ -102,29 +97,29 @@ struct SignUpView: View {
             .opacity(formIsValid ? 1.0 : 0.5)
             .cornerRadius(10)
             .padding(.top, 24)
-            
-            Spacer()
-            
-            Button {
-                dismiss()
-            } label: {
-                HStack(spacing: 7) {
-                    Text("Already have an account?")
-                    Text("Sign In")
-                        .fontWeight(.bold)
+            .alert(isPresented: $showAlert) {
+                if isSignUpSuccessful {
+                    return Alert(
+                        title: Text("Sign-Up Successful"),
+                        message: Text("Your account has been created."),
+                        dismissButton: .default(Text("OK")) {
+                            dismiss()
+                        }
+                    )
+                } else if viewModel.signUpError != nil {
+                    return Alert(
+                        title: Text("Sign-Up Unsuccessful"),
+                        message: Text(viewModel.signUpError!),
+                        dismissButton: .default(Text("OK"))
+                    )
+                } else {
+                    return Alert(
+                        title: Text("Sign-Up Unsuccessful"),
+                        message: Text("An error occurred."),
+                        dismissButton: .default(Text("OK"))
+                    )
                 }
-                .font(.system(size: 14))
             }
-        }
-        .alert(isPresented: $showAlert) {
-            Alert(
-                title: Text("Sign-Up Successful"),
-                message: Text("Your account has been created."),
-                dismissButton: .default(Text("OK")) {
-                    // No need to navigate to the ProfileView here, just dismiss the view
-                    dismiss()
-                }
-            )
         }
     }
 }
