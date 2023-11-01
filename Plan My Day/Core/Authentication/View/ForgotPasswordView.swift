@@ -54,15 +54,15 @@ struct ForgotPasswordView: View {
                 .cornerRadius(10)
                 .padding(.top, 24)
 
-                Button(action: {
-                    // Navigate back to the login screen or perform the desired action
-                    isPasswordResetSuccessful = false
-                    showAlert = false
-                }) {
-                    Text("Back to Login")
-                }
-                .foregroundColor(Color(.systemBlue))
-                .padding(.top, 16)
+//                Button(action: {
+//                    // Navigate back to the login screen or perform the desired action
+//                    isPasswordResetSuccessful = false
+//                    showAlert = false
+//                }) {
+//                    Text("Back to Login")
+//                }
+//                .foregroundColor(Color(.systemBlue))
+//                .padding(.top, 16)
             }
         }
         .alert(isPresented: $showAlert) {

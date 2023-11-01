@@ -15,6 +15,8 @@ struct LoginView: View {
     @State private var isSignInSuccessful = false
     @State private var navigateToProfile = false // New state variable
     @State private var isShowingErrorAlert = false // State variable for error alert
+    @State private var navigateToForgotPassword = false
+
     
     var body: some View {
         NavigationStack {
@@ -91,6 +93,23 @@ struct LoginView: View {
                             .font(.system(size: 14))
                         }
                     )
+                    NavigationLink(
+                                    destination: ForgotPasswordView(),
+                                    isActive: $navigateToForgotPassword,
+                                    label: { Text("Forgot Password?") }
+                                )
+//                    NavigationLink(
+//                        destination: ForgotPasswordView(),
+//                        isActive: $navigateToForgotPassword,
+//                        label: {
+//                            Text("Forgot Password?")
+//                                .font(.system(size: 14))
+//                                .foregroundColor(Color(.systemBlue))
+//                                .onTapGesture {
+//                                    navigateToForgotPassword = true
+//                                }
+//                        }
+//                    )
                 }
             }
             .background(
