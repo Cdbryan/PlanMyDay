@@ -58,6 +58,8 @@ struct AttractionDetailView: View {
                 .font(.title)
             Text("Location: \(attraction.location)")
             Text("Hours: \(attraction.hours.joined(separator: ", "))")
+            Text("Description: \(attraction.desc)")
+
             // Add more information as needed
 
             Spacer()
@@ -73,46 +75,29 @@ struct Attraction: Identifiable {
     let location: String
     let isUSC: Bool
     var hours: [String]
+    var desc: String
+    
 
     static let attractionList = [
-        Attraction(attractionId: 1, name: "USC Bookstore", location: "Los Angeles", isUSC: true, hours: ["9:00 AM - 5:00 PM"]),
-        Attraction(attractionId: 2, name: "Tommy Trojan", location: "Los Angeles", isUSC: true, hours: ["Open 24 Hours"]),
-        Attraction(attractionId: 3, name: "Tommy Trojan", location: "Los Angeles", isUSC: true, hours: ["Open 24 Hours"]),
-        Attraction(attractionId: 4, name: "Tommy Trojan", location: "Los Angeles", isUSC: true, hours: ["Open 24 Hours"]),
-        Attraction(attractionId: 5, name: "Tommy Trojan", location: "Los Angeles", isUSC: true, hours: ["Open 24 Hours"]),
-        Attraction(attractionId: 6, name: "Tommy Trojan", location: "Los Angeles", isUSC: true, hours: ["Open 24 Hours"]),
-        Attraction(attractionId: 7, name: "Tommy Trojan", location: "Los Angeles", isUSC: true, hours: ["Open 24 Hours"]),
-        Attraction(attractionId: 8, name: "Tommy Trojan", location: "Los Angeles", isUSC: true, hours: ["Open 24 Hours"]),
-        Attraction(attractionId: 9, name: "Tommy Trojan", location: "Los Angeles", isUSC: true, hours: ["Open 24 Hours"]),
-        Attraction(attractionId: 10, name: "Tommy Trojan", location: "Los Angeles", isUSC: true, hours: ["Open 24 Hours"]),
-        Attraction(attractionId: 11, name: "Tommy Trojan", location: "Los Angeles", isUSC: true, hours: ["Open 24 Hours"]),
-        Attraction(attractionId: 12, name: "Tommy Trojan", location: "Los Angeles", isUSC: true, hours: ["Open 24 Hours"]),
-        Attraction(attractionId: 13, name: "Tommy Trojan", location: "Los Angeles", isUSC: true, hours: ["Open 24 Hours"]),
-        Attraction(attractionId: 14, name: "Tommy Trojan", location: "Los Angeles", isUSC: true, hours: ["Open 24 Hours"]),
-        Attraction(attractionId: 15, name: "Tommy Trojan", location: "Los Angeles", isUSC: true, hours: ["Open 24 Hours"]),
-        Attraction(attractionId: 16, name: "Tommy Trojan", location: "Los Angeles", isUSC: true, hours: ["Open 24 Hours"]),
-        Attraction(attractionId: 17, name: "Tommy Trojan", location: "Los Angeles", isUSC: true, hours: ["Open 24 Hours"]),
-        Attraction(attractionId: 18, name: "Tommy Trojan", location: "Los Angeles", isUSC: true, hours: ["Open 24 Hours"]),
-        Attraction(attractionId: 19, name: "Tommy Trojan", location: "Los Angeles", isUSC: true, hours: ["Open 24 Hours"]),
-        Attraction(attractionId: 20, name: "Tommy Trojan", location: "Los Angeles", isUSC: true, hours: ["Open 24 Hours"]),
+        Attraction(attractionId: 1, name: "USC Village", location: "USC", isUSC: true, hours: ["9:00 AM - 5:00 PM"], desc: "village"),
+        Attraction(attractionId: 2, name: "Equad", location: "USC", isUSC: true, hours: ["Open 24 Hours"], desc: "village"),
+        Attraction(attractionId: 3, name: "School of Cinematic Arts", location: "USC", isUSC: true, hours: ["Open 24 Hours"], desc: "village"),
+        Attraction(attractionId: 4, name: "LA Memorial Colosseum", location: "USC", isUSC: true, hours: ["Open 24 Hours"], desc: "village"),
+        Attraction(attractionId: 5, name: "Marshall School of Business", location: "USC", isUSC: true, hours: ["Open 24 Hours"], desc: "village"),
+        Attraction(attractionId: 6, name: "Doheny Library", location: "USC", isUSC: true, hours: ["Open 24 Hours"], desc: "village"),
+        Attraction(attractionId: 7, name: "Greek Row", location: "USC", isUSC: true, hours: ["Open 24 Hours"], desc: "village"),
+        Attraction(attractionId: 8, name: "Tommy Trojan", location: "USC", isUSC: true, hours: ["Open 24 Hours"], desc: "village"),
+        Attraction(attractionId: 9, name: "Crypto Center", location: "Los Angeles", isUSC: false, hours: ["Open 24 Hours"], desc: "village"),
+        Attraction(attractionId: 10, name: "FIDM Museum", location: "Los Angeles", isUSC: false, hours: ["Open 24 Hours"], desc: "village"),
+        Attraction(attractionId: 11, name: "Santa Monica Pier", location: "Los Angeles", isUSC: false, hours: ["Open 24 Hours"], desc: "village"),
+        Attraction(attractionId: 12, name: "Natural History Museum", location: "Los Angeles", isUSC: false, hours: ["Open 24 Hours"], desc: "village"),
+        Attraction(attractionId: 13, name: "Hollywood Walk of Fame", location: "Los Angeles", isUSC: false, hours: ["Open 24 Hours"], desc: "village"),
+        Attraction(attractionId: 14, name: "Hollywood Sign", location: "Los Angeles", isUSC: false, hours: ["Open 24 Hours"], desc: "village"),
+        Attraction(attractionId: 15, name: "The Getty", location: "Los Angeles", isUSC: false, hours: ["Open 24 Hours"], desc: "village"),
+        Attraction(attractionId: 16, name: "Griffith Observatory", location: "Los Angeles", isUSC: false, hours: ["Open 24 Hours"], desc: "village"),
+        Attraction(attractionId: 17, name: "Universal Studios", location: "Los Angeles", isUSC: false, hours: ["Open 24 Hours"], desc: "village"),
+        Attraction(attractionId: 18, name: "The Grove", location: "Los Angeles", isUSC: false, hours: ["Open 24 Hours"], desc: "village"),
+        Attraction(attractionId: 19, name: "Grand Central Market", location: "Los Angeles", isUSC: false, hours: ["Open 24 Hours"], desc: "village"),
+        Attraction(attractionId: 20, name: "Peterson Automative Museum", location: "Los Angeles", isUSC: false, hours: ["Open 24 Hours"], desc: "village"),
     ]
 }
-//"USC Village",
-//"Equad",
-//"School of Cinematic Arts",
-//"LA Memorial Colosseum",
-//"Marshall School of Business",
-//"Doheny Library",
-//"Greek Row",
-//"Grand Central Market",
-//"Crypto Center",
-//"FIDM Museum",
-//"Santa Monica Pier",
-//"Natural History Museum",
-//"Hollywood Walk of Fame",
-//"Hollywood Sign",
-//"The Getty",
-//"Griffith Observatory",
-//"Universal Studios",
-//"The Grove",
-//"Peterson Automative Museum"
