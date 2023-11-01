@@ -48,7 +48,7 @@ struct SignUpView: View {
                 //password
                 InputView(text: $password,
                           title: "Password",
-                          placeholder: "Enter Password",
+                          placeholder: "Minimum 6 Characters",
                           isSecureField: true)
                 .autocapitalization(.none)
                 //password x2
