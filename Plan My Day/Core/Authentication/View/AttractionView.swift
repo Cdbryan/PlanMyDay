@@ -4,24 +4,6 @@
 //
 //  Created by Alysha Kanjiyani on 10/31/23.
 //
-
-//import SwiftUI
-//
-//struct AttractionView: View {
-//    let attractions = attractionList
-//    var body: some View {
-//        NavigationView{
-//            List {
-//                ForEach(attractions, id: \.self){ attraction in
-//                    NavigationLink(destination: Text(attraction)){
-//                        Image(systemName: "mappin.circle.fill")
-//                        Text(attraction)
-//                    }.padding()
-//                }.navigationTitle("Attractions")
-//            }
-//        }
-//    }
-//}
 import SwiftUI
 
 struct AttractionView: View {
@@ -31,17 +13,32 @@ struct AttractionView: View {
     var body: some View {
         NavigationView {
             List {
-                ForEach(attractions) { attraction in
-                    Button(action: {
-                        selectedAttraction = attraction
-                    }) {
-                        HStack {
-                            Image(systemName: "mappin.circle.fill")
-                            Text(attraction.name)
+                Section(header: Text("USC Attractions")) {
+                    ForEach(attractions.prefix(8)) { attraction in
+                        Button(action: {
+                            selectedAttraction = attraction
+                        }) {
+                            HStack {
+                                Image(systemName: "mappin.circle.fill")
+                                Text(attraction.name)
+                            }
                         }
                     }
-                }.navigationTitle("Attractions")
+                }
+                Section(header: Text("LA Attractions")) {
+                    ForEach(attractions.dropFirst(8)) { attraction in
+                        Button(action: {
+                            selectedAttraction = attraction
+                        }) {
+                            HStack {
+                                Image(systemName: "mappin.circle.fill")
+                                Text(attraction.name)
+                            }
+                        }
+                    }
+                }
             }
+            .navigationTitle("Attractions")
             .sheet(item: $selectedAttraction) { attraction in
                 AttractionDetailView(attraction: attraction)
             }
