@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		37F7D1C72AF2FA6600D8A952 /* Itinerary.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37F7D1C62AF2FA6600D8A952 /* Itinerary.swift */; };
+		37F7D1C92AF3068600D8A952 /* MapPageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37F7D1C82AF3068600D8A952 /* MapPageView.swift */; };
 		933B08C92AE89091009BD0D2 /* Plan_My_DayApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 933B08C82AE89091009BD0D2 /* Plan_My_DayApp.swift */; };
 		933B08CB2AE89091009BD0D2 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 933B08CA2AE89091009BD0D2 /* ContentView.swift */; };
 		933B08CD2AE89092009BD0D2 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 933B08CC2AE89092009BD0D2 /* Assets.xcassets */; };
@@ -28,6 +30,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		37F7D1C62AF2FA6600D8A952 /* Itinerary.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Itinerary.swift; sourceTree = "<group>"; };
+		37F7D1C82AF3068600D8A952 /* MapPageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapPageView.swift; sourceTree = "<group>"; };
 		933B08C52AE89091009BD0D2 /* Plan My Day.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Plan My Day.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		933B08C82AE89091009BD0D2 /* Plan_My_DayApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Plan_My_DayApp.swift; sourceTree = "<group>"; };
 		933B08CA2AE89091009BD0D2 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -102,6 +106,7 @@
 			isa = PBXGroup;
 			children = (
 				9362C0322AE9E35B009467C6 /* User.swift */,
+				37F7D1C62AF2FA6600D8A952 /* Itinerary.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -165,6 +170,7 @@
 				937616782AE9CFD9008C5147 /* SignUpView.swift */,
 				E23F094D2AF1D724006BE071 /* AttractionView.swift */,
 				E23F09512AF21BB8006BE071 /* ForgotPasswordView.swift */,
+				37F7D1C82AF3068600D8A952 /* MapPageView.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -258,6 +264,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				937616752AE9C362008C5147 /* LoginView.swift in Sources */,
+				37F7D1C72AF2FA6600D8A952 /* Itinerary.swift in Sources */,
+				37F7D1C92AF3068600D8A952 /* MapPageView.swift in Sources */,
 				E23F09522AF21BB8006BE071 /* ForgotPasswordView.swift in Sources */,
 				937616792AE9CFD9008C5147 /* SignUpView.swift in Sources */,
 				E241A90C2AE9E11000203F24 /* AuthViewModel.swift in Sources */,

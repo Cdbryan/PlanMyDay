@@ -9,8 +9,6 @@ import SwiftUI
 
 struct AttractionView: View {
     
-    // pass in itinerary struct
-    
     let attractions = Attraction.attractionList
     @State private var selectedAttractions: [Attraction] = []
     @State private var isChecklistVisible = false
@@ -70,52 +68,62 @@ struct AttractionView: View {
         }
     }
 }
+
 struct AttractionChecklistView: View {
     let attractions: [Attraction]
     @Binding var selectedAttractions: [Attraction]
     @Binding var isChecklistVisible: Bool
     
-    var body: some View {
-        List {
-            ForEach(attractions) { attraction in
-                HStack {
-                    Image(systemName: selectedAttractions.contains { $0.id == attraction.id } ? "checkmark.square" : "square")
-                    Text(attraction.name)
-                }
-                .onTapGesture {
-                    toggleAttraction(attraction)
-                    
-                }
-            }
-        }
-        .navigationBarTitle("Select Attractions")
-        .toolbar {
-            ToolbarItem(placement: .navigationBarLeading) {
-                Button("Cancel") {
-                    selectedAttractions = []
-                    isChecklistVisible.toggle()
-                }
-            }
-            ToolbarItem(placement: .navigationBarTrailing) {
-                Button("Done") {
-                    isChecklistVisible.toggle()
-                }
-            }
-        }
-    }
+    @State private var isMapPageActive: Bool = false // State to control navigation
     
-    func toggleAttraction(_ attraction: Attraction) {
-        if selectedAttractions.contains(where: { $0.id == attraction.id }) {
-            selectedAttractions.removeAll { $0.id == attraction.id }
-        } else {
-            selectedAttractions.append(attraction)
-        }
-        
-        // update itinerary with selected attractions
-    }
-}
-
-
+    var body: some View {
+           NavigationView {
+               List {
+                   ForEach(attractions) { attraction in
+                       HStack {
+                           Image(systemName: selectedAttractions.contains { $0.id == attraction.id } ? "checkmark.square" : "square")
+                           Text(attraction.name)
+                       }
+                       .onTapGesture {
+                           toggleAttraction(attraction)
+                       }
+                   }
+               }
+               .navigationBarTitle("Select Attractions")
+               .toolbar {
+                   ToolbarItem(placement: .navigationBarLeading) {
+                       Button("Cancel") {
+                           selectedAttractions = []
+                           isChecklistVisible.toggle()
+                       }
+                   }
+                   ToolbarItem(placement: .navigationBarTrailing) {
+                       Button("Done") {
+                           // Set the selectedAttractions in the Iterary object
+//                           itinerary.updateAttractions(attractions: selectedAttractions)
+                           isMapPageActive = true // Activate the navigation to MapPage
+                       }
+                   }
+               }
+               .background(
+                   NavigationLink(
+                    destination: MapPageView(itinerary: Itinerary(attractions: selectedAttractions)),
+                       isActive: $isMapPageActive
+                   ) {
+                       EmptyView() // This can be empty, as it's just used for navigation
+                   }
+               )
+           }
+       }
+       
+       func toggleAttraction(_ attraction: Attraction) {
+           if selectedAttractions.contains(where: { $0.id == attraction.id }) {
+               selectedAttractions.removeAll { $0.id == attraction.id }
+           } else {
+               selectedAttractions.append(attraction)
+           }
+       }
+   }
 
 
 struct AttractionDetailView: View {
@@ -172,3 +180,31 @@ struct Attraction: Identifiable {
     
     
 }
+
+struct Itinerary: Identifiable, Hashable {
+    static func == (lhs: Itinerary, rhs: Itinerary) -> Bool {
+        lhs.id == rhs.id;
+    }
+    
+    // Implementing hashValue to conform to the Hashable protocol
+    func hash(into hasher: inout Hasher) {
+        hasher.combine(id)
+    }
+    
+    init(attractions: [Attraction]) {
+        selectedAttrs = attractions
+        itineraryID = 1
+        numberOfDays = 1
+        tourDuration = []
+        plan = [[]]
+    }
+    
+    
+    let id = UUID()
+    let itineraryID: Int
+    var selectedAttrs: [Attraction]
+    var numberOfDays: Int
+    var tourDuration: [Int]
+    var plan: [[Attraction]]
+}
+
