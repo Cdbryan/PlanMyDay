@@ -6,45 +6,106 @@
 //
 import SwiftUI
 
+
 struct AttractionView: View {
     let attractions = Attraction.attractionList
+    @State private var selectedAttractions: [Attraction] = []
+    @State private var isChecklistVisible = false
     @State private var selectedAttraction: Attraction?
-
+    
     var body: some View {
         NavigationView {
             List {
                 Section(header: Text("USC Attractions")) {
                     ForEach(attractions.prefix(8)) { attraction in
-                        Button(action: {
-                            selectedAttraction = attraction
-                        }) {
-                            HStack {
-                                Image(systemName: "mappin.circle.fill")
-                                Text(attraction.name)
-                            }
+                        HStack {
+                            Image(systemName: "mappin.circle.fill")
+                            Text(attraction.name)
+                                .onTapGesture {
+                                    selectedAttraction = attraction
+                                }
                         }
                     }
                 }
                 Section(header: Text("LA Attractions")) {
                     ForEach(attractions.dropFirst(8)) { attraction in
-                        Button(action: {
-                            selectedAttraction = attraction
-                        }) {
-                            HStack {
-                                Image(systemName: "mappin.circle.fill")
-                                Text(attraction.name)
-                            }
+                        HStack {
+                            Image(systemName: "mappin.circle.fill")
+                            Text(attraction.name)
+                                .onTapGesture {
+                                    selectedAttraction = attraction
+                                }
                         }
                     }
                 }
             }
             .navigationTitle("Attractions")
+            .toolbar {
+                ToolbarItem(placement: .navigationBarTrailing) {
+                    Button(action: {
+                        isChecklistVisible.toggle()
+                    }) {
+                        Text("Select Attractions")
+                    }
+                }
+            }
             .sheet(item: $selectedAttraction) { attraction in
                 AttractionDetailView(attraction: attraction)
+            }
+            .sheet(isPresented: $isChecklistVisible) {
+                AttractionChecklistView(
+                    attractions: attractions,
+                    selectedAttractions: $selectedAttractions,
+                    isChecklistVisible: $isChecklistVisible
+                )
             }
         }
     }
 }
+struct AttractionChecklistView: View {
+    let attractions: [Attraction]
+    @Binding var selectedAttractions: [Attraction]
+    @Binding var isChecklistVisible: Bool
+    
+    var body: some View {
+        List {
+            ForEach(attractions) { attraction in
+                HStack {
+                    Image(systemName: selectedAttractions.contains { $0.id == attraction.id } ? "checkmark.square" : "square")
+                    Text(attraction.name)
+                }
+                .onTapGesture {
+                    toggleAttraction(attraction)
+                }
+            }
+        }
+        .navigationBarTitle("Select Attractions")
+        .toolbar {
+            ToolbarItem(placement: .navigationBarLeading) {
+                Button("Cancel") {
+                    selectedAttractions = []
+                    isChecklistVisible.toggle()
+                }
+            }
+            ToolbarItem(placement: .navigationBarTrailing) {
+                Button("Done") {
+                    isChecklistVisible.toggle()
+                }
+            }
+        }
+    }
+    
+    func toggleAttraction(_ attraction: Attraction) {
+        if selectedAttractions.contains { $0.id == attraction.id } {
+            selectedAttractions.removeAll { $0.id == attraction.id }
+        } else {
+            selectedAttractions.append(attraction)
+        }
+    }
+}
+
+
+
 
 struct AttractionDetailView: View {
     let attraction: Attraction
@@ -57,13 +118,13 @@ struct AttractionDetailView: View {
             Text("Hours: \(attraction.hours.joined(separator: ", "))")
             Text("Description: \(attraction.desc)")
 
-            // Add more information as needed
-
             Spacer()
         }
         .padding()
     }
 }
+
+
 
 struct Attraction: Identifiable {
     let id = UUID()
