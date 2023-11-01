@@ -33,16 +33,32 @@ class AuthViewModel: ObservableObject {
         }
     }
     func signIn(withEmail email: String, password: String) async throws {
-        do{
-            let result = try await Auth.auth().signIn(withEmail: email, password: password)
-            self.userSession = result.user
-            await fetchUser()
+            do {
+                // Check if the provided email/password combination is valid.
+                guard let user = await validateCredentials(email: email, password: password) else {
+                    signInError = "Invalid email or password. Please try again."
+                    return
+                }
+
+                self.userSession = user
+                await fetchUser()
+                isAuthenticated = true
+            } catch {
+                signInError = "Failed to login: \(error.localizedDescription)"
+                print("DEBUG: Failed to login \(error.localizedDescription)")
+            }
         }
-        catch{
-            signInError = "Failed to login: \(error.localizedDescription)"
-            print("DEBUG: Failed to login \(error.localizedDescription)")
-        }
-    }
+//    func signIn(withEmail email: String, password: String) async throws {
+//        do{
+//            let result = try await Auth.auth().signIn(withEmail: email, password: password)
+//            self.userSession = result.user
+//            await fetchUser()
+//        }
+//        catch{
+//            signInError = "Failed to login: \(error.localizedDescription)"
+//            print("DEBUG: Failed to login \(error.localizedDescription)")
+//        }
+//    }
     //making the user when they sign up with new account
     
     func createUser(withEmail email: String, password: String, fullname: String, securityAnswer: String) async throws {
@@ -81,4 +97,13 @@ class AuthViewModel: ObservableObject {
         
         //        print("DEBUG: Current user is \(self.currentUser)")
     }
+    
+    private func validateCredentials(email: String, password: String) async -> FirebaseAuth.User? {
+           do {
+               let result = try await Auth.auth().signIn(withEmail: email, password: password)
+               return result.user
+           } catch {
+               return nil
+           }
+       }
 }
