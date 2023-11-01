@@ -126,6 +126,13 @@ struct SignUpView: View {
                     )
                 }
             }
+            Button(action: {
+                            dismiss()
+                        }) {
+                            Text("Back to Login")
+                        }
+                        .foregroundColor(Color(.systemBlue))
+                        .padding(.top, 16)
         }
     }
 }
