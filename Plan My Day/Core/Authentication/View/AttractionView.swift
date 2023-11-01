@@ -44,6 +44,11 @@ struct AttractionView: View {
             }
             .navigationTitle("Attractions")
             .toolbar {
+                ToolbarItem(placement: .navigationBarLeading) {
+                        NavigationLink(destination: LoginView().navigationBarBackButtonHidden(true)) {
+                            Text("Sign Out")
+                        }
+                    }
                 ToolbarItem(placement: .navigationBarTrailing) {
                     Button(action: {
                         isChecklistVisible.toggle()
@@ -115,7 +120,7 @@ struct AttractionChecklistView: View {
 
 struct AttractionDetailView: View {
     let attraction: Attraction
-
+    
     var body: some View {
         VStack {
             Text(attraction.name)
@@ -123,7 +128,7 @@ struct AttractionDetailView: View {
             Text("Location: \(attraction.location)")
             Text("Hours: \(attraction.hours.joined(separator: ", "))")
             Text("Description: \(attraction.desc)")
-
+            
             Spacer()
         }
         .padding()
@@ -141,7 +146,7 @@ struct Attraction: Identifiable {
     var hours: [String]
     var desc: String
     
-
+    
     static let attractionList = [
         Attraction(attractionId: 1, name: "USC Village", location: "USC", isUSC: true, hours: ["9:00 AM - 5:00 PM"], desc: "village"),
         Attraction(attractionId: 2, name: "Equad", location: "USC", isUSC: true, hours: ["Open 24 Hours"], desc: "village"),

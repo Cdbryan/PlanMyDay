@@ -13,6 +13,11 @@ import FirebaseFirestoreSwift
 protocol AuthenticationFormProtocol{
     var formIsValid: Bool{get}
 }
+//reset
+enum PasswordResetError: Error {
+    case invalidEmailOrSecurityAnswer
+    case passwordResetFailed(Error)
+}
 
 @MainActor
 class AuthViewModel: ObservableObject {
@@ -33,31 +38,49 @@ class AuthViewModel: ObservableObject {
         }
     }
     func signIn(withEmail email: String, password: String) async throws {
-        do{
-            let result = try await Auth.auth().signIn(withEmail: email, password: password)
-            self.userSession = result.user
-            await fetchUser()
+            do {
+                // Check if the provided email/password combination is valid.
+                guard let user = await validateCredentials(email: email, password: password) else {
+                    signInError = "Invalid email or password. Please try again."
+                    return
+                }
+
+                self.userSession = user
+                await fetchUser()
+                isAuthenticated = true
+            } catch {
+                signInError = "Failed to login: \(error.localizedDescription)"
+                print("DEBUG: Failed to login \(error.localizedDescription)")
+            }
         }
-        catch{
-            signInError = "Failed to login: \(error.localizedDescription)"
-            print("DEBUG: Failed to login \(error.localizedDescription)")
-        }
-    }
+//    func signIn(withEmail email: String, password: String) async throws {
+//        do{
+//            let result = try await Auth.auth().signIn(withEmail: email, password: password)
+//            self.userSession = result.user
+//            await fetchUser()
+//        }
+//        catch{
+//            signInError = "Failed to login: \(error.localizedDescription)"
+//            print("DEBUG: Failed to login \(error.localizedDescription)")
+//        }
+//    }
     //making the user when they sign up with new account
-    func createUser(withEmail email: String, password: String, fullname: String) async throws {
+    
+    func createUser(withEmail email: String, password: String, fullname: String, securityAnswer: String) async throws {
         do {
             let result = try await Auth.auth().createUser(withEmail: email, password: password)
             self.userSession = result.user
-            let user = User(id: result.user.uid, fullname: fullname, email: email)
+            let user = User(id: result.user.uid, fullname: fullname, email: email, securityAnswer: securityAnswer)
             let encodedUser = try Firestore.Encoder().encode(user)
             try await Firestore.firestore().collection("users").document(user.id).setData(encodedUser)
             await fetchUser()
         } catch {
             self.signUpError = "Sign-Up Unsuccessful: \(error.localizedDescription)"
             print("DEBUG: Failed to create user with error \(error.localizedDescription)")
-            throw error // Re-throw the error so it can be caught by the caller.
+            throw error
         }
     }
+
 
     func signOut() {
         do{
@@ -79,4 +102,41 @@ class AuthViewModel: ObservableObject {
         
         //        print("DEBUG: Current user is \(self.currentUser)")
     }
+    
+    private func validateCredentials(email: String, password: String) async -> FirebaseAuth.User? {
+           do {
+               let result = try await Auth.auth().signIn(withEmail: email, password: password)
+               return result.user
+           } catch {
+               return nil
+           }
+       }
+    
+    //reset
+    func resetPassword(forEmail email: String, withSecurityAnswer answer: String) async throws {
+            do {
+                // Check if the provided email and security answer are valid.
+                guard let user = await validateSecurityAnswer(email: email, securityAnswer: answer) else {
+                    throw PasswordResetError.invalidEmailOrSecurityAnswer
+                }
+
+                // Send a password reset email to the user's email address.
+                try await Auth.auth().sendPasswordReset(withEmail: email)
+
+                // Password reset email sent successfully.
+            } catch {
+                throw PasswordResetError.passwordResetFailed(error)
+            }
+        }
+    
+    //reset
+    private func validateSecurityAnswer(email: String, securityAnswer: String) async -> FirebaseAuth.User? {
+            do {
+                let result = try await Auth.auth().signIn(withEmail: email, password: securityAnswer)
+                return result.user
+            } catch {
+                return nil
+            }
+        }
+
 }
