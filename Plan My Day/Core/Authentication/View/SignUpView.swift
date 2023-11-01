@@ -18,6 +18,7 @@ struct SignUpView: View {
     @State private var isSignUpSuccessful = false
     @State private var showAlert = false
     @State private var alertMessage = "" // Store error message
+    @State private var securityQuestionAnswer = ""
     
     
     var body: some View {
@@ -34,12 +35,16 @@ struct SignUpView: View {
                 //email
                 InputView(text: $email,
                           title: "Email",
-                          placeholder: "tommyT11@usc.edu")
+                          placeholder: "Enter Email")
                 .autocapitalization(.none)
                 //fullName
                 InputView(text: $fullName,
                           title: "Full Name",
                           placeholder: "Enter Your Name")
+                //security
+                InputView(text: $securityQuestionAnswer,
+                                      title: "Security Question",
+                                      placeholder: "What city were you born in?")
                 //password
                 InputView(text: $password,
                           title: "Password",
@@ -74,15 +79,16 @@ struct SignUpView: View {
             //sign up button
             Button {
                 Task {
-                    do {
-                        try await viewModel.createUser(withEmail: email, password: password, fullname: fullName)
-                        isSignUpSuccessful = true
-                    } catch {
-                        isSignUpSuccessful = false
-                        alertMessage = (error as? AuthErrorCode)?.localizedDescription ?? "An error occurred."
-                    }
-                    showAlert = true
-                }
+                                do {
+                                    // Use the non-optional securityQuestionAnswer variable
+                                    try await viewModel.createUser(withEmail: email, password: password, fullname: fullName, securityAnswer: securityQuestionAnswer)
+                                    isSignUpSuccessful = true
+                                } catch {
+                                    isSignUpSuccessful = false
+                                    alertMessage = (error as? AuthErrorCode)?.localizedDescription ?? "An error occurred."
+                                }
+                                showAlert = true
+                            }
             } label: {
                 HStack {
                     Text("Sign Up")

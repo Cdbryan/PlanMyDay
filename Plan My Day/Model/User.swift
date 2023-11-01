@@ -11,7 +11,7 @@ struct User: Identifiable, Codable{
     let id: String
     let fullname: String
     let email: String
-    
+    var securityAnswer: String
     var initials: String{
         let formatter = PersonNameComponentsFormatter()
         if let components = formatter.personNameComponents(from: fullname){
@@ -23,6 +23,6 @@ struct User: Identifiable, Codable{
 }
 
 
-extension User{
-    static var MOCK_USER = User(id: NSUUID().uuidString, fullname: "Kobe Bryant", email: "test@gmail.com")
-}
+//extension User{
+//    static var MOCK_USER = User(id: NSUUID().uuidString, fullname: "Kobe Bryant", email: "test@gmail.com")
+//}
