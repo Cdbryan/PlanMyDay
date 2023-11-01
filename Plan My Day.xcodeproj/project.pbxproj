@@ -17,6 +17,8 @@
 		937616752AE9C362008C5147 /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 937616742AE9C362008C5147 /* LoginView.swift */; };
 		937616772AE9C5D0008C5147 /* InputView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 937616762AE9C5D0008C5147 /* InputView.swift */; };
 		937616792AE9CFD9008C5147 /* SignUpView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 937616782AE9CFD9008C5147 /* SignUpView.swift */; };
+		E23F094E2AF1D725006BE071 /* AttractionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E23F094D2AF1D724006BE071 /* AttractionView.swift */; };
+		E23F09502AF1DA28006BE071 /* Attractions.swift in Sources */ = {isa = PBXBuildFile; fileRef = E23F094F2AF1DA28006BE071 /* Attractions.swift */; };
 		E241A8F92AE9C9CB00203F24 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = E241A8F82AE9C9CB00203F24 /* GoogleService-Info.plist */; };
 		E241A8FD2AE9CCED00203F24 /* FirebaseFirestoreSwift in Frameworks */ = {isa = PBXBuildFile; productRef = E241A8FC2AE9CCED00203F24 /* FirebaseFirestoreSwift */; };
 		E241A8FF2AE9CCED00203F24 /* FirebaseStorage in Frameworks */ = {isa = PBXBuildFile; productRef = E241A8FE2AE9CCED00203F24 /* FirebaseStorage */; };
@@ -37,6 +39,8 @@
 		937616742AE9C362008C5147 /* LoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
 		937616762AE9C5D0008C5147 /* InputView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InputView.swift; sourceTree = "<group>"; };
 		937616782AE9CFD9008C5147 /* SignUpView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpView.swift; sourceTree = "<group>"; };
+		E23F094D2AF1D724006BE071 /* AttractionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AttractionView.swift; sourceTree = "<group>"; };
+		E23F094F2AF1DA28006BE071 /* Attractions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Attractions.swift; sourceTree = "<group>"; };
 		E241A8F82AE9C9CB00203F24 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		E241A90B2AE9E11000203F24 /* AuthViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthViewModel.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -159,6 +163,8 @@
 			children = (
 				937616742AE9C362008C5147 /* LoginView.swift */,
 				937616782AE9CFD9008C5147 /* SignUpView.swift */,
+				E23F094D2AF1D724006BE071 /* AttractionView.swift */,
+				E23F094F2AF1DA28006BE071 /* Attractions.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -252,12 +258,14 @@
 			buildActionMask = 2147483647;
 			files = (
 				937616752AE9C362008C5147 /* LoginView.swift in Sources */,
+				E23F09502AF1DA28006BE071 /* Attractions.swift in Sources */,
 				937616792AE9CFD9008C5147 /* SignUpView.swift in Sources */,
 				E241A90C2AE9E11000203F24 /* AuthViewModel.swift in Sources */,
 				937616772AE9C5D0008C5147 /* InputView.swift in Sources */,
 				933B08CB2AE89091009BD0D2 /* ContentView.swift in Sources */,
 				9362C0332AE9E35B009467C6 /* User.swift in Sources */,
 				9362C02F2AE9DDFE009467C6 /* ProfileView.swift in Sources */,
+				E23F094E2AF1D725006BE071 /* AttractionView.swift in Sources */,
 				933B08C92AE89091009BD0D2 /* Plan_My_DayApp.swift in Sources */,
 				9362C0312AE9E05F009467C6 /* SettingsRowView.swift in Sources */,
 			);
@@ -316,7 +324,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
@@ -370,7 +378,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				SDKROOT = iphoneos;
