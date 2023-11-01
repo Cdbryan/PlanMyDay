@@ -8,6 +8,9 @@ import SwiftUI
 
 
 struct AttractionView: View {
+    
+    // pass in itinerary struct
+    
     let attractions = Attraction.attractionList
     @State private var selectedAttractions: [Attraction] = []
     @State private var isChecklistVisible = false
@@ -76,6 +79,7 @@ struct AttractionChecklistView: View {
                 }
                 .onTapGesture {
                     toggleAttraction(attraction)
+                    
                 }
             }
         }
@@ -96,11 +100,13 @@ struct AttractionChecklistView: View {
     }
     
     func toggleAttraction(_ attraction: Attraction) {
-        if selectedAttractions.contains { $0.id == attraction.id } {
+        if selectedAttractions.contains(where: { $0.id == attraction.id }) {
             selectedAttractions.removeAll { $0.id == attraction.id }
         } else {
             selectedAttractions.append(attraction)
         }
+        
+        // update itinerary with selected attractions
     }
 }
 
@@ -158,4 +164,6 @@ struct Attraction: Identifiable {
         Attraction(attractionId: 19, name: "Grand Central Market", location: "Los Angeles", isUSC: false, hours: ["Open 24 Hours"], desc: "village"),
         Attraction(attractionId: 20, name: "Peterson Automative Museum", location: "Los Angeles", isUSC: false, hours: ["Open 24 Hours"], desc: "village"),
     ]
+    
+    
 }
