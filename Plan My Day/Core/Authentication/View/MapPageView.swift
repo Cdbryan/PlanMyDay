@@ -1,8 +1,12 @@
 import SwiftUI
 import MapKit
+import PDFKit
+
 
 struct MapPageView: View {
-    @State private var showAlert = false
+    @State private var showMapsAlert = false
+    @State private var showPDFAlert = false
+
     var itinerary: Itinerary
     var plan: [[Attraction]] = [
         [Attraction(attractionId: 1, name: "USC Village", location: "USC", isUSC: true, lat: 34.0268515, long: -118.2878486, hours: ["9:00 AM - 5:00 PM"], desc: "village"),
@@ -21,6 +25,18 @@ struct MapPageView: View {
     var body: some View {
         NavigationView {
             VStack(alignment: .leading) {
+                
+                HStack {
+                   Spacer() // Add a spacer to push the button to the top right corner
+                   Button(action: {
+                       saveAsPDF()
+                   }) {
+                       Image(systemName: "arrow.down.to.line.alt")
+                           .font(.title)
+                   }
+                   .padding(.trailing) // Add some padding to the button
+               }
+                
                 Picker("Day", selection: $selectedDayIndex) {
                     ForEach(0..<plan.count, id: \.self) { dayIndex in
                         Text("Day \(dayIndex + 1)").tag(dayIndex)
@@ -55,7 +71,7 @@ struct MapPageView: View {
                 
                 // Button to open in external map
                 Button(action: {
-                    showAlert = true
+                    showMapsAlert = true
                 }) {
                     HStack {
                         Image("apple_maps_icon")
@@ -76,7 +92,7 @@ struct MapPageView: View {
                 .cornerRadius(10)
 
                 // Alert for choosing a map app
-                .alert(isPresented: $showAlert) {
+                .alert(isPresented: $showMapsAlert) {
                     Alert(
                         title: Text("Choose a Map App"),
                         message: Text("Open the location in Google Maps or Apple Maps?"),
@@ -91,9 +107,13 @@ struct MapPageView: View {
             
                             
             }
-            .navigationBarTitle("Tour Planned!", displayMode: .inline)
+//            .navigationBarTitle("Tour Planned!", displayMode: .inline)
             .padding()
         }
+    }
+    
+    func saveAsPDF() {
+        // Save as page as PDF
     }
 }
 
