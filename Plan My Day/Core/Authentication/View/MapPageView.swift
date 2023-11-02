@@ -6,12 +6,14 @@
 //
 
 import SwiftUI
+import MapKit
+
 
 
 struct MapPageView: View {
     var itinerary: Itinerary
     var plan: [[Attraction]] = [
-            [Attraction(attractionId: 1, name: "USC Village", location: "USC", isUSC: true, hours: ["9:00 AM - 5:00 PM"], desc: "village"),
+        [Attraction(attractionId: 1, name: "USC Village", location: "USC", isUSC: true, hours: ["9:00 AM - 5:00 PM"], desc: "village"),
              Attraction(attractionId: 2, name: "Equad", location: "USC", isUSC: true, hours: ["Open 24 Hours"], desc: "village")
             ],
             
@@ -39,6 +41,9 @@ struct MapPageView: View {
                         Text(attraction.name)
                             .font(.title)
                     }
+                    
+                    // display Map
+                    MapView(attractions: plan[selectedDayIndex])
                 }
                 .navigationBarTitle("Tour Planned!", displayMode: .inline)
             }
@@ -63,6 +68,36 @@ struct MapPageView: View {
 //    }
 }
 
+
+struct MapView: View {
+    var attractions: [Attraction]
+
+    @State private var region = MKCoordinateRegion(
+        center: CLLocationCoordinate2D(latitude: 34.0522, longitude: -118.2437), // Default coordinates
+        span: MKCoordinateSpan(latitudeDelta: 0.1, longitudeDelta: 0.1)
+    )
+
+    var body: some View {
+        Map(coordinateRegion: $region, annotationItems: attractions) { attraction in
+            MapPin(coordinate: CLLocationCoordinate2D(latitude:  attraction.latitude, longitude:  attraction.longitude), tint: .blue)
+        }
+        .onAppear {
+            // Calculate the region that fits all attraction pins
+            let minLatitude = attractions.min { $0.latitude < $1.latitude }?.latitude ?? 34.0522
+            let maxLatitude = attractions.max { $0.latitude < $1.latitude }?.latitude ?? 34.0522
+            let minLongitude = attractions.min { $0.longitude < $1.longitude }?.longitude ?? -118.2437
+            let maxLongitude = attractions.max { $0.longitude < $1.longitude }?.longitude ?? -118.2437
+
+            let center = CLLocationCoordinate2D(latitude: (minLatitude + maxLatitude) / 2, longitude: (minLongitude + maxLongitude) / 2)
+            let span = MKCoordinateSpan(latitudeDelta: maxLatitude - minLatitude, longitudeDelta: maxLongitude - minLongitude)
+
+            region = MKCoordinateRegion(center: center, span: span)
+        }
+    }
+}
+
+
+
 struct ItineraryView_Previews: PreviewProvider {
     static var previews: some View {
         let selected_attractions = [
@@ -75,3 +110,4 @@ struct ItineraryView_Previews: PreviewProvider {
         return MapPageView(itinerary: itinerary)
     }
 }
+
