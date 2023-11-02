@@ -17,10 +17,10 @@ struct Itinerary: Identifiable, Hashable {
         hasher.combine(id)
     }
     
-    init(attractions: [Attraction]) {
-        selectedAttrs = attractions
+    init(attractions: [Attraction], numberOfDays: Int) {
+        self.selectedAttrs = attractions
         itineraryID = 1
-        numberOfDays = 1
+        self.numberOfDays = numberOfDays
         tourDuration = []
         plan = [[]]
     }

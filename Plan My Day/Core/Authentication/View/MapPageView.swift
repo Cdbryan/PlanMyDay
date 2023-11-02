@@ -11,10 +11,17 @@ struct MapPageView: View {
     var itinerary: Itinerary
 
     var body: some View {
-        List {
-            ForEach(itinerary.selectedAttrs, id: \.attractionId) { attraction in
-                Text(attraction.name)
+        VStack {
+            Text("Number of Days: \(itinerary.numberOfDays)") // Display the number of days
+                .font(.headline)
+                .padding()
+            
+            List {
+                ForEach(itinerary.selectedAttrs, id: \.attractionId) { attraction in
+                    Text(attraction.name)
+                }
             }
+            .listStyle(PlainListStyle())
         }
         .navigationTitle("Selected Attractions")
     }
@@ -26,7 +33,8 @@ struct ItineraryView_Previews: PreviewProvider {
             Attraction(attractionId: 1, name: "USC Village", location: "USC", isUSC: true, hours: ["9:00 AM - 5:00 PM"], desc: "village"),
             Attraction(attractionId: 2, name: "Equad", location: "USC", isUSC: true, hours: ["Open 24 Hours"], desc: "village")
         ]
-        @State var itinerary = Itinerary(attractions: selected_attractions)
+        let numberOfDays = 1
+        @State var itinerary = Itinerary(attractions: selected_attractions, numberOfDays: numberOfDays)
 
         return MapPageView(itinerary: itinerary)
     }

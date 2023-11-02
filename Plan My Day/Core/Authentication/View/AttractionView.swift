@@ -11,6 +11,7 @@ struct AttractionView: View {
     
     let attractions = Attraction.attractionList
     @State private var selectedAttractions: [Attraction] = []
+    @State private var numberOfDays: Int = 1
     @State private var isChecklistVisible = false
     @State private var isNumberofDaysActive: Bool = false // State to control navigation
     @State private var selectedAttraction: Attraction?
@@ -56,7 +57,7 @@ struct AttractionView: View {
                     }
                 }
                 ToolbarItem(placement: .navigationBarTrailing) {
-                    NavigationLink(destination: MapPageView(itinerary: Itinerary(attractions: selectedAttractions))) {
+                    NavigationLink(destination: MapPageView(itinerary: Itinerary(attractions: selectedAttractions, numberOfDays: numberOfDays))) {
                         Text("Create Plan")
                     }
                 }
@@ -69,7 +70,8 @@ struct AttractionView: View {
                     attractions: attractions,
                     selectedAttractions: $selectedAttractions,
                     isChecklistVisible: $isChecklistVisible,
-                    isNumberofDaysActive: $isNumberofDaysActive
+                    isNumberofDaysActive: $isNumberofDaysActive,
+                    numberOfDays: $numberOfDays
                 )
             }
         }
@@ -77,7 +79,7 @@ struct AttractionView: View {
 }
 
 struct NumberofDaysInputView: View {
-    @State private var numberOfDays = 1
+    @Binding var numberOfDays: Int
     @Binding var isNumberofDaysActive: Bool
     @Binding var isChecklistVisible: Bool
 
@@ -107,6 +109,7 @@ struct AttractionChecklistView: View {
         @Binding var selectedAttractions: [Attraction]
         @Binding var isChecklistVisible: Bool
         @Binding var isNumberofDaysActive: Bool
+    @Binding var numberOfDays: Int
 
         var body: some View {
             NavigationView {
@@ -130,10 +133,11 @@ struct AttractionChecklistView: View {
                         }
                     }
                     ToolbarItem(placement: .navigationBarTrailing) {
-                        NavigationLink(destination: NumberofDaysInputView(isNumberofDaysActive: $isNumberofDaysActive, isChecklistVisible: $isChecklistVisible)) {
+                        NavigationLink(destination: NumberofDaysInputView(numberOfDays: $numberOfDays, isNumberofDaysActive: $isNumberofDaysActive, isChecklistVisible: $isChecklistVisible)
+                                        .navigationTitle("Tour Planned")) {
                             Text("Next")
                         }
-                    }                }
+                    }              }
             }
         }
     
@@ -144,7 +148,7 @@ struct AttractionChecklistView: View {
                selectedAttractions.append(attraction)
            }
        }
-   }
+}
 
 
 struct AttractionDetailView: View {
