@@ -1,12 +1,17 @@
 import SwiftUI
 import MapKit
 import PDFKit
+import UniformTypeIdentifiers
+
 
 
 struct MapPageView: View {
     @State private var showMapsAlert = false
-    @State private var showPDFAlert = false
+    @State private var pdfData: Data?
+    @State private var isActivityViewPresented = false
+    @State private var selectedDayIndex = 0
 
+    
     var itinerary: Itinerary
     var plan: [[Attraction]] = [
         [Attraction(attractionId: 1, name: "USC Village", location: "USC", isUSC: true, lat: 34.0268515, long: -118.2878486, hours: ["9:00 AM - 5:00 PM"], desc: "village"),
@@ -20,20 +25,21 @@ struct MapPageView: View {
         ]
     ] // holder; need to implement generate plan function
 
-    @State private var selectedDayIndex = 0
-
+    
     var body: some View {
         NavigationView {
             VStack(alignment: .leading) {
                 
                 HStack {
                    Spacer() // Add a spacer to push the button to the top right corner
-                   Button(action: {
-                       saveAsPDF()
-                   }) {
-                       Image(systemName: "arrow.down.to.line.alt")
-                           .font(.title)
-                   }
+                   
+                    Button(action: {
+                        saveAsPDF()
+
+                    }) {
+                        Image(systemName: "arrow.down.to.line.alt")
+                            .font(.title)
+                    }
                    .padding(.trailing) // Add some padding to the button
                }
                 
@@ -58,7 +64,7 @@ struct MapPageView: View {
                                 
                                 Spacer() // for left align
                             }
-                            .padding()
+                            .padding(EdgeInsets(top: 5, leading: 0, bottom: 5, trailing: 0))
                         }
                 
                     }
@@ -90,7 +96,6 @@ struct MapPageView: View {
                 }
                 .padding()
                 .cornerRadius(10)
-
                 // Alert for choosing a map app
                 .alert(isPresented: $showMapsAlert) {
                     Alert(
@@ -113,8 +118,49 @@ struct MapPageView: View {
     }
     
     func saveAsPDF() {
-        // Save as page as PDF
+        guard let pdfData = self.convertToPDF() else {
+            return
+        }
+
+        if let pdfURL = self.savePDFToFilesApp(pdfData: pdfData) {
+            let activityViewController = UIActivityViewController(activityItems: [pdfURL], applicationActivities: nil)
+            
+            
+            UIApplication.shared.windows.first?.rootViewController?.present(activityViewController, animated: true)
+        }
     }
+    
+    func savePDFToFilesApp(pdfData: Data) -> URL? {
+        guard let documentsDirectory = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first else {
+            return nil
+        }
+
+        let pdfURL = documentsDirectory.appendingPathComponent("MyMap.pdf")
+
+        do {
+            try pdfData.write(to: pdfURL)
+            return pdfURL
+        } catch {
+            print("Error saving PDF: \(error.localizedDescription)")
+            return nil
+        }
+    }
+    
+    
+    func openGoogleMaps() {
+            if let url = URL(string: "comgooglemaps://?q=latitude,longitude") {
+                UIApplication.shared.open(url)
+            }
+        }
+
+    func openAppleMaps() {
+        if let url = URL(string: "http://maps.apple.com/?q=latitude,longitude") {
+            UIApplication.shared.open(url)
+        }
+    }
+
+
+
 }
 
 struct AttractionRowView: View {
@@ -129,18 +175,7 @@ struct AttractionRowView: View {
                 .font(.title)
                 .lineLimit(nil)
         }
-    }
-}
-
-func openGoogleMaps() {
-        if let url = URL(string: "comgooglemaps://?q=latitude,longitude") {
-            UIApplication.shared.open(url)
-        }
-    }
-
-func openAppleMaps() {
-    if let url = URL(string: "http://maps.apple.com/?q=latitude,longitude") {
-        UIApplication.shared.open(url)
+        Spacer()
     }
 }
 
@@ -148,16 +183,15 @@ struct MapView: View {
     var attractions: [Attraction]
 
     @State private var region = MKCoordinateRegion(
-        center: CLLocationCoordinate2D(latitude: 34.0522, longitude: -118.2437), // Default coordinates
+        center: CLLocationCoordinate2D(latitude: 34.0522, longitude: -118.2437),
         span: MKCoordinateSpan(latitudeDelta: 0.1, longitudeDelta: 0.1)
     )
 
     var body: some View {
         Map(coordinateRegion: $region, annotationItems: attractions) { attraction in
-            MapPin(coordinate: CLLocationCoordinate2D(latitude:  attraction.lat, longitude:  attraction.long), tint: .blue)
+            MapPin(coordinate: CLLocationCoordinate2D(latitude: attraction.lat, longitude: attraction.long), tint: .blue)
         }
         .onAppear {
-            // Calculate the region that fits all attraction pins
             let minlat = attractions.min { $0.lat < $1.lat }?.lat ?? 34.0522
             let maxlat = attractions.max { $0.lat < $1.lat }?.lat ?? 34.0522
             let minlong = attractions.min { $0.long < $1.long }?.long ?? -118.2437
@@ -183,4 +217,34 @@ struct ItineraryView_Previews: PreviewProvider {
 
         return MapPageView(itinerary: itinerary)
     }
+}
+
+extension View {
+    func asImage() -> UIImage {
+        let controller = UIHostingController(rootView: self)
+        controller.view.frame = CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height)
+
+        let renderer = UIGraphicsImageRenderer(size: controller.view.bounds.size)
+        return renderer.image { _ in
+            controller.view.drawHierarchy(in: controller.view.bounds, afterScreenUpdates: true)
+        }
+    }
+}
+
+extension MapPageView {
+    func convertToPDF() -> Data? {
+            // Capture a screenshot of the SwiftUI view
+            let uiImage = asImage()
+
+            // Create a PDF document
+            let pdfData = NSMutableData()
+            UIGraphicsBeginPDFContextToData(pdfData, CGRect(x: 0, y: 0, width: uiImage.size.width, height: uiImage.size.height), nil)
+
+            UIGraphicsBeginPDFPage()
+            uiImage.draw(in: CGRect(x: 0, y: 0, width: uiImage.size.width, height: uiImage.size.height))
+
+            UIGraphicsEndPDFContext()
+
+            return pdfData as Data
+        }
 }
