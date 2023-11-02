@@ -57,10 +57,12 @@ struct AttractionView: View {
                     }
                 }
                 ToolbarItem(placement: .navigationBarTrailing) {
-                    NavigationLink(destination: MapPageView(itinerary: Itinerary(attractions: selectedAttractions, numberOfDays: numberOfDays))) {
+                    NavigationLink(destination: MapPageView(itinerary: Itinerary(attractions: selectedAttractions, numberOfDays: numberOfDays))
+                        .navigationTitle("Tour Planned!")) {
                         Text("Create Plan")
                     }
                 }
+
             }
             .sheet(item: $selectedAttraction) { attraction in
                 AttractionDetailView(attraction: attraction)
@@ -133,11 +135,10 @@ struct AttractionChecklistView: View {
                         }
                     }
                     ToolbarItem(placement: .navigationBarTrailing) {
-                        NavigationLink(destination: NumberofDaysInputView(numberOfDays: $numberOfDays, isNumberofDaysActive: $isNumberofDaysActive, isChecklistVisible: $isChecklistVisible)
-                                        .navigationTitle("Tour Planned")) {
+                        NavigationLink(destination: NumberofDaysInputView(numberOfDays: $numberOfDays, isNumberofDaysActive: $isNumberofDaysActive, isChecklistVisible: $isChecklistVisible)) {
                             Text("Next")
                         }
-                    }              }
+                    }                }
             }
         }
     
