@@ -213,7 +213,7 @@ struct ItineraryView_Previews: PreviewProvider {
             Attraction(attractionId: 2, name: "Equad", location: "USC", isUSC: true, lat: 34.021007, long: -118.2891249, hours: ["Open 24 Hours"], desc: "village")
         ]
         let numberOfDays = 1
-        @State var itinerary = Itinerary(attractions: selected_attractions, numberOfDays: numberOfDays)
+        @State var itinerary = Itinerary(itineraryName : "test Itinerary", attractions: selected_attractions, numberOfDays: numberOfDays)
 
         return MapPageView(itinerary: itinerary)
     }

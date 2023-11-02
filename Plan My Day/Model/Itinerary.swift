@@ -17,19 +17,33 @@ struct Itinerary: Identifiable, Hashable {
         hasher.combine(id)
     }
     
-    init(attractions: [Attraction], numberOfDays: Int) {
+    init(itineraryName: String, attractions: [Attraction], numberOfDays: Int) {
         self.selectedAttrs = attractions
         itineraryID = 1
+        self.itineraryName = itineraryName
         self.numberOfDays = numberOfDays
         tourDuration = []
         plan = [[]]
     }
     
+    init(plan: [[Attraction]]) {
+        self.plan = plan
+        itineraryID = 1
+        self.selectedAttrs = []
+        self.numberOfDays = 1
+        tourDuration = []
+        self.itineraryName = ""
+    }
     
     let id = UUID()
     let itineraryID: Int
+    var itineraryName: String
     var selectedAttrs: [Attraction]
     var numberOfDays: Int
     var tourDuration: [Int]
     var plan: [[Attraction]]
+    
+
+
+    
 }

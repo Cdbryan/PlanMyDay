@@ -57,7 +57,7 @@ struct AttractionView: View {
                     }
                 }
                 ToolbarItem(placement: .navigationBarTrailing) {
-                    NavigationLink(destination: MapPageView(itinerary: Itinerary(attractions: selectedAttractions, numberOfDays: numberOfDays))
+                    NavigationLink(destination: MapPageView(itinerary: Itinerary(itineraryName: "test Itinerary", attractions: selectedAttractions, numberOfDays: numberOfDays))
                         .navigationTitle("Tour Planned!")) {
                         Text("Create Plan")
                     }
