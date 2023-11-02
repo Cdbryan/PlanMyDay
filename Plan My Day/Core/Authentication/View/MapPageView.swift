@@ -30,16 +30,21 @@ struct MapPageView: View {
                 .padding()
 
                 ScrollView {
-                        ForEach(plan[selectedDayIndex].indices, id: \.self) { index in
+                    Text("Total Time: ")
+                        .font(.title)
+                        
+                    ForEach(plan[selectedDayIndex].indices, id: \.self) { index in
                             HStack(alignment: .top, spacing: 10) {
                                 Text("\(index + 1).")
-                                    .font(.title)
+                                    .font(.title2)
                                 Text(plan[selectedDayIndex][index].name)
-                                    .font(.title)
-                                    .lineLimit(nil)
+                                    .font(.title2)
+                                
+                                Spacer() // for left align
                             }
                             .padding()
                         }
+                
                     }
                     
                 // Display Map
