@@ -45,7 +45,7 @@ struct HomeView: View {
     
     var body: some View {
         NavigationView {
-            List(itineraries, id: \.itineraryID) { itinerary in
+            List(itineraries, id: \.id) { itinerary in
                 NavigationLink(destination: MapPageView(itinerary : itinerary)) {
                     Text(itinerary.itineraryName)
                 }
