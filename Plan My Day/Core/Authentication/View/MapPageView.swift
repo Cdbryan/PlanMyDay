@@ -158,9 +158,19 @@ struct MapPageView: View {
         }
 
     func openAppleMaps() {
-        if let url = URL(string: "http://maps.apple.com/?q=latitude,longitude") {
-            UIApplication.shared.open(url)
-        }
+        if plan[selectedDayIndex].count > 1 {
+               var waypoints: [MKMapItem] = []
+               
+               for attraction in plan[selectedDayIndex] {
+                   let location = CLLocationCoordinate2D(latitude: attraction.lat, longitude: attraction.long)
+                   let placemark = MKPlacemark(coordinate: location)
+                   let mapItem = MKMapItem(placemark: placemark)
+                   waypoints.append(mapItem)
+               }
+               
+               let options = [MKLaunchOptionsDirectionsModeKey: MKLaunchOptionsDirectionsModeDriving]
+               MKMapItem.openMaps(with: waypoints, launchOptions: options)
+           }
     }
 
 
