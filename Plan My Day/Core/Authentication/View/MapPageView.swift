@@ -16,7 +16,9 @@ struct MapPageView: View {
     var itinerary: Itinerary
     var plan: [[Attraction]] = [
         [Attraction(attractionId: 1, name: "USC Village", location: "USC", isUSC: true, lat: 34.0268515, long: -118.2878486, hours: ["9:00 AM - 5:00 PM"], desc: "village"),
-         Attraction(attractionId: 2, name: "Equad", location: "USC", isUSC: true, lat: 34.021007, long: -118.2891249, hours: ["Open 24 Hours"], desc: "village")
+         Attraction(attractionId: 2, name: "Equad", location: "USC", isUSC: true, lat: 34.021007, long: -118.2891249, hours: ["Open 24 Hours"], desc: "village"),
+         Attraction(attractionId: 3, name: "School of Cinematic Arts", location: "USC", isUSC: true, lat: 34.0240968, long: -118.2886852, hours: ["Open 24 Hours"], desc: "village"),
+         Attraction(attractionId: 4, name: "LA Memorial Colosseum", location: "USC", isUSC: true, lat: 34.0136691, long: -118.2904104, hours: ["Open 24 Hours"], desc: "village")
         ],
         
         [Attraction(attractionId: 3, name: "School of Cinematic Arts", location: "USC", isUSC: true, lat: 34.0240968, long: -118.2886852, hours: ["Open 24 Hours"], desc: "village"),
@@ -180,36 +182,6 @@ struct AttractionRowView: View {
         Spacer()
     }
 }
-
-//struct MapView: View {
-//    var attractions: [Attraction]
-//
-//    @State private var region = MKCoordinateRegion(
-//        center: CLLocationCoordinate2D(latitude: 34.0522, longitude: -118.2437),
-//        span: MKCoordinateSpan(latitudeDelta: 0.1, longitudeDelta: 0.1)
-//    )
-//
-//    @State private var directions: MKDirections?
-//
-//    var body: some View {
-//        Map(coordinateRegion: $region, showsUserLocation: true, userTrackingMode: .constant(.follow), annotationItems: attractions) { attraction in
-//            MapPin(coordinate: CLLocationCoordinate2D(latitude: attraction.lat, longitude: attraction.long), tint: .blue)
-//        }
-//        .onAppear {
-//            let minlat = attractions.min { $0.lat < $1.lat }?.lat ?? 34.0522
-//            let maxlat = attractions.max { $0.lat < $1.lat }?.lat ?? 34.0522
-//            let minlong = attractions.min { $0.long < $1.long }?.long ?? -118.2437
-//            let maxlong = attractions.max { $0.long < $1.long }?.long ?? -118.2437
-//
-//            let center = CLLocationCoordinate2D(latitude: (minlat + maxlat) / 2, longitude: (minlong + maxlong) / 2)
-//            let span = MKCoordinateSpan(latitudeDelta: maxlat - minlat, longitudeDelta: maxlong - minlong)
-//
-//            region = MKCoordinateRegion(center: center, span: span)
-//
-//        }
-//    }
-//
-//}
 
 struct MapView: UIViewRepresentable {
     typealias UIViewType = MKMapView
