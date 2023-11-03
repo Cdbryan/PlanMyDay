@@ -58,9 +58,9 @@ struct MapPageView: View {
                     ForEach(plan[selectedDayIndex].indices, id: \.self) { index in
                             HStack(alignment: .top, spacing: 10) {
                                 Text("\(index + 1).")
-                                    .font(.title2)
+                                    .font(.title3)
                                 Text(plan[selectedDayIndex][index].name)
-                                    .font(.title2)
+                                    .font(.title3)
                                 
                                 Spacer() // for left align
                             }
