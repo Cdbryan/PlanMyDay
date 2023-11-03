@@ -187,8 +187,10 @@ struct MapView: View {
         span: MKCoordinateSpan(latitudeDelta: 0.1, longitudeDelta: 0.1)
     )
 
+    @State private var directions: MKDirections?
+
     var body: some View {
-        Map(coordinateRegion: $region, annotationItems: attractions) { attraction in
+        Map(coordinateRegion: $region, showsUserLocation: true, userTrackingMode: .constant(.follow), annotationItems: attractions) { attraction in
             MapPin(coordinate: CLLocationCoordinate2D(latitude: attraction.lat, longitude: attraction.long), tint: .blue)
         }
         .onAppear {
@@ -201,10 +203,14 @@ struct MapView: View {
             let span = MKCoordinateSpan(latitudeDelta: maxlat - minlat, longitudeDelta: maxlong - minlong)
 
             region = MKCoordinateRegion(center: center, span: span)
+
         }
     }
+
 }
 
+
+                                   
 
 struct ItineraryView_Previews: PreviewProvider {
     static var previews: some View {
@@ -213,7 +219,7 @@ struct ItineraryView_Previews: PreviewProvider {
             Attraction(attractionId: 2, name: "Equad", location: "USC", isUSC: true, lat: 34.021007, long: -118.2891249, hours: ["Open 24 Hours"], desc: "village")
         ]
         let numberOfDays = 1
-        @State var itinerary = Itinerary(itineraryName : "test Itinerary", attractions: selected_attractions, numberOfDays: numberOfDays)
+        @State var itinerary = Itinerary(attractions: selected_attractions, numberOfDays: numberOfDays)
 
         return MapPageView(itinerary: itinerary)
     }

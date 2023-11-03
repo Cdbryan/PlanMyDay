@@ -26,6 +26,15 @@ struct Itinerary: Identifiable, Hashable {
         plan = [[]]
     }
     
+    init(attractions: [Attraction], numberOfDays: Int) { // DO NOT EDIT: josheta is using for her map view page
+        self.selectedAttrs = attractions
+        itineraryID = 1
+        self.itineraryName = "name"
+        self.numberOfDays = numberOfDays
+        tourDuration = []
+        plan = [[]]
+    }
+    
     init(plan: [[Attraction]]) {
         self.plan = plan
         itineraryID = 1
