@@ -11,7 +11,8 @@ struct MapPageView: View {
     @State private var isActivityViewPresented = false
     @State private var selectedDayIndex = 0
 
-    
+    @State private var directions: [MKDirections] = []
+
     var itinerary: Itinerary
     var plan: [[Attraction]] = [
         [Attraction(attractionId: 1, name: "USC Village", location: "USC", isUSC: true, lat: 34.0268515, long: -118.2878486, hours: ["9:00 AM - 5:00 PM"], desc: "village"),
@@ -70,7 +71,8 @@ struct MapPageView: View {
                     }
                     
                 // Display Map
-                MapView(attractions: plan[selectedDayIndex])
+                MapView(directions: $directions, attractions: plan[selectedDayIndex], selectedDayIndex: selectedDayIndex)
+//                MapView(attractions: plan[selectedDayIndex])
                     .frame(height: 300) // Adjust the map height as needed
                 
                 Spacer()
@@ -179,35 +181,126 @@ struct AttractionRowView: View {
     }
 }
 
-struct MapView: View {
+//struct MapView: View {
+//    var attractions: [Attraction]
+//
+//    @State private var region = MKCoordinateRegion(
+//        center: CLLocationCoordinate2D(latitude: 34.0522, longitude: -118.2437),
+//        span: MKCoordinateSpan(latitudeDelta: 0.1, longitudeDelta: 0.1)
+//    )
+//
+//    @State private var directions: MKDirections?
+//
+//    var body: some View {
+//        Map(coordinateRegion: $region, showsUserLocation: true, userTrackingMode: .constant(.follow), annotationItems: attractions) { attraction in
+//            MapPin(coordinate: CLLocationCoordinate2D(latitude: attraction.lat, longitude: attraction.long), tint: .blue)
+//        }
+//        .onAppear {
+//            let minlat = attractions.min { $0.lat < $1.lat }?.lat ?? 34.0522
+//            let maxlat = attractions.max { $0.lat < $1.lat }?.lat ?? 34.0522
+//            let minlong = attractions.min { $0.long < $1.long }?.long ?? -118.2437
+//            let maxlong = attractions.max { $0.long < $1.long }?.long ?? -118.2437
+//
+//            let center = CLLocationCoordinate2D(latitude: (minlat + maxlat) / 2, longitude: (minlong + maxlong) / 2)
+//            let span = MKCoordinateSpan(latitudeDelta: maxlat - minlat, longitudeDelta: maxlong - minlong)
+//
+//            region = MKCoordinateRegion(center: center, span: span)
+//
+//        }
+//    }
+//
+//}
+
+struct MapView: UIViewRepresentable {
+    typealias UIViewType = MKMapView
+
+    @Binding var directions: [MKDirections]
     var attractions: [Attraction]
+    var selectedDayIndex: Int
 
-    @State private var region = MKCoordinateRegion(
-        center: CLLocationCoordinate2D(latitude: 34.0522, longitude: -118.2437),
-        span: MKCoordinateSpan(latitudeDelta: 0.1, longitudeDelta: 0.1)
-    )
+    func makeCoordinator() -> MapViewCoordinator {
+        return MapViewCoordinator()
+    }
 
-    @State private var directions: MKDirections?
+    func makeUIView(context: Context) -> MKMapView {
+        let mapView = MKMapView()
+        mapView.delegate = context.coordinator
+        return mapView
+    }
 
-    var body: some View {
-        Map(coordinateRegion: $region, showsUserLocation: true, userTrackingMode: .constant(.follow), annotationItems: attractions) { attraction in
-            MapPin(coordinate: CLLocationCoordinate2D(latitude: attraction.lat, longitude: attraction.long), tint: .blue)
-        }
-        .onAppear {
-            let minlat = attractions.min { $0.lat < $1.lat }?.lat ?? 34.0522
-            let maxlat = attractions.max { $0.lat < $1.lat }?.lat ?? 34.0522
-            let minlong = attractions.min { $0.long < $1.long }?.long ?? -118.2437
-            let maxlong = attractions.max { $0.long < $1.long }?.long ?? -118.2437
+    func updateUIView(_ uiView: MKMapView, context: Context) {
+        // Clear existing directions and annotations
+        uiView.removeOverlays(uiView.overlays)
+        uiView.removeAnnotations(uiView.annotations)
 
-            let center = CLLocationCoordinate2D(latitude: (minlat + maxlat) / 2, longitude: (minlong + maxlong) / 2)
-            let span = MKCoordinateSpan(latitudeDelta: maxlat - minlat, longitudeDelta: maxlong - minlong)
+        let dayAttractions = attractions
 
-            region = MKCoordinateRegion(center: center, span: span)
+        if dayAttractions.count == 1 {
+            // Display a single placemark if there's only one attraction
+            let attraction = dayAttractions[0]
+            let placemark = MKPlacemark(coordinate: CLLocationCoordinate2D(latitude: attraction.lat, longitude: attraction.long))
+            uiView.addAnnotation(placemark)
+            
+            // Calculate the region to fit the single attraction
+            let region = MKCoordinateRegion(center: placemark.coordinate, latitudinalMeters: 1000, longitudinalMeters: 1000)
+            uiView.setRegion(region, animated: true)
+        } else if dayAttractions.count > 1 {
+            // Create an array to store source and destination placemarks for each attraction pair
+            var placemarks: [MKPlacemark] = []
 
+            for attraction in dayAttractions {
+                let placemark = MKPlacemark(coordinate: CLLocationCoordinate2D(latitude: attraction.lat, longitude: attraction.long))
+                placemarks.append(placemark)
+            }
+
+            // Calculate directions for each attraction pair
+            for i in 0..<placemarks.count - 1 {
+                let sourcePlacemark = placemarks[i]
+                let destinationPlacemark = placemarks[i + 1]
+
+                let request = MKDirections.Request()
+                request.source = MKMapItem(placemark: sourcePlacemark)
+                request.destination = MKMapItem(placemark: destinationPlacemark)
+                request.transportType = .automobile
+
+                let directions = MKDirections(request: request)
+                directions.calculate { response, error in
+                    guard let route = response?.routes.first else { return }
+                    uiView.addAnnotations([sourcePlacemark, destinationPlacemark])
+                    uiView.addOverlay(route.polyline)
+                    uiView.setVisibleMapRect(
+                        route.polyline.boundingMapRect,
+                        edgePadding: UIEdgeInsets(top: 20, left: 20, bottom: 20, right: 20),
+                        animated: true)
+                    self.directions = [directions] // Update the directions array for the selected day
+                }
+            }
+
+            // Calculate the region to fit all attractions
+            let coordinates = placemarks.map { $0.coordinate }
+            let minLat = coordinates.min { $0.latitude < $1.latitude }?.latitude ?? 0.0
+            let maxLat = coordinates.max { $0.latitude < $1.latitude }?.latitude ?? 0.0
+            let minLon = coordinates.min { $0.longitude < $1.longitude }?.longitude ?? 0.0
+            let maxLon = coordinates.max { $0.longitude < $1.longitude }?.longitude ?? 0.0
+
+            let center = CLLocationCoordinate2D(latitude: (minLat + maxLat) / 2, longitude: (minLon + maxLon) / 2)
+            let span = MKCoordinateSpan(latitudeDelta: maxLat - minLat, longitudeDelta: maxLon - minLon)
+            let region = MKCoordinateRegion(center: center, span: span)
+            uiView.setRegion(region, animated: true)
         }
     }
 
+    class MapViewCoordinator: NSObject, MKMapViewDelegate {
+        func mapView(_ mapView: MKMapView, rendererFor overlay: MKOverlay) -> MKOverlayRenderer {
+            let renderer = MKPolylineRenderer(overlay: overlay)
+            renderer.strokeColor = .systemBlue
+            renderer.lineWidth = 5
+            return renderer
+        }
+    }
 }
+
+
 
 
                                    
