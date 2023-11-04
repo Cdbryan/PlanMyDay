@@ -3,6 +3,10 @@ import MapKit
 import PDFKit
 import UniformTypeIdentifiers
 
+enum MapMode {
+    case car
+    case publicTransport
+}
 
 
 struct MapPageView: View {
@@ -10,6 +14,8 @@ struct MapPageView: View {
     @State private var pdfData: Data?
     @State private var isActivityViewPresented = false
     @State private var selectedDayIndex = 0
+    @State private var selectedMapMode: MapMode = .car
+
 
     @State private var directions: [MKDirections] = []
     @Environment(\.openURL) private var openURL
@@ -73,10 +79,17 @@ struct MapPageView: View {
                         }
                 
                     }
+                
+                // Toggle for selecting map mode (car or public transport)
+                Picker("Map Mode", selection: $selectedMapMode) {
+                    Text("Car").tag(MapMode.car)
+                    Text("Public Transport").tag(MapMode.publicTransport)
+                }
+                .pickerStyle(SegmentedPickerStyle())
+                .padding()
                     
                 // Display Map
-                MapView(directions: $directions, attractions: plan[selectedDayIndex], selectedDayIndex: selectedDayIndex)
-//                MapView(attractions: plan[selectedDayIndex])
+                MapView(directions: $directions, selectedMapMode: selectedMapMode, attractions: plan[selectedDayIndex], selectedDayIndex: selectedDayIndex)
                     .frame(height: 300) // Adjust the map height as needed
                 
                 Spacer()
@@ -240,10 +253,12 @@ struct AttractionRowView: View {
     }
 }
 
-struct MapView: UIViewRepresentable {
+struct MapView: UIViewRepresentable { // Transit doesnt work! 
     typealias UIViewType = MKMapView
 
     @Binding var directions: [MKDirections]
+    var selectedMapMode: MapMode // Add selectedMapMode
+
     var attractions: [Attraction]
     var selectedDayIndex: Int
 
@@ -277,12 +292,22 @@ struct MapView: UIViewRepresentable {
             // Create an array to store source and destination placemarks for each attraction pair
             var placemarks: [MKPlacemark] = []
 
-            for attraction in dayAttractions {
-                let placemark = MKPlacemark(coordinate: CLLocationCoordinate2D(latitude: attraction.lat, longitude: attraction.long))
-                placemarks.append(placemark)
+            // Calculate directions for all attractions when using car mode
+            if selectedMapMode == .car {
+                for attraction in dayAttractions {
+                    let placemark = MKPlacemark(coordinate: CLLocationCoordinate2D(latitude: attraction.lat, longitude: attraction.long))
+                    placemarks.append(placemark)
+                }
+            } else if selectedMapMode == .publicTransport {
+                // Limit the attractions to the first two when using public transport mode
+                let attractionsToDisplay = Array(dayAttractions.prefix(2))
+                for attraction in attractionsToDisplay {
+                    let placemark = MKPlacemark(coordinate: CLLocationCoordinate2D(latitude: attraction.lat, longitude: attraction.long))
+                    placemarks.append(placemark)
+                }
             }
 
-            // Calculate directions for each attraction pair
+            // Calculate directions for the placemarks
             for i in 0..<placemarks.count - 1 {
                 let sourcePlacemark = placemarks[i]
                 let destinationPlacemark = placemarks[i + 1]
@@ -290,7 +315,13 @@ struct MapView: UIViewRepresentable {
                 let request = MKDirections.Request()
                 request.source = MKMapItem(placemark: sourcePlacemark)
                 request.destination = MKMapItem(placemark: destinationPlacemark)
-                request.transportType = .automobile
+                
+                switch selectedMapMode {
+                   case .car:
+                       request.transportType = .automobile
+                   case .publicTransport:
+                       request.transportType = .transit
+                   }
 
                 let directions = MKDirections(request: request)
                 directions.calculate { response, error in
@@ -319,6 +350,7 @@ struct MapView: UIViewRepresentable {
         }
     }
 
+    
     class MapViewCoordinator: NSObject, MKMapViewDelegate {
         func mapView(_ mapView: MKMapView, rendererFor overlay: MKOverlay) -> MKOverlayRenderer {
             let renderer = MKPolylineRenderer(overlay: overlay)
@@ -330,10 +362,7 @@ struct MapView: UIViewRepresentable {
 }
 
 
-
-
-                                   
-
+                                
 struct ItineraryView_Previews: PreviewProvider {
     static var previews: some View {
         let selected_attractions = [
