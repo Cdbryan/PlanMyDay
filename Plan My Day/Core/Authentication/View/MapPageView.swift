@@ -118,7 +118,6 @@ struct MapPageView: View {
             
                             
             }
-//            .navigationBarTitle("Tour Planned!", displayMode: .inline)
             .padding()
         }
     }
@@ -141,7 +140,7 @@ struct MapPageView: View {
             return nil
         }
 
-        let pdfURL = documentsDirectory.appendingPathComponent("MyMap.pdf")
+        let pdfURL = documentsDirectory.appendingPathComponent("MyPlan.pdf")
 
         do {
             try pdfData.write(to: pdfURL)
@@ -152,7 +151,6 @@ struct MapPageView: View {
         }
     }
     
-    
     func openGoogleMaps() {
         if plan[selectedDayIndex].isEmpty {
             // Handle the case where there are no attractions in the plan
@@ -160,28 +158,38 @@ struct MapPageView: View {
             return
         }
 
-        if let currentLocation = CLLocationManager().location {
-            let currentLocationString = "\(currentLocation.coordinate.latitude),\(currentLocation.coordinate.longitude)"
+        if plan[selectedDayIndex].count == 1 {
+            // If there's only one attraction, open Google Maps for that location
+            let attraction = plan[selectedDayIndex][0]
+            let location = "\(attraction.lat),\(attraction.long)"
+            let urlString = "https://www.google.com/maps?q=\(location)"
+            
+            if let url = URL(string: urlString) {
+                openURL(url)
+            }
+        } else {
+            // If there are multiple attractions, set the last attraction as the destination
+            let originAttraction = plan[selectedDayIndex][0]
+            let originLocation = "\(originAttraction.lat),\(originAttraction.long)"
 
-            var waypoints = plan[selectedDayIndex].map { attraction in
+            let waypoints = plan[selectedDayIndex].dropFirst().map { attraction in
                 return "\(attraction.lat),\(attraction.long)"
             }
 
-            // If there's only one attraction, add its coordinates as a waypoint
-            if waypoints.count == 1 {
-                waypoints.insert(currentLocationString, at: 0)
-            }
+            let originParam = "origin=\(originLocation)"
+            let waypointsParam = "waypoints=\(waypoints.joined(separator: "%7C"))"
 
-            let joinedWaypoints = waypoints.joined(separator: "|")
+            let lastAttraction = plan[selectedDayIndex].last!
+            let lastLocation = "\(lastAttraction.lat),\(lastAttraction.long)"
+            let destinationParam = "destination=\(lastLocation)"
 
-            let urlString = "https://www.google.com/maps/dir/?api=1&origin=\(currentLocationString)&destination=\(joinedWaypoints)"
+            let urlString = "https://www.google.com/maps/dir/?api=1&\(originParam)&\(destinationParam)&\(waypointsParam)"
 
             if let url = URL(string: urlString) {
                 openURL(url)
             }
         }
     }
-
 
 
     func openAppleMaps() {
