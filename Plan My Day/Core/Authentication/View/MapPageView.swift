@@ -12,6 +12,8 @@ struct MapPageView: View {
     @State private var selectedDayIndex = 0
 
     @State private var directions: [MKDirections] = []
+    @Environment(\.openURL) private var openURL
+
 
     var itinerary: Itinerary
     var plan: [[Attraction]] = [
@@ -152,25 +154,62 @@ struct MapPageView: View {
     
     
     func openGoogleMaps() {
-            if let url = URL(string: "comgooglemaps://?q=latitude,longitude") {
-                UIApplication.shared.open(url)
-            }
+        if plan[selectedDayIndex].isEmpty {
+            // Handle the case where there are no attractions in the plan
+            // You can show an alert or display a message in your view.
+            return
         }
 
+        if let currentLocation = CLLocationManager().location {
+            let currentLocationString = "\(currentLocation.coordinate.latitude),\(currentLocation.coordinate.longitude)"
+
+            var waypoints = plan[selectedDayIndex].map { attraction in
+                return "\(attraction.lat),\(attraction.long)"
+            }
+
+            // If there's only one attraction, add its coordinates as a waypoint
+            if waypoints.count == 1 {
+                waypoints.insert(currentLocationString, at: 0)
+            }
+
+            let joinedWaypoints = waypoints.joined(separator: "|")
+
+            let urlString = "https://www.google.com/maps/dir/?api=1&origin=\(currentLocationString)&destination=\(joinedWaypoints)"
+
+            if let url = URL(string: urlString) {
+                openURL(url)
+            }
+        }
+    }
+
+
+
     func openAppleMaps() {
-        if plan[selectedDayIndex].count > 1 {
-               var waypoints: [MKMapItem] = []
-               
-               for attraction in plan[selectedDayIndex] {
-                   let location = CLLocationCoordinate2D(latitude: attraction.lat, longitude: attraction.long)
-                   let placemark = MKPlacemark(coordinate: location)
-                   let mapItem = MKMapItem(placemark: placemark)
-                   waypoints.append(mapItem)
-               }
-               
-               let options = [MKLaunchOptionsDirectionsModeKey: MKLaunchOptionsDirectionsModeDriving]
-               MKMapItem.openMaps(with: waypoints, launchOptions: options)
-           }
+        if plan[selectedDayIndex].count == 1 {
+            
+            // Display a single attraction on the map from the user's current location
+            let attraction = plan[selectedDayIndex][0]
+            let location = CLLocationCoordinate2D(latitude: attraction.lat, longitude: attraction.long)
+            let placemark = MKPlacemark(coordinate: location)
+            let mapItem = MKMapItem(placemark: placemark)
+            mapItem.name = attraction.name  // Set the attraction's name as the destination name
+
+            let options = [MKLaunchOptionsDirectionsModeKey: MKLaunchOptionsDirectionsModeDriving]
+            mapItem.openInMaps(launchOptions: options)
+        } else if plan[selectedDayIndex].count > 1 {
+            
+            // Display multiple attractions on the map with default driving directions
+            var waypoints: [MKMapItem] = []
+            for attraction in plan[selectedDayIndex] {
+                let location = CLLocationCoordinate2D(latitude: attraction.lat, longitude: attraction.long)
+                let placemark = MKPlacemark(coordinate: location)
+                let mapItem = MKMapItem(placemark: placemark)
+                waypoints.append(mapItem)
+            }
+
+            let options = [MKLaunchOptionsDirectionsModeKey: MKLaunchOptionsDirectionsModeDriving]
+            MKMapItem.openMaps(with: waypoints, launchOptions: options)
+        }
     }
 
 
