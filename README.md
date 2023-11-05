@@ -8,4 +8,4 @@
     * **Full Name** (first and last name)
     * **Security Question Answer**
     * **Password**
-4. The number of requests you can make within a certain time may exceed these limits and can lead to service interruptions or throttling of your application, causing slow response times for users.
+4. The number of requests you can make within a certain time may exceed the API limits and can lead to service interruptions of the app, causing slow response times for you. Please be patient.
