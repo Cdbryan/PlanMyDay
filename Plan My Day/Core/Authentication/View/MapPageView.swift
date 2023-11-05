@@ -253,7 +253,7 @@ struct AttractionRowView: View {
     }
 }
 
-struct MapView: UIViewRepresentable { // Transit doesnt work! 
+struct MapView: UIViewRepresentable { // Transit doesnt work!
     typealias UIViewType = MKMapView
 
     @Binding var directions: [MKDirections]
@@ -263,7 +263,7 @@ struct MapView: UIViewRepresentable { // Transit doesnt work!
     var selectedDayIndex: Int
 
     func makeCoordinator() -> MapViewCoordinator {
-        return MapViewCoordinator()
+        MapViewCoordinator(selectedMapMode: selectedMapMode) // Pass selectedMapMode to the coordinator
     }
 
     func makeUIView(context: Context) -> MKMapView {
@@ -276,6 +276,7 @@ struct MapView: UIViewRepresentable { // Transit doesnt work!
         // Clear existing directions and annotations
         uiView.removeOverlays(uiView.overlays)
         uiView.removeAnnotations(uiView.annotations)
+        context.coordinator.selectedMapMode = selectedMapMode
 
         let dayAttractions = attractions
 
@@ -292,20 +293,26 @@ struct MapView: UIViewRepresentable { // Transit doesnt work!
             // Create an array to store source and destination placemarks for each attraction pair
             var placemarks: [MKPlacemark] = []
 
-            // Calculate directions for all attractions when using car mode
-            if selectedMapMode == .car {
-                for attraction in dayAttractions {
-                    let placemark = MKPlacemark(coordinate: CLLocationCoordinate2D(latitude: attraction.lat, longitude: attraction.long))
-                    placemarks.append(placemark)
-                }
-            } else if selectedMapMode == .publicTransport {
-                // Limit the attractions to the first two when using public transport mode
-                let attractionsToDisplay = Array(dayAttractions.prefix(2))
-                for attraction in attractionsToDisplay {
-                    let placemark = MKPlacemark(coordinate: CLLocationCoordinate2D(latitude: attraction.lat, longitude: attraction.long))
-                    placemarks.append(placemark)
-                }
+            
+            for attraction in dayAttractions {
+                let placemark = MKPlacemark(coordinate: CLLocationCoordinate2D(latitude: attraction.lat, longitude: attraction.long))
+                placemarks.append(placemark)
             }
+            
+//            // Calculate directions for all attractions when using car mode
+//            if selectedMapMode == .car {
+//                for attraction in dayAttractions {
+//                    let placemark = MKPlacemark(coordinate: CLLocationCoordinate2D(latitude: attraction.lat, longitude: attraction.long))
+//                    placemarks.append(placemark)
+//                }
+//            } else if selectedMapMode == .publicTransport {
+//                // Limit the attractions to the first two when using public transport mode
+//                let attractionsToDisplay = Array(dayAttractions.prefix(2))
+//                for attraction in attractionsToDisplay {
+//                    let placemark = MKPlacemark(coordinate: CLLocationCoordinate2D(latitude: attraction.lat, longitude: attraction.long))
+//                    placemarks.append(placemark)
+//                }
+//            }
 
             // Calculate directions for the placemarks
             for i in 0..<placemarks.count - 1 {
@@ -320,20 +327,26 @@ struct MapView: UIViewRepresentable { // Transit doesnt work!
                    case .car:
                        request.transportType = .automobile
                    case .publicTransport:
-                       request.transportType = .transit
+                       request.transportType = .walking
                    }
 
                 let directions = MKDirections(request: request)
-                directions.calculate { response, error in
-                    guard let route = response?.routes.first else { return }
-                    uiView.addAnnotations([sourcePlacemark, destinationPlacemark])
-                    uiView.addOverlay(route.polyline)
-                    uiView.setVisibleMapRect(
-                        route.polyline.boundingMapRect,
-                        edgePadding: UIEdgeInsets(top: 20, left: 20, bottom: 20, right: 20),
-                        animated: true)
-                    self.directions = [directions] // Update the directions array for the selected day
-                }
+                    directions.calculate { response, error in
+                        guard let route = response?.routes.first else {
+                            return
+                        }
+                        
+                        uiView.delegate = context.coordinator
+                        uiView.addAnnotations([sourcePlacemark, destinationPlacemark])
+                        uiView.addOverlay(route.polyline)
+                        
+                        uiView.setVisibleMapRect(
+                            route.polyline.boundingMapRect,
+                            edgePadding: UIEdgeInsets(top: 20, left: 20, bottom: 20, right: 20),
+                            animated: true
+                        )
+                        self.directions = [directions] // Update the directions array for the selected day
+                    }
             }
 
             // Calculate the region to fit all attractions
@@ -352,11 +365,28 @@ struct MapView: UIViewRepresentable { // Transit doesnt work!
 
     
     class MapViewCoordinator: NSObject, MKMapViewDelegate {
+        var selectedMapMode: MapMode // Add selectedMapMode property
+        init(selectedMapMode: MapMode) {
+            self.selectedMapMode = selectedMapMode // Initialize the selectedMapMode property
+            super.init()
+        }
+        
         func mapView(_ mapView: MKMapView, rendererFor overlay: MKOverlay) -> MKOverlayRenderer {
             let renderer = MKPolylineRenderer(overlay: overlay)
-            renderer.strokeColor = .systemBlue
-            renderer.lineWidth = 5
-            return renderer
+//            renderer.strokeColor = .black
+//            renderer.lineWidth = 3
+//            renderer.lineDashPattern = [1, 5]
+            if(selectedMapMode == .publicTransport){
+                let renderer = MKPolylineRenderer(overlay: overlay)
+                renderer.strokeColor = .black
+                renderer.lineWidth = 3
+                renderer.lineDashPattern = [1, 5]
+                return renderer
+            } else {
+                let renderer = MKPolylineRenderer(overlay: overlay)
+                renderer.strokeColor = .systemBlue
+                return renderer
+            }
         }
     }
 }
