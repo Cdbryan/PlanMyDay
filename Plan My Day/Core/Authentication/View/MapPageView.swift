@@ -83,7 +83,7 @@ struct MapPageView: View {
                 // Toggle for selecting map mode (car or public transport)
                 Picker("Map Mode", selection: $selectedMapMode) {
                     Text("Car").tag(MapMode.car)
-                    Text("Public Transport").tag(MapMode.walk)
+                    Text("Walk").tag(MapMode.walk)
                 }
                 .pickerStyle(SegmentedPickerStyle())
                 .padding()
