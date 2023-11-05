@@ -5,7 +5,7 @@ import UniformTypeIdentifiers
 
 enum MapMode {
     case car
-    case publicTransport
+    case walk
 }
 
 
@@ -83,7 +83,7 @@ struct MapPageView: View {
                 // Toggle for selecting map mode (car or public transport)
                 Picker("Map Mode", selection: $selectedMapMode) {
                     Text("Car").tag(MapMode.car)
-                    Text("Public Transport").tag(MapMode.publicTransport)
+                    Text("Public Transport").tag(MapMode.walk)
                 }
                 .pickerStyle(SegmentedPickerStyle())
                 .padding()
@@ -326,7 +326,7 @@ struct MapView: UIViewRepresentable { // Transit doesnt work!
                 switch selectedMapMode {
                    case .car:
                        request.transportType = .automobile
-                   case .publicTransport:
+                   case .walk:
                        request.transportType = .walking
                    }
 
@@ -376,7 +376,7 @@ struct MapView: UIViewRepresentable { // Transit doesnt work!
 //            renderer.strokeColor = .black
 //            renderer.lineWidth = 3
 //            renderer.lineDashPattern = [1, 5]
-            if(selectedMapMode == .publicTransport){
+            if(selectedMapMode == .walk){
                 let renderer = MKPolylineRenderer(overlay: overlay)
                 renderer.strokeColor = .black
                 renderer.lineWidth = 3

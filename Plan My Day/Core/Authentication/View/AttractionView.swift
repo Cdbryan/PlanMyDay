@@ -8,6 +8,16 @@ import SwiftUI
 
 
 struct AttractionView: View {
+    func isValidPlan() -> Bool{
+        /* TODO: ADD CODE */
+        // check conditions
+        if(numberOfDays == 2 ){
+            return true
+        }
+
+        // else return false
+        return false
+    }
     
     let attractions = Attraction.attractionList
    
@@ -69,11 +79,11 @@ struct AttractionView: View {
                 }
                 ToolbarItem(placement: .navigationBarTrailing) {
                     NavigationLink(
-                        destination: MapPageView(itinerary: Itinerary(itineraryName: itineraryName, attractions: selectedAttractions, numberOfDays: numberOfDays, tourDuration: tourDuration, plan: plan))
-                            .navigationTitle("Tour Planned!")) {
+                        destination: MapPageView(itinerary: Itinerary(itineraryName: itineraryName, attractions: selectedAttractions, numberOfDays: numberOfDays, tourDuration: tourDuration, plan: plan)).navigationTitle("Planned!")
+                            ) {
                         Text("Create Plan")
                     }
-                    .disabled(!validPlan)
+                    .disabled(!isValidPlan())
                 }
 
             }
@@ -142,6 +152,7 @@ struct NumberofDaysInputView: View {
                 // if all requirements met: populate variables req for itinerary and set plan valid
                 /* TODO: IMPLEMENT CORE ALG HERE */
                 if(isValidPlan()){
+                    validPlan = true
                     tourDuration = [] // set durations based on number of selected attrcns and wether USC or Not
                     plan = [[]] // make plan
                     itineraryName = "" // set name
