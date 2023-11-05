@@ -5,18 +5,18 @@
 //  Created by Alysha Kanjiyani on 10/31/23.
 //
 
+
 import SwiftUI
 
 struct ForgotPasswordView: View {
     @State private var email = ""
-    @State private var securityQuestionAnswer = ""
     @EnvironmentObject var viewModel: AuthViewModel
     @State private var isPasswordResetSuccessful = false
     @State private var showAlert = false
     @State private var alertMessage = "" // Store error message
 
     var body: some View {
-        NavigationView { // Wrap the view in a NavigationView
+        NavigationView {
             VStack {
                 Text("Forgot Password")
                     .font(.largeTitle)
@@ -26,12 +26,10 @@ struct ForgotPasswordView: View {
                 InputView(text: $email, title: "Email", placeholder: "Enter Email")
                     .autocapitalization(.none)
 
-                InputView(text: $securityQuestionAnswer, title: "Security Question", placeholder: "What city were you born in")
-
                 Button {
                     Task {
                         do {
-                            try await viewModel.resetPassword(forEmail: email, withSecurityAnswer: securityQuestionAnswer)
+                            try await viewModel.resetPassword(forEmail: email)
                             isPasswordResetSuccessful = true
                         } catch {
                             alertMessage = error.localizedDescription
@@ -53,16 +51,6 @@ struct ForgotPasswordView: View {
                 .opacity(formIsValid ? 1.0 : 0.5)
                 .cornerRadius(10)
                 .padding(.top, 24)
-
-//                Button(action: {
-//                    // Navigate back to the login screen or perform the desired action
-//                    isPasswordResetSuccessful = false
-//                    showAlert = false
-//                }) {
-//                    Text("Back to Login")
-//                }
-//                .foregroundColor(Color(.systemBlue))
-//                .padding(.top, 16)
             }
         }
         .alert(isPresented: $showAlert) {
@@ -71,7 +59,6 @@ struct ForgotPasswordView: View {
                     title: Text("Password Reset Successful"),
                     message: Text("Check your email for instructions on how to reset your password"),
                     dismissButton: .default(Text("OK")) {
-                        // Navigate back to the login screen or perform the desired action
                         isPasswordResetSuccessful = false
                         showAlert = false
                     }
@@ -87,6 +74,6 @@ struct ForgotPasswordView: View {
     }
 
     var formIsValid: Bool {
-        return !email.isEmpty && !securityQuestionAnswer.isEmpty
+        return !email.isEmpty
     }
 }

@@ -113,30 +113,13 @@ class AuthViewModel: ObservableObject {
        }
     
     //reset
-    func resetPassword(forEmail email: String, withSecurityAnswer answer: String) async throws {
-            do {
-                // Check if the provided email and security answer are valid.
-                guard let user = await validateSecurityAnswer(email: email, securityAnswer: answer) else {
-                    throw PasswordResetError.invalidEmailOrSecurityAnswer
-                }
+    func resetPassword(forEmail email: String) async throws {
+          do {
+              try await Auth.auth().sendPasswordReset(withEmail: email)
+          } catch {
+              throw error
+          }
+      }
 
-                // Send a password reset email to the user's email address.
-                try await Auth.auth().sendPasswordReset(withEmail: email)
-
-                // Password reset email sent successfully.
-            } catch {
-                throw PasswordResetError.passwordResetFailed(error)
-            }
-        }
-    
-    //reset
-    private func validateSecurityAnswer(email: String, securityAnswer: String) async -> FirebaseAuth.User? {
-            do {
-                let result = try await Auth.auth().signIn(withEmail: email, password: securityAnswer)
-                return result.user
-            } catch {
-                return nil
-            }
-        }
 
 }
