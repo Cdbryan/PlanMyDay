@@ -18,8 +18,9 @@ struct Plan_My_DayApp: App {
     }
     var body: some Scene {
         WindowGroup {
-            LoginView()
-                .environmentObject(viewModel)
+            AttractionView()
+//            LoginView()
+//                .environmentObject(viewModel)
         }
     }
 }

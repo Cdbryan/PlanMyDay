@@ -17,6 +17,18 @@ struct Itinerary: Identifiable, Hashable {
         hasher.combine(id)
     }
     
+    
+    init(itineraryName: String, attractions: [Attraction], numberOfDays: Int, tourDuration: [Int], plan: [[Attraction]]){   // should be only initializer we are using!
+        self.selectedAttrs = attractions
+        itineraryID = 1
+        self.itineraryName = itineraryName
+        self.numberOfDays = numberOfDays
+        self.tourDuration = tourDuration
+        self.plan = plan
+    }
+    
+    
+    
     init(itineraryName: String, attractions: [Attraction], numberOfDays: Int) {
         self.selectedAttrs = attractions
         itineraryID = 1

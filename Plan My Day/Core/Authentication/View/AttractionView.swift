@@ -10,11 +10,20 @@ import SwiftUI
 struct AttractionView: View {
     
     let attractions = Attraction.attractionList
+   
+    // vars to pass into Itinerary
     @State private var selectedAttractions: [Attraction] = []
     @State private var numberOfDays: Int = 1
+    @State private var plan: [[Attraction]] = [[]]
+    @State private var itineraryName = ""
+    @State private var tourDuration: [Int] = []
+    
+    
     @State private var isChecklistVisible = false
     @State private var isNumberofDaysActive: Bool = false // State to control navigation
     @State private var selectedAttraction: Attraction?
+    @State private var validPlan = false
+    
     
     var body: some View {
         NavigationView {
@@ -41,6 +50,8 @@ struct AttractionView: View {
                         }
                     }
                 }
+            
+                
             }
             .navigationTitle("Attractions")
             .toolbar {
@@ -57,10 +68,12 @@ struct AttractionView: View {
                     }
                 }
                 ToolbarItem(placement: .navigationBarTrailing) {
-                    NavigationLink(destination: MapPageView(itinerary: Itinerary(itineraryName: "test Itinerary", attractions: selectedAttractions, numberOfDays: numberOfDays))
-                        .navigationTitle("Tour Planned!")) {
+                    NavigationLink(
+                        destination: MapPageView(itinerary: Itinerary(itineraryName: itineraryName, attractions: selectedAttractions, numberOfDays: numberOfDays, tourDuration: tourDuration, plan: plan))
+                            .navigationTitle("Tour Planned!")) {
                         Text("Create Plan")
                     }
+                    .disabled(!validPlan)
                 }
 
             }
@@ -71,20 +84,47 @@ struct AttractionView: View {
                 AttractionChecklistView(
                     attractions: attractions,
                     selectedAttractions: $selectedAttractions,
-                    isChecklistVisible: $isChecklistVisible,
+                    itineraryName: $itineraryName,
+                    plan: $plan,
+                    tourDuration: $tourDuration,
+                    numberOfDays: $numberOfDays,
                     isNumberofDaysActive: $isNumberofDaysActive,
-                    numberOfDays: $numberOfDays
+                    isChecklistVisible:$isChecklistVisible,
+                    validPlan: $validPlan
+                    
                 )
             }
+
         }
+    
     }
+    
 }
 
+
+
+
 struct NumberofDaysInputView: View {
+    func isValidPlan() -> Bool{
+        /* TODO: ADD CODE */
+        // check conditions
+        if(numberOfDays == 2 ){
+            return true
+        }
+
+        // else return false
+        return false
+    }
+    
+    @Binding var itineraryName: String
+    @Binding var plan: [[Attraction]]
+    @Binding var tourDuration: [Int]
     @Binding var numberOfDays: Int
     @Binding var isNumberofDaysActive: Bool
     @Binding var isChecklistVisible: Bool
+    @Binding var validPlan: Bool
 
+    
     var body: some View {
         VStack {
             Text("Number of Days: \(numberOfDays)")
@@ -94,24 +134,43 @@ struct NumberofDaysInputView: View {
                 Text("Number of Days: \(numberOfDays)")
             }
             .padding()
-
+            
             Button(action: {
                 isNumberofDaysActive.toggle()
                 isChecklistVisible.toggle()
+                
+                // if all requirements met: populate variables req for itinerary and set plan valid
+                /* TODO: IMPLEMENT CORE ALG HERE */
+                if(isValidPlan()){
+                    tourDuration = [] // set durations based on number of selected attrcns and wether USC or Not
+                    plan = [[]] // make plan
+                    itineraryName = "" // set name
+                }
+                
+                
             }) {
                 Text("Done")
             }
+            .disabled(!isValidPlan())
         }
         .padding()
+        
+        
+        
     }
 }
 
 struct AttractionChecklistView: View {
     let attractions: [Attraction]
-        @Binding var selectedAttractions: [Attraction]
-        @Binding var isChecklistVisible: Bool
-        @Binding var isNumberofDaysActive: Bool
+    @Binding var selectedAttractions: [Attraction]
+    @Binding var itineraryName: String
+    @Binding var plan: [[Attraction]]
+    @Binding var tourDuration: [Int]
     @Binding var numberOfDays: Int
+    @Binding var isNumberofDaysActive: Bool
+    @Binding var isChecklistVisible: Bool
+    @Binding var validPlan: Bool
+
 
         var body: some View {
             NavigationView {
@@ -135,7 +194,7 @@ struct AttractionChecklistView: View {
                         }
                     }
                     ToolbarItem(placement: .navigationBarTrailing) {
-                        NavigationLink(destination: NumberofDaysInputView(numberOfDays: $numberOfDays, isNumberofDaysActive: $isNumberofDaysActive, isChecklistVisible: $isChecklistVisible)) {
+                        NavigationLink(destination: NumberofDaysInputView(itineraryName: $itineraryName, plan: $plan, tourDuration: $tourDuration, numberOfDays: $numberOfDays, isNumberofDaysActive: $isNumberofDaysActive, isChecklistVisible: $isChecklistVisible, validPlan: $validPlan)) {
                             Text("Next")
                         }
                     }                }
