@@ -8,15 +8,21 @@ import SwiftUI
 
 
 struct AttractionView: View {
-    func isValidPlan() -> Bool{
-        /* TODO: ADD CODE */
-        // check conditions
-        if(numberOfDays == 2 ){
-            return true
+    func isValidPlan() -> Bool {
+        // Calculate total time spent at all selected attractions
+        let totalAttractionTime = selectedAttractions.reduce(0) { total, attraction in
+            return total + (attraction.isUSC ? 0.25 : 1.0)
         }
-
-        // else return false
-        return false
+        
+        // Calculate total time per day
+        let totalTimePerDay = totalAttractionTime / Double(numberOfDays)
+        
+        // Check if the itinerary is valid
+        if selectedAttractions.count >= numberOfDays && totalAttractionTime <= Double(numberOfDays) * 6.0 {
+            return true
+        } else {
+            return false
+        }
     }
     
     let attractions = Attraction.attractionList
@@ -26,7 +32,7 @@ struct AttractionView: View {
     @State private var numberOfDays: Int = 1
     @State private var plan: [[Attraction]] = [[]]
     @State private var itineraryName = ""
-    @State private var tourDuration: [Int] = []
+    @State private var tourDuration: [Double] = []
     
     
     @State private var isChecklistVisible = false
@@ -115,20 +121,27 @@ struct AttractionView: View {
 
 
 struct NumberofDaysInputView: View {
-    func isValidPlan() -> Bool{
-        /* TODO: ADD CODE */
-        // check conditions
-        if(numberOfDays == 2 ){
-            return true
+    func isValidPlan() -> Bool {
+        // Calculate total time spent at all selected attractions
+        let totalAttractionTime = selectedAttractions.reduce(0) { total, attraction in
+            return total + (attraction.isUSC ? 0.25 : 1.0)
         }
-
-        // else return false
-        return false
+        
+        // Calculate total time per day
+        let totalTimePerDay = totalAttractionTime / Double(numberOfDays)
+        
+        // Check if the itinerary is valid
+        if selectedAttractions.count >= numberOfDays && totalAttractionTime <= Double(numberOfDays) * 6.0 {
+            return true
+        } else {
+            return false
+        }
     }
     
+    @Binding var selectedAttractions: [Attraction]
     @Binding var itineraryName: String
     @Binding var plan: [[Attraction]]
-    @Binding var tourDuration: [Int]
+    @Binding var tourDuration: [Double]
     @Binding var numberOfDays: Int
     @Binding var isNumberofDaysActive: Bool
     @Binding var isChecklistVisible: Bool
@@ -140,7 +153,7 @@ struct NumberofDaysInputView: View {
             Text("Number of Days: \(numberOfDays)")
                 .font(.headline)
 
-            Stepper(value: $numberOfDays, in: 1...7, step: 1) {
+            Stepper(value: $numberOfDays, in: 1...20, step: 1) {
                 Text("Number of Days: \(numberOfDays)")
             }
             .padding()
@@ -151,11 +164,56 @@ struct NumberofDaysInputView: View {
                 
                 // if all requirements met: populate variables req for itinerary and set plan valid
                 /* TODO: IMPLEMENT CORE ALG HERE */
-                if(isValidPlan()){
+                if isValidPlan() {
                     validPlan = true
-                    tourDuration = [] // set durations based on number of selected attrcns and wether USC or Not
-                    plan = [[]] // make plan
-                    itineraryName = "" // set name
+                    tourDuration = [] // Initialize an array to store the duration for each day
+                    plan = [[]] // Initialize the plan array with an empty array for the first day
+
+                    // Set the itinerary name to the current date
+                    let dateFormatter = DateFormatter()
+                    dateFormatter.dateFormat = "yyyy-MM-dd"
+                    itineraryName = dateFormatter.string(from: Date())
+
+                    var currentDay = 0 // Initialize the current day counter
+                    var currentDayDuration: Double = 0 // Initialize the duration for the current day
+
+                    for attraction in selectedAttractions {
+                        // Calculate the duration for the current attraction
+                        let attractionDuration = attraction.isUSC ? 0.25 : 1.0
+
+                        // If adding this attraction does not exceed the 6-hour limit for the current day, add it to the plan
+                        if currentDayDuration + attractionDuration <= 6.0 {
+                            plan[currentDay].append(attraction)
+                            currentDayDuration += attractionDuration
+                        } else {
+                            // Move to the next day if the current day is full
+                            currentDay += 1
+                            currentDayDuration = attractionDuration
+                            plan.append([attraction]) // Create a new day in the plan
+                        }
+                    }
+
+                    // Populate the tour duration array with the duration of each day
+                    tourDuration = plan.map { day in
+                        return day.reduce(0.0) { total, attraction in
+                            return total + (attraction.isUSC ? 0.25 : 1.0)
+                        }
+                    }
+                    
+                    // Print the plan and tourDuration arrays
+                        print("Plan Array:")
+                        for (dayIndex, dayAttractions) in plan.enumerated() {
+                            print("Day \(dayIndex + 1):")
+                            for attraction in dayAttractions {
+                                print("- \(attraction.name)")
+                            }
+                        }
+                        
+                        print("Tour Duration Array:")
+                        for (dayIndex, duration) in tourDuration.enumerated() {
+                            print("Day \(dayIndex + 1): \(duration) hours")
+                        }
+                    
                 }
                 
                 
@@ -176,7 +234,7 @@ struct AttractionChecklistView: View {
     @Binding var selectedAttractions: [Attraction]
     @Binding var itineraryName: String
     @Binding var plan: [[Attraction]]
-    @Binding var tourDuration: [Int]
+    @Binding var tourDuration: [Double]
     @Binding var numberOfDays: Int
     @Binding var isNumberofDaysActive: Bool
     @Binding var isChecklistVisible: Bool
@@ -205,7 +263,7 @@ struct AttractionChecklistView: View {
                         }
                     }
                     ToolbarItem(placement: .navigationBarTrailing) {
-                        NavigationLink(destination: NumberofDaysInputView(itineraryName: $itineraryName, plan: $plan, tourDuration: $tourDuration, numberOfDays: $numberOfDays, isNumberofDaysActive: $isNumberofDaysActive, isChecklistVisible: $isChecklistVisible, validPlan: $validPlan)) {
+                        NavigationLink(destination: NumberofDaysInputView(selectedAttractions: $selectedAttractions, itineraryName: $itineraryName, plan: $plan, tourDuration: $tourDuration, numberOfDays: $numberOfDays, isNumberofDaysActive: $isNumberofDaysActive, isChecklistVisible: $isChecklistVisible, validPlan: $validPlan)) {
                             Text("Next")
                         }
                     }                }

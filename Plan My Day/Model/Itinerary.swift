@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct Itinerary: Identifiable, Hashable {
+struct Itinerary: Identifiable, Hashable, Encodable {
     static func == (lhs: Itinerary, rhs: Itinerary) -> Bool {
         lhs.id == rhs.id;
     }
@@ -18,7 +18,7 @@ struct Itinerary: Identifiable, Hashable {
     }
     
     
-    init(itineraryName: String, attractions: [Attraction], numberOfDays: Int, tourDuration: [Int], plan: [[Attraction]]){   // should be only initializer we are using!
+    init(itineraryName: String, attractions: [Attraction], numberOfDays: Int, tourDuration: [Double], plan: [[Attraction]]){   // should be only initializer we are using!
         self.selectedAttrs = attractions
         itineraryID = 1
         self.itineraryName = itineraryName
@@ -61,7 +61,7 @@ struct Itinerary: Identifiable, Hashable {
     var itineraryName: String
     var selectedAttrs: [Attraction]
     var numberOfDays: Int
-    var tourDuration: [Int]
+    var tourDuration: [Double]
     var plan: [[Attraction]]
     
 
