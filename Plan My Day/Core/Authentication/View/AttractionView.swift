@@ -87,7 +87,9 @@ struct AttractionView: View {
                     NavigationLink(
                         destination: MapPageView(itinerary: Itinerary(itineraryName: itineraryName, attractions: selectedAttractions, numberOfDays: numberOfDays, tourDuration: tourDuration, plan: plan)).navigationTitle("Planned!")
                             ) {
-                        Text("Create Plan")
+                                Text("Create Plan").onTapGesture {
+                                    /*TODO: Add to firestore */
+                                }
                     }
                     .disabled(!isValidPlan())
                 }
@@ -163,7 +165,6 @@ struct NumberofDaysInputView: View {
                 isChecklistVisible.toggle()
                 
                 // if all requirements met: populate variables req for itinerary and set plan valid
-                /* TODO: IMPLEMENT CORE ALG HERE */
                 if isValidPlan() {
                     validPlan = true
                     tourDuration = [] // Initialize an array to store the duration for each day
