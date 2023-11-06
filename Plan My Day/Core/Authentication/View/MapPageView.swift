@@ -204,8 +204,7 @@ struct MapPageView: View {
                         },
                         secondaryButton: .default(Text("Apple Maps")) {
                             openAppleMaps()
-                        }
-                    )
+                        })
                 }
             
                             
