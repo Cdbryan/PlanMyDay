@@ -164,60 +164,67 @@ struct NumberofDaysInputView: View {
                 isChecklistVisible.toggle()
                 
                 // if all requirements met: populate variables req for itinerary and set plan valid
-
-                //old one:
                 if isValidPlan() {
-                                    validPlan = true
-                                    tourDuration = [] // Initialize an array to store the duration for each day
-                                    plan = [[]] // Initialize the plan array with an empty array for the first day
+                    let planPerDay: Int = selectedAttractions.count / numberOfDays
 
-                                    // Set the itinerary name to the current date
-                                    let dateFormatter = DateFormatter()
-                                    dateFormatter.dateFormat = "yyyy-MM-dd"
-                                    itineraryName = dateFormatter.string(from: Date())
+                    validPlan = true
+                    tourDuration = [] // Initialize an array to store the duration for each day
+                    plan = [[]] // Initialize the plan array with an empty array for the first day
 
-                                    var currentDay = 0 // Initialize the current day counter
-                                    var currentDayDuration: Double = 0 // Initialize the duration for the current day
+                    // Set the itinerary name to the current date
+                    let dateFormatter = DateFormatter()
+                    dateFormatter.dateFormat = "yyyy-MM-dd"
+                    itineraryName = dateFormatter.string(from: Date())
 
-                                    for attraction in selectedAttractions {
-                                        // Calculate the duration for the current attraction
-                                        let attractionDuration = attraction.isUSC ? 0.25 : 1.0
+                    var currentDay = 0 // Initialize the current day counter
+                    var currentDayDuration: Double = 0 // Initialize the duration for the current day
 
-                                        // If adding this attraction does not exceed the 6-hour limit for the current day, add it to the plan
-                                        if currentDayDuration + attractionDuration <= 6.0 {
-                                            plan[currentDay].append(attraction)
-                                            currentDayDuration += attractionDuration
-                                        } else {
-                                            // Move to the next day if the current day is full
-                                            currentDay += 1
-                                            currentDayDuration = attractionDuration
-                                            plan.append([attraction]) // Create a new day in the plan
-                                        }
-                                    }
+                    var i = 0
+                    for attraction in selectedAttractions {
+                        // Calculate the duration for the current attraction
+                        let attractionDuration = attraction.isUSC ? 0.25 : 1.0
 
-                                    // Populate the tour duration array with the duration of each day
-                                    tourDuration = plan.map { day in
-                                        return day.reduce(0.0) { total, attraction in
-                                            return total + (attraction.isUSC ? 0.25 : 1.0)
-                                        }
-                                    }
-                                    
-                                    // Print the plan and tourDuration arrays
-                                        print("Plan Array:")
-                                        for (dayIndex, dayAttractions) in plan.enumerated() {
-                                            print("Day \(dayIndex + 1):")
-                                            for attraction in dayAttractions {
-                                                print("- \(attraction.name)")
-                                            }
-                                        }
-                                        
-                                        print("Tour Duration Array:")
-                                        for (dayIndex, duration) in tourDuration.enumerated() {
-                                            print("Day \(dayIndex + 1): \(duration) hours")
-                                        }
-                                    
-                                }
+                        // If adding this attraction does not exceed the 6-hour limit for the current day, add it to the plan
+                        if i < planPerDay {
+                            plan[currentDay].append(attraction)
+                            currentDayDuration += attractionDuration
+                            i+=1
+                        } else {
+                            // Move to the next day if the current day is full
+                            currentDay += 1
+                            currentDayDuration = attractionDuration
+                            plan.append([attraction]) // Create a new day in the plan
 
+                            // Reset i to 0 after increasing currentDay
+                            i = 0
+                        }
+                    }
+
+
+
+                    // Populate the tour duration array with the duration of each day
+                    tourDuration = plan.map { day in
+                        return day.reduce(0.0) { total, attraction in
+                            return total + (attraction.isUSC ? 0.25 : 1.0)
+                        }
+                    }
+                    
+                    // Print the plan and tourDuration arrays
+                        print("Plan Array:")
+                        for (dayIndex, dayAttractions) in plan.enumerated() {
+                            print("Day \(dayIndex + 1):")
+                            for attraction in dayAttractions {
+                                print("- \(attraction.name)")
+                            }
+                        }
+                        
+                        print("Tour Duration Array:")
+                        for (dayIndex, duration) in tourDuration.enumerated() {
+                            print("Day \(dayIndex + 1): \(duration) hours")
+                        }
+                    
+                }
+                
                 
             }) {
                 Text("Done")
