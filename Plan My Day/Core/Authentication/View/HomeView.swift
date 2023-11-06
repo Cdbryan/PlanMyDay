@@ -1,4 +1,5 @@
 import SwiftUI
+import FirebaseFirestore
 
 
 
@@ -58,6 +59,46 @@ struct HomeView: View {
                                 trailing:
                                     NavigationLink(destination: AttractionView().navigationBarBackButtonHidden(true)) {
                 Image(systemName: "plus")
+//                    .onTapGesture {
+//                        func saveItineraryToFirestore() {
+//                            let db = Firestore.firestore()
+//
+//                            let attractionRef1 = db.collection("attractions").document("unique_attraction_id_1")
+//                            let attractionRef2 = db.collection("attractions").document("unique_attraction_id_2")
+//
+//                            let itinerary = FirestoreItinerary(
+//                                itineraryName: "My Itinerary",
+//                                numberOfDays: 3,
+//                                tourDuration: [1.0, 2.0, 3.0],
+//                                plan: [[attractionRef1, attractionRef2]],
+//                                selectedAttrs: [attractionRef1, attractionRef2]
+//                            )
+//
+//                            // Store the itinerary in Firestore
+//                            let itineraryData: [String: Any] = [
+//                                "itineraryName": itinerary.itineraryName,
+//                                "numberOfDays": itinerary.numberOfDays,
+//                                "tourDuration": itinerary.tourDuration,
+//                                "plan": [attractionRef1, attractionRef2],
+//                                "selectedAttrs": [attractionRef1, attractionRef2]
+//                            ]
+//
+//                            db.collection("itineraries").addDocument(data: itineraryData) { error in
+//                                if let error = error {
+//                                    print("Error adding itinerary: \(error)")
+//                                } else {
+//                                    print("Itinerary added successfully")
+//                                }
+//                            }
+//
+//
+//
+//                        }
+//
+//                        // Call the function to save the data to Firestore
+//                        saveItineraryToFirestore()
+//
+//                    }
                     .font(.title)
                     .foregroundColor(.primary)
             }
@@ -65,3 +106,4 @@ struct HomeView: View {
         }
     }
 }
+

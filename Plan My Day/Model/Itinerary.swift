@@ -56,7 +56,7 @@ struct Itinerary: Identifiable, Hashable, Encodable {
         self.itineraryName = ""
     }
     
-    let id = UUID()
+    let id = UUID().uuidString
     let itineraryID: Int
     var itineraryName: String
     var selectedAttrs: [Attraction]

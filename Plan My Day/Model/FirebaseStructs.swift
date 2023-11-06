@@ -1,73 +1,60 @@
-//
-//  FirebaseStructs.swift
-//  Plan My Day
-//
-//  Created by Josheta Srinivasan on 5/11/23.
-//
 import FirebaseFirestore
 
 struct FirestoreAttraction: Identifiable, Codable {
-    var id: String // Change id property to a String
-    var attractionId: Int
-    var name: String
-    var location: String
-    var isUSC: Bool
-    var lat: Double
-    var long: Double
+    let id = UUID().uuidString
+    let attractionId: Int
+    let name: String
+    let location: String
+    let isUSC: Bool
+    let lat: Double
+    let long: Double
     var hours: [String]
     var desc: String
-
-    enum CodingKeys: String, CodingKey {
-        case id
-        case attractionId
-        case name
-        case location
-        case isUSC
-        case lat
-        case long
-        case hours
-        case desc
-    }
-
-    init(id: String, attractionId: Int, name: String, location: String, isUSC: Bool, lat: Double, long: Double, hours: [String], desc: String) {
-        self.id = id
-        self.attractionId = attractionId
-        self.name = name
-        self.location = location
-        self.isUSC = isUSC
-        self.lat = lat
-        self.long = long
-        self.hours = hours
-        self.desc = desc
-    }
 }
 
 struct FirestoreItinerary: Identifiable, Codable {
-    var id: String // Change id property to a String
-    var itineraryID: Int
-    var itineraryName: String
-    var attractions: [String] // Store attraction IDs here
-    var numberOfDays: Int
-    var tourDuration: [Int]
-    var plan: [[String]] // Store attraction IDs here
-
-    enum CodingKeys: String, CodingKey {
-        case id
-        case itineraryID
-        case itineraryName
-        case attractions
-        case numberOfDays
-        case tourDuration
-        case plan
-    }
-
-    init(id: String, itineraryID: Int, itineraryName: String, attractions: [String], numberOfDays: Int, tourDuration: [Int], plan: [[String]]) {
-        self.id = id
-        self.itineraryID = itineraryID
-        self.itineraryName = itineraryName
-        self.attractions = attractions
-        self.numberOfDays = numberOfDays
-        self.tourDuration = tourDuration
-        self.plan = plan
-    }
+    let id = UUID().uuidString
+    let itineraryName: String
+    let numberOfDays: Int
+    var tourDuration: [Double]
+    var plan: [[DocumentReference]] // Store references to attractions
+    var selectedAttrs: [DocumentReference] // Store references to selected attractions
 }
+
+//func saveItineraryToFirestore() {
+//    let db = Firestore.firestore()
+//
+//    let attractionRef1 = db.collection("attractions").document("unique_attraction_id_1")
+//    let attractionRef2 = db.collection("attractions").document("unique_attraction_id_2")
+//
+//    let itinerary = FirestoreItinerary(
+//        itineraryName: "My Itinerary",
+//        numberOfDays: 3,
+//        tourDuration: [1.0, 2.0, 3.0],
+//        plan: [[attractionRef1, attractionRef2]],
+//        selectedAttrs: [attractionRef1, attractionRef2]
+//    )
+//
+//    // Store the itinerary in Firestore
+//    let itineraryData: [String: Any] = [
+//        "itineraryName": itinerary.itineraryName,
+//        "numberOfDays": itinerary.numberOfDays,
+//        "tourDuration": itinerary.tourDuration,
+//        "plan": [attractionRef1, attractionRef2],
+//        "selectedAttrs": [attractionRef1, attractionRef2]
+//    ]
+//
+//    db.collection("itineraries").addDocument(data: itineraryData) { error in
+//        if let error = error {
+//            print("Error adding itinerary: \(error)")
+//        } else {
+//            print("Itinerary added successfully")
+//        }
+//    }
+//
+//
+//
+//}
+//
+//// Call the function to save the data to Firestore
+//saveItineraryToFirestore()

@@ -2,6 +2,7 @@ import SwiftUI
 import MapKit
 import PDFKit
 import UniformTypeIdentifiers
+import Firebase
 
 enum MapMode {
     case car
@@ -45,6 +46,81 @@ struct MapPageView: View {
                    Spacer() // Add a spacer to push the button to the top right corner
                    
                     Button(action: {
+//                        .onTapGesture {
+                        func saveItineraryToFirestore() {
+                            let db = Firestore.firestore()
+                            
+                            // Create an array to store DocumentReferences for selectedAttractions
+                            var selectedAttractionRefs: [DocumentReference] = []
+                            
+                            // Iterate through the selectedAttractions array and get DocumentReferences
+                            for attraction in itinerary.selectedAttrs {
+                                let attractionRef = db.collection("attractions").document("attraction\(attraction.attractionId)")
+                                selectedAttractionRefs.append(attractionRef)
+                            }
+                            
+                            // Create an array to store references to plans
+                            var planAttractionRefs: [DocumentReference] = []
+                            
+                            for dayPlan in itinerary.plan {
+                                // Create an array to store references to attractions for each day's plan
+                                var dayPlanRefs: [DocumentReference] = []
+                                
+                                for attraction in dayPlan {
+                                    let attractionRef = db.collection("attractions").document("attraction\(attraction.attractionId)")
+                                    dayPlanRefs.append(attractionRef)
+                                }
+                                
+                                // Append the references to attractions for this day's plan
+                                planAttractionRefs.append(contentsOf: dayPlanRefs)
+                            }
+                            
+                            // Create a FirestoreItinerary struct with the necessary data
+                            let itineraryData: [String: Any] = [
+                                "id": itinerary.id, //pls work
+                                "itineraryName": itinerary.itineraryName, // Replace with your itinerary name
+                                "numberOfDays": itinerary.numberOfDays, // Replace with the number of days
+                                "tourDuration": itinerary.tourDuration, // Replace with your tour duration data
+                                "plan": planAttractionRefs, // Use the plan attraction references
+                                "selectedAttrs": selectedAttractionRefs // Use the selected attraction references
+                            ]
+                            
+                            // Add the itinerary data to Firestore
+                            db.collection("itineraries").document(itinerary.id).setData(itineraryData){error in
+                                if let error = error {
+                                    print("Error adding itinerary: \(error)")
+                                } else {
+                                    print("Itinerary added successfully")
+                                }
+                            }
+                        }
+                            
+                            // Call the function to save the data to Firestore
+                            saveItineraryToFirestore()
+                        
+                        if let user = Auth.auth().currentUser {
+                           let db = Firestore.firestore()
+                           let userId = user.uid
+                           
+                           // Reference the user's document in Firestore
+                           let userRef = db.collection("users").document(userId)
+                           
+                           // Add the new itinerary ID to the user's array of itinerary IDs
+                           userRef.updateData([
+                            "itineraryIDs": FieldValue.arrayUnion([itinerary.id])
+                           ]) { error in
+                               if let error = error {
+                                   print("Error updating user document: \(error)")
+                               } else {
+                                   print("User document updated with itinerary ID")
+                               }
+                           }
+                       }
+
+
+//                        }
+                        
+                        
                         saveAsPDF()
 
                     }) {

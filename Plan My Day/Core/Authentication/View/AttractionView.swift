@@ -5,6 +5,7 @@
 //  Created by Alysha Kanjiyani on 10/31/23.
 //
 import SwiftUI
+import Firebase
 
 
 struct AttractionView: View {
@@ -87,9 +88,7 @@ struct AttractionView: View {
                     NavigationLink(
                         destination: MapPageView(itinerary: Itinerary(itineraryName: itineraryName, attractions: selectedAttractions, numberOfDays: numberOfDays, tourDuration: tourDuration, plan: plan)).navigationTitle("Planned!")
                             ) {
-                                Text("Create Plan").onTapGesture {
-                                    /*TODO: Add to firestore */
-                                }
+                                Text("Create Plan")
                     }
                     .disabled(!isValidPlan())
                 }
