@@ -21,22 +21,19 @@ struct MapPageView: View {
     @State private var directions: [MKDirections] = []
     @Environment(\.openURL) private var openURL
 
+    func formatTourDuration(_ duration: Double) -> String {
+        let integerValue = Int(duration)
+        if duration - Double(integerValue) == 0 {
+            // Display as a whole number if it has no fractional part
+            return String(integerValue)
+        } else {
+            // Display with two decimal places
+            return String(format: "%.2f", duration)
+        }
+    }
 
+    
     var itinerary: Itinerary
-    var plan: [[Attraction]] = [
-        [Attraction(attractionId: 1, name: "USC Village", location: "USC", isUSC: true, lat: 34.0268515, long: -118.2878486, hours: ["9:00 AM - 5:00 PM"], desc: "village"),
-         Attraction(attractionId: 2, name: "Equad", location: "USC", isUSC: true, lat: 34.021007, long: -118.2891249, hours: ["Open 24 Hours"], desc: "village"),
-         Attraction(attractionId: 3, name: "School of Cinematic Arts", location: "USC", isUSC: true, lat: 34.0240968, long: -118.2886852, hours: ["Open 24 Hours"], desc: "village"),
-         Attraction(attractionId: 4, name: "LA Memorial Colosseum", location: "USC", isUSC: true, lat: 34.0136691, long: -118.2904104, hours: ["Open 24 Hours"], desc: "village")
-        ],
-        
-        [Attraction(attractionId: 3, name: "School of Cinematic Arts", location: "USC", isUSC: true, lat: 34.0240968, long: -118.2886852, hours: ["Open 24 Hours"], desc: "village"),
-         Attraction(attractionId: 4, name: "LA Memorial Colosseum", location: "USC", isUSC: true, lat: 34.0136691, long: -118.2904104, hours: ["Open 24 Hours"], desc: "village")],
-        
-        [Attraction(attractionId: 5, name: "Marshall School of Business", location: "USC", isUSC: true, lat: 34.0188441, long: -118.2883342, hours: ["Open 24 Hours"], desc: "village"),
-        ]
-    ] // holder; need to implement generate plan function
-
     
     var body: some View {
         NavigationView {
@@ -135,7 +132,7 @@ struct MapPageView: View {
                }
                 
                 Picker("Day", selection: $selectedDayIndex) {
-                    ForEach(0..<plan.count, id: \.self) { dayIndex in
+                    ForEach(0..<itinerary.plan.count, id: \.self) { dayIndex in
                         Text("Day \(dayIndex + 1)").tag(dayIndex)
                     }
                 }
@@ -143,14 +140,14 @@ struct MapPageView: View {
                 .padding()
 
                 ScrollView {
-                    Text("Total Time: ")
+                    Text("Total Time: \(formatTourDuration(itinerary.tourDuration[selectedDayIndex]))")
                         .font(.title)
                         
-                    ForEach(plan[selectedDayIndex].indices, id: \.self) { index in
+                    ForEach(itinerary.plan[selectedDayIndex].indices, id: \.self) { index in
                             HStack(alignment: .top, spacing: 10) {
                                 Text("\(index + 1).")
                                     .font(.title3)
-                                Text(plan[selectedDayIndex][index].name)
+                                Text(itinerary.plan[selectedDayIndex][index].name)
                                     .font(.title3)
                                 
                                 Spacer() // for left align
@@ -169,7 +166,7 @@ struct MapPageView: View {
                 .padding()
                     
                 // Display Map
-                MapView(directions: $directions, selectedMapMode: selectedMapMode, attractions: plan[selectedDayIndex], selectedDayIndex: selectedDayIndex)
+                MapView(directions: $directions, selectedMapMode: selectedMapMode, attractions: itinerary.plan[selectedDayIndex], selectedDayIndex: selectedDayIndex)
                     .frame(height: 300) // Adjust the map height as needed
                 
                 Spacer()
@@ -245,15 +242,15 @@ struct MapPageView: View {
     }
     
     func openGoogleMaps() {
-        if plan[selectedDayIndex].isEmpty {
+        if itinerary.plan[selectedDayIndex].isEmpty {
             // Handle the case where there are no attractions in the plan
             // You can show an alert or display a message in your view.
             return
         }
 
-        if plan[selectedDayIndex].count == 1 {
+        if itinerary.plan[selectedDayIndex].count == 1 {
             // If there's only one attraction, open Google Maps for that location
-            let attraction = plan[selectedDayIndex][0]
+            let attraction = itinerary.plan[selectedDayIndex][0]
             let location = "\(attraction.lat),\(attraction.long)"
             let urlString = "https://www.google.com/maps?q=\(location)"
             
@@ -262,17 +259,17 @@ struct MapPageView: View {
             }
         } else {
             // If there are multiple attractions, set the last attraction as the destination
-            let originAttraction = plan[selectedDayIndex][0]
+            let originAttraction = itinerary.plan[selectedDayIndex][0]
             let originLocation = "\(originAttraction.lat),\(originAttraction.long)"
 
-            let waypoints = plan[selectedDayIndex].dropFirst().map { attraction in
+            let waypoints = itinerary.plan[selectedDayIndex].dropFirst().map { attraction in
                 return "\(attraction.lat),\(attraction.long)"
             }
 
             let originParam = "origin=\(originLocation)"
             let waypointsParam = "waypoints=\(waypoints.joined(separator: "%7C"))"
 
-            let lastAttraction = plan[selectedDayIndex].last!
+            let lastAttraction = itinerary.plan[selectedDayIndex].last!
             let lastLocation = "\(lastAttraction.lat),\(lastAttraction.long)"
             let destinationParam = "destination=\(lastLocation)"
 
@@ -286,10 +283,10 @@ struct MapPageView: View {
 
 
     func openAppleMaps() {
-        if plan[selectedDayIndex].count == 1 {
+        if itinerary.plan[selectedDayIndex].count == 1 {
             
             // Display a single attraction on the map from the user's current location
-            let attraction = plan[selectedDayIndex][0]
+            let attraction = itinerary.plan[selectedDayIndex][0]
             let location = CLLocationCoordinate2D(latitude: attraction.lat, longitude: attraction.long)
             let placemark = MKPlacemark(coordinate: location)
             let mapItem = MKMapItem(placemark: placemark)
@@ -297,11 +294,11 @@ struct MapPageView: View {
 
             let options = [MKLaunchOptionsDirectionsModeKey: MKLaunchOptionsDirectionsModeDriving]
             mapItem.openInMaps(launchOptions: options)
-        } else if plan[selectedDayIndex].count > 1 {
+        } else if itinerary.plan[selectedDayIndex].count > 1 {
             
             // Display multiple attractions on the map with default driving directions
             var waypoints: [MKMapItem] = []
-            for attraction in plan[selectedDayIndex] {
+            for attraction in itinerary.plan[selectedDayIndex] {
                 let location = CLLocationCoordinate2D(latitude: attraction.lat, longitude: attraction.long)
                 let placemark = MKPlacemark(coordinate: location)
                 let mapItem = MKMapItem(placemark: placemark)
@@ -472,19 +469,27 @@ struct MapView: UIViewRepresentable { // Transit doesnt work!
 }
 
 
-                                
-struct ItineraryView_Previews: PreviewProvider {
-    static var previews: some View {
-        let selected_attractions = [
-            Attraction(attractionId: 1, name: "USC Village", location: "USC", isUSC: true, lat: 34.0268515, long: -118.2878486, hours: ["9:00 AM - 5:00 PM"], desc: "village"),
-            Attraction(attractionId: 2, name: "Equad", location: "USC", isUSC: true, lat: 34.021007, long: -118.2891249, hours: ["Open 24 Hours"], desc: "village")
-        ]
-        let numberOfDays = 1
-        @State var itinerary = Itinerary(attractions: selected_attractions, numberOfDays: numberOfDays)
-
-        return MapPageView(itinerary: itinerary)
-    }
-}
+//struct ItineraryView_Previews: PreviewProvider {
+//    static var previews: some View {
+//            var plan: [[Attraction]] = [
+//                [Attraction(attractionId: 1, name: "USC Village", location: "USC", isUSC: true, lat: 34.0268515, long: -118.2878486, hours: ["9:00 AM - 5:00 PM"], desc: "village"),
+//                 Attraction(attractionId: 2, name: "Equad", location: "USC", isUSC: true, lat: 34.021007, long: -118.2891249, hours: ["Open 24 Hours"], desc: "village"),
+//                 Attraction(attractionId: 3, name: "School of Cinematic Arts", location: "USC", isUSC: true, lat: 34.0240968, long: -118.2886852, hours: ["Open 24 Hours"], desc: "village"),
+//                 Attraction(attractionId: 4, name: "LA Memorial Colosseum", location: "USC", isUSC: true, lat: 34.0136691, long: -118.2904104, hours: ["Open 24 Hours"], desc: "village")
+//                ],
+//
+//                [Attraction(attractionId: 3, name: "School of Cinematic Arts", location: "USC", isUSC: true, lat: 34.0240968, long: -118.2886852, hours: ["Open 24 Hours"], desc: "village"),
+//                 Attraction(attractionId: 4, name: "LA Memorial Colosseum", location: "USC", isUSC: true, lat: 34.0136691, long: -118.2904104, hours: ["Open 24 Hours"], desc: "village")],
+//
+//                [Attraction(attractionId: 5, name: "Marshall School of Business", location: "USC", isUSC: true, lat: 34.0188441, long: -118.2883342, hours: ["Open 24 Hours"], desc: "village"),
+//                ]
+//            ]
+//        let numberOfDays = 3
+//        @State var itinerary = Itinerary(plan: plan)
+//
+//        return MapPageView(itinerary: itinerary)
+//    }
+//}
 
 extension View {
     func asImage() -> UIImage {
