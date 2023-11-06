@@ -167,40 +167,75 @@ struct NumberofDaysInputView: View {
                 if isValidPlan() {
                     validPlan = true
                     tourDuration = [] // Initialize an array to store the duration for each day
-                    plan = [[]] // Initialize the plan array with an empty array for the first day
+                    plan = [] // Initialize the plan array
 
                     // Set the itinerary name to the current date
                     let dateFormatter = DateFormatter()
                     dateFormatter.dateFormat = "yyyy-MM-dd"
                     itineraryName = dateFormatter.string(from: Date())
 
-                    var currentDay = 0 // Initialize the current day counter
-                    var currentDayDuration: Double = 0 // Initialize the duration for the current day
+                    // Check the number of available days and attractions
+                    let numberOfDays = numberOfDays
+                    let numberOfAttractions = selectedAttractions.count
 
-                    for attraction in selectedAttractions {
-                        // Calculate the duration for the current attraction
-                        let attractionDuration = attraction.isUSC ? 0.25 : 1.0
+                    if numberOfDays > 0 && numberOfAttractions > 0 {
+                        let attractionsPerDay = max(1, numberOfAttractions / numberOfDays) // Minimum one attraction per day
 
-                        // If adding this attraction does not exceed the 6-hour limit for the current day, add it to the plan
-                        if currentDayDuration + attractionDuration <= 6.0 {
-                            plan[currentDay].append(attraction)
-                            currentDayDuration += attractionDuration
-                        } else {
-                            // Move to the next day if the current day is full
-                            currentDay += 1
-                            currentDayDuration = attractionDuration
-                            plan.append([attraction]) // Create a new day in the plan
+                        var currentDay = 0 // Initialize the current day counter
+                        var currentDayDuration: Double = 0 // Initialize the duration for the current day
+
+                        // Loop to assign one attraction to each day
+                        for _ in 0 ..< numberOfDays {
+                            var attractionsForDay: [Attraction] = []
+
+                            for _ in 0 ..< attractionsPerDay {
+                                if selectedAttractions.isEmpty {
+                                    break
+                                }
+
+                                let attraction = selectedAttractions.removeFirst()
+
+                                // Calculate the duration for the current attraction
+                                let attractionDuration = attraction.isUSC ? 0.25 : 1.0
+
+                                attractionsForDay.append(attraction)
+                                currentDayDuration += attractionDuration
+                            }
+
+                            if !attractionsForDay.isEmpty {
+                                plan.append(attractionsForDay)
+                            }
                         }
-                    }
 
-                    // Populate the tour duration array with the duration of each day
-                    tourDuration = plan.map { day in
-                        return day.reduce(0.0) { total, attraction in
-                            return total + (attraction.isUSC ? 0.25 : 1.0)
+                        // Continue with the existing loop to add the remaining attractions while respecting the 6-hour limit
+                        for attraction in selectedAttractions {
+                            // Calculate the duration for the current attraction
+                            let attractionDuration = attraction.isUSC ? 0.25 : 1.0
+
+                            // If adding this attraction does not exceed the 6-hour limit for the current day, add it to the plan
+                            if currentDayDuration + attractionDuration <= 6.0 {
+                                plan[currentDay].append(attraction)
+                                currentDayDuration += attractionDuration
+                            } else {
+                                // Move to the next day if the current day is full
+                                currentDay += 1
+                                currentDayDuration = 0 // Reset the duration for the new day
+                                plan.append([attraction]) // Create a new day in the plan
+                            }
+
+                            if currentDay >= plan.count {
+                                currentDay = 0
+                            }
                         }
-                    }
-                    
-                    // Print the plan and tourDuration arrays
+
+                        // Populate the tour duration array with the duration of each day
+                        tourDuration = plan.map { day in
+                            return day.reduce(0.0) { total, attraction in
+                                return total + (attraction.isUSC ? 0.25 : 1.0)
+                            }
+                        }
+
+                        // Print the plan and tourDuration arrays
                         print("Plan Array:")
                         for (dayIndex, dayAttractions) in plan.enumerated() {
                             print("Day \(dayIndex + 1):")
@@ -208,14 +243,14 @@ struct NumberofDaysInputView: View {
                                 print("- \(attraction.name)")
                             }
                         }
-                        
+
                         print("Tour Duration Array:")
                         for (dayIndex, duration) in tourDuration.enumerated() {
                             print("Day \(dayIndex + 1): \(duration) hours")
                         }
-                    
+                    }
                 }
-                
+
                 
             }) {
                 Text("Done")
