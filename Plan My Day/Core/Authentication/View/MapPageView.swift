@@ -34,6 +34,7 @@ struct MapPageView: View {
 
     
     var itinerary: Itinerary
+    var disableSave: Bool
     
     var body: some View {
         NavigationView {
@@ -118,6 +119,7 @@ struct MapPageView: View {
                     }
                     .background(Color.blue) // Change the color as desired
                     .cornerRadius(10)
+                    .disabled(disableSave)
                     
                     Spacer();
                     

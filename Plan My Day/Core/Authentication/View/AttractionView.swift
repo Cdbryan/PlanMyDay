@@ -72,11 +72,6 @@ struct AttractionView: View {
             }
             .navigationTitle("Attractions")
             .toolbar {
-                ToolbarItem(placement: .navigationBarLeading) {
-                        NavigationLink(destination: LoginView().navigationBarBackButtonHidden(true)) {
-                            Text("Sign Out")
-                        }
-                    }
                 ToolbarItem(placement: .navigationBarTrailing) {
                     Button(action: {
                         isChecklistVisible.toggle()
@@ -86,7 +81,7 @@ struct AttractionView: View {
                 }
                 ToolbarItem(placement: .navigationBarTrailing) {
                     NavigationLink(
-                        destination: MapPageView(itinerary: Itinerary(itineraryName: itineraryName, attractions: selectedAttractions, numberOfDays: numberOfDays, tourDuration: tourDuration, plan: plan)).navigationTitle("Planned!")
+                        destination: MapPageView(itinerary: Itinerary(itineraryName: itineraryName, attractions: selectedAttractions, numberOfDays: numberOfDays, tourDuration: tourDuration, plan: plan), disableSave: false).navigationTitle("Planned!")
                             ) {
                                 Text("Create Plan")
                     }
