@@ -169,7 +169,7 @@ struct NumberofDaysInputView: View {
 
                     validPlan = true
                     tourDuration = [] // Initialize an array to store the duration for each day
-                    plan = [[]] // Initialize the plan array with an empty array for the first day
+                    plan = Array(repeating: [], count: numberOfDays) // Initialize the plan array with empty arrays for each day
 
                     // Set the itinerary name to the current date
                     let dateFormatter = DateFormatter()
@@ -179,27 +179,25 @@ struct NumberofDaysInputView: View {
                     var currentDay = 0 // Initialize the current day counter
                     var currentDayDuration: Double = 0 // Initialize the duration for the current day
 
-                    var i = 0
                     for attraction in selectedAttractions {
                         // Calculate the duration for the current attraction
                         let attractionDuration = attraction.isUSC ? 0.25 : 1.0
 
                         // If adding this attraction does not exceed the 6-hour limit for the current day, add it to the plan
-                        if i < planPerDay {
+                        if currentDayDuration + attractionDuration <= 6.0 && plan[currentDay].count < planPerDay {
                             plan[currentDay].append(attraction)
                             currentDayDuration += attractionDuration
-                            i+=1
                         } else {
                             // Move to the next day if the current day is full
                             currentDay += 1
                             currentDayDuration = attractionDuration
-                            plan.append([attraction]) // Create a new day in the plan
 
-                            // Reset i to 0 after increasing currentDay
-                            i = 0
+                            // Ensure we don't go out of bounds
+                            if currentDay < numberOfDays {
+                                plan[currentDay].append(attraction) // Create a new day in the plan
+                            }
                         }
                     }
-
 
 
                     // Populate the tour duration array with the duration of each day
