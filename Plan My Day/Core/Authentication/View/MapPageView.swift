@@ -43,10 +43,7 @@ struct MapPageView: View {
             VStack(alignment: .leading) {
                 
                 HStack {
-                   Spacer() // Add a spacer to push the button to the top right corner
-                   
                     Button(action: {
-//                        .onTapGesture {
                         func saveItineraryToFirestore() {
                             let db = Firestore.firestore()
                             
@@ -95,8 +92,8 @@ struct MapPageView: View {
                             }
                         }
                             
-                            // Call the function to save the data to Firestore
-                            saveItineraryToFirestore()
+                        // Call the function to save the data to Firestore
+                        saveItineraryToFirestore()
                         
                         if let user = Auth.auth().currentUser {
                            let db = Firestore.firestore()
@@ -116,18 +113,25 @@ struct MapPageView: View {
                                }
                            }
                        }
-
-
-//                        }
-                        
-                        
+                    }) {
+                        Text("Save Itinerary")
+                            .font(.headline) // Adjust the font size as desired
+                            .foregroundColor(.white)
+                            .padding(EdgeInsets(top: 5, leading: 10, bottom: 5, trailing: 10)) // Adjust the padding for a smaller button
+                    }
+                    .background(Color.blue) // Change the color as desired
+                    .cornerRadius(10)
+                    
+                    Spacer();
+                    
+                    Button(action: {
                         saveAsPDF()
 
                     }) {
                         Image(systemName: "arrow.down.to.line.alt")
                             .font(.title)
                     }
-                   .padding(.trailing) // Add some padding to the button
+                    .padding(EdgeInsets(top: 0, leading: 10, bottom: 0, trailing: 10))
                }
                 
                 Picker("Day", selection: $selectedDayIndex) {
