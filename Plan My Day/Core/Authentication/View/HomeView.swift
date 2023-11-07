@@ -4,7 +4,7 @@ import Firebase
 
 struct HomeView: View {
     @State private var itineraries: [FirestoreItinerary] = []
-    @State var plan: [[Attraction]]
+    @State private var plan: [[Attraction]] = [[]]
     @State private var noItineraries: Bool = false
 
     var body: some View {
@@ -116,7 +116,7 @@ struct HomeView: View {
                                             }
 
                                             let planPerDay: Int = selectedAttractions.count / itinerary.numberOfDays
-
+                                            
                                             itinerary.tourDuration = []
                                             self.plan = Array(repeating: [], count: itinerary.numberOfDays)
 

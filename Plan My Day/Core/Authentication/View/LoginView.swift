@@ -114,7 +114,7 @@ struct LoginView: View {
             }
             .background(
                 NavigationLink(
-                    destination: HomeView(plan : [[]]).navigationBarBackButtonHidden(true),
+                    destination: HomeView().navigationBarBackButtonHidden(true),
                     isActive: $navigateToProfile,
                     label: { EmptyView() }
                 )
