@@ -140,6 +140,13 @@ struct HomeView: View {
                                                         print("Day index is out of bounds: \(day)")
                                                     }
                                                 }
+                                                
+                                                // Populate the tour duration array with the duration of each day
+                                                itinerary.tourDuration = itineraryPlans.map { day in
+                                                    return day.reduce(0.0) { total, attraction in
+                                                        return total + (attraction.isUSC ? 0.25 : 1.0)
+                                                    }
+                                                }
 
                                                 // Append the plan to the plans array
                                                 self.plans.append(itineraryPlans)
