@@ -25,10 +25,10 @@ struct MapPageView: View {
         let integerValue = Int(duration)
         if duration - Double(integerValue) == 0 {
             // Display as a whole number if it has no fractional part
-            return String("\(integerValue) hour(s)")
+            return String(integerValue)
         } else {
             // Display with two decimal places
-            return String(format: "%.2f hour(s)", duration)
+            return String(format: "%.2f hours", duration)
         }
     }
 
@@ -50,7 +50,7 @@ struct MapPageView: View {
                                 
                                 // Iterate through the selectedAttractions array and get DocumentReferences
                                 for attraction in itinerary.selectedAttrs {
-                                    let attractionRef = db.collection("attractions").document("attraction\(attraction.attractionId)")
+                                    let attractionRef = db.collection("attractions").document("attraction\(attraction.attractionId-1)")
                                     selectedAttractionRefs.append(attractionRef)
                                 }
                                 
