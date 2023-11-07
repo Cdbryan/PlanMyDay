@@ -7,7 +7,7 @@
     * **Password**
 3. After creating an account, you will be prompted to log in with the new email and password you previously made.
 4. Once logged in, you will be directed to a page with your saved itineraries.
-5. To add save and make a new itinerary, click the + button at the top right.
+5. To add, make, and save a new itinerary, click the + button at the top right.
 6. You will be redirected to the attraction view page where you can view all the tour attractions and their details by selecting a specific attraction.
     * When you click on an attraction, you will be able to see the location, hours of operation, and a description of the attraction.
 7. To begin a new itinerary, select the "Select Attractions" button at the top and choose your desired attractions.
