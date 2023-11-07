@@ -5,7 +5,7 @@ import Firebase
 struct HomeView: View {
     @State private var itineraries: [FirestoreItinerary] = []
     @State var plan: [[Attraction]] = []
-    @State private var noItineraries: Bool = false
+    @State private var noItineraries: Bool = true // Initialize as true
 
     var body: some View {
         NavigationView {
@@ -164,6 +164,7 @@ struct HomeView: View {
 
                                                 fetchedItineraries.append(itinerary)
                                                 self.itineraries = fetchedItineraries // Update the itineraries array
+                                                self.noItineraries = false // Update the flag when itineraries are found
                                             }
                                         }
                                     } catch let error {
@@ -174,7 +175,7 @@ struct HomeView: View {
                         }
                     } else {
                         print("User has no valid itineraryIDs or it's not an array of UUID strings or it's empty.")
-                        self.noItineraries = true
+                        self.noItineraries = true // Update the flag when no itineraries are found
                     }
                 } else if let error = error {
                     print("Error fetching user document: \(error)")
