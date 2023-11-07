@@ -81,7 +81,7 @@ struct SignUpView: View {
                 Task {
                                 do {
                                     // Use the non-optional securityQuestionAnswer variable
-                                    try await viewModel.createUser(withEmail: email, password: password, fullname: fullName, securityAnswer: securityQuestionAnswer)
+                                    try await viewModel.createUser(withEmail: email, password: password, fullname: fullName, securityAnswer: securityQuestionAnswer, itineraryIDs: [])
                                     isSignUpSuccessful = true
                                 } catch {
                                     isSignUpSuccessful = false

@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct Itinerary: Identifiable, Hashable, Encodable {
+struct Itinerary: Identifiable, Hashable, Encodable, Decodable {
     static func == (lhs: Itinerary, rhs: Itinerary) -> Bool {
         lhs.id == rhs.id;
     }
@@ -29,30 +29,22 @@ struct Itinerary: Identifiable, Hashable, Encodable {
     
     
     
-    init(itineraryName: String, attractions: [Attraction], numberOfDays: Int) {
-        self.selectedAttrs = attractions
-        itineraryID = 1
-        self.itineraryName = itineraryName
-        self.numberOfDays = numberOfDays
-        tourDuration = []
-        plan = [[]]
-    }
+//    init(itineraryName: String, attractions: [Attraction], numberOfDays: Int) {
+//        self.selectedAttrs = attractions
+//        itineraryID = 1
+//        self.itineraryName = itineraryName
+//        self.numberOfDays = numberOfDays
+//        tourDuration = []
+//        plan = [[]]
+//    }
+//
     
-    init(attractions: [Attraction], numberOfDays: Int) { // DO NOT EDIT: josheta is using for her map view page
-        self.selectedAttrs = attractions
-        itineraryID = 1
-        self.itineraryName = "name"
-        self.numberOfDays = numberOfDays
-        tourDuration = []
-        plan = [[]]
-    }
-    
-    init(plan: [[Attraction]]) {
+    init(plan: [[Attraction]], tourDuration:[Double]) {
         self.plan = plan
         itineraryID = 1
         self.selectedAttrs = []
         self.numberOfDays = 1
-        tourDuration = []
+        self.tourDuration = tourDuration
         self.itineraryName = ""
     }
     

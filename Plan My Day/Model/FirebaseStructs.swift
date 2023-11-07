@@ -14,11 +14,17 @@ struct FirestoreAttraction: Identifiable, Codable {
 
 struct FirestoreItinerary: Identifiable, Codable {
     let id = UUID().uuidString
-    let itineraryName: String
+    var itineraryName: String
     let numberOfDays: Int
     var tourDuration: [Double]
     var plan: [[DocumentReference]] // Store references to attractions
     var selectedAttrs: [DocumentReference] // Store references to selected attractions
+    
+    static func decode(from data: [String: Any]) throws -> FirestoreItinerary {
+        let decoder = Firestore.Decoder()
+        return try decoder.decode(FirestoreItinerary.self, from: data)
+    }
+    
 }
 
 //func saveItineraryToFirestore() {

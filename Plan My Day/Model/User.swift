@@ -20,6 +20,7 @@ struct User: Identifiable, Codable{
         }
         return ""
     }
+    var itineraryIDs : [String]
 }
 
 

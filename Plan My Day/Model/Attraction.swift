@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct Attraction: Identifiable, Encodable {
+struct Attraction: Identifiable, Encodable, Decodable {
     let id = UUID().uuidString
     let attractionId: Int
     let name: String
