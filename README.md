@@ -7,7 +7,7 @@
     * **Email**
     * **Full Name** (first and last name)
     * **Security Question Answer**
-    * **Password**
+    * **Password** (must be at least 6 characters long)
 4. After creating an account, you will be prompted to log in with the new email and password you previously made.
 5. Once logged in, you will be directed to a page with your saved itineraries.
 6. To add, make, and save a new itinerary, click the + button at the top right.
