@@ -1,7 +1,7 @@
 # PlanMyDay
 1. Please run this app on the emulator device **iPhone 14** and use the **iOS version 16.0** or above.
 2. Once you run the app, please use the following credentials (case sensitive) to login:
-    * **Username**: csci310@gmail.com
+    * **Username**: csci@usc.edu
     * **Password**: Pass101
 3. You also have the option to create an account using the signup button at the bottom of the login page and entering the following information:
     * **Email**
