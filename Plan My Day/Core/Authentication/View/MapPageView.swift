@@ -28,7 +28,7 @@ struct MapPageView: View {
             return String(integerValue)
         } else {
             // Display with two decimal places
-            return String(format: "%.2f", duration)
+            return String(format: "%.2f hours", duration)
         }
     }
 
