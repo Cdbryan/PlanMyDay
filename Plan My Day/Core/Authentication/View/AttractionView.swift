@@ -160,7 +160,7 @@ struct NumberofDaysInputView: View {
                 
                 // if all requirements met: populate variables req for itinerary and set plan valid
                 if isValidPlan() {
-                    let planPerDay: Int = selectedAttractions.count / numberOfDays
+                    let planPerDay: Int = Int(ceil(Double(selectedAttractions.count) / Double(numberOfDays)))
 
                     validPlan = true
                     tourDuration = [] // Initialize an array to store the duration for each day

@@ -117,7 +117,7 @@ struct HomeView: View {
 
                                             // Notify when all attraction documents are fetched
                                             dispatchGroup.notify(queue: .main) {
-                                                let planPerDay: Int = selectedAttractions.count / itinerary.numberOfDays
+                                                let planPerDay: Int = Int(ceil(Double(selectedAttractions.count) / Double(itinerary.numberOfDays)))
 
                                                 itinerary.tourDuration = []
                                                 self.plan = Array(repeating: [], count: itinerary.numberOfDays)
