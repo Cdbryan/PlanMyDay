@@ -37,181 +37,105 @@ struct MapPageView: View {
     var disableSave: Bool
     
     var body: some View {
-        NavigationView {
-            VStack(alignment: .leading) {
-                
-                HStack {
-                    Button(action: {
-                        func saveItineraryToFirestore() {
-                            let db = Firestore.firestore()
-                            
-                            // Create an array to store DocumentReferences for selectedAttractions
-                            var selectedAttractionRefs: [DocumentReference] = []
-                            
-                            // Iterate through the selectedAttractions array and get DocumentReferences
-                            for attraction in itinerary.selectedAttrs {
-                                let attractionRef = db.collection("attractions").document("attraction\(attraction.attractionId)")
-                                selectedAttractionRefs.append(attractionRef)
-                            }
-                            
-                            // Create an array to store references to plans
-                            var planAttractionRefs: [DocumentReference] = []
-                            
-                            for dayPlan in itinerary.plan {
-                                // Create an array to store references to attractions for each day's plan
-                                var dayPlanRefs: [DocumentReference] = []
-                                
-                                for attraction in dayPlan {
-                                    let attractionRef = db.collection("attractions").document("attraction\(attraction.attractionId)")
-                                    dayPlanRefs.append(attractionRef)
-                                }
-                                
-                                // Append the references to attractions for this day's plan
-                                planAttractionRefs.append(contentsOf: dayPlanRefs)
-                            }
-                            
-                            // Create a FirestoreItinerary struct with the necessary data
-                            let itineraryData: [String: Any] = [
-                                "id": itinerary.id, //pls work
-                                "itineraryName": itinerary.itineraryName, // Replace with your itinerary name
-                                "numberOfDays": itinerary.numberOfDays, // Replace with the number of days
-                                "tourDuration": itinerary.tourDuration, // Replace with your tour duration data
-                                "plan": planAttractionRefs, // Use the plan attraction references
-                                "selectedAttrs": selectedAttractionRefs // Use the selected attraction references
-                            ]
-                            
-                            // Add the itinerary data to Firestore
-                            db.collection("itineraries").document(itinerary.id).setData(itineraryData){error in
-                                if let error = error {
-                                    print("Error adding itinerary: \(error)")
-                                } else {
-                                    print("Itinerary added successfully")
-                                }
-                            }
+            NavigationView {
+                VStack(alignment: .leading) {
+
+                    HStack {
+                        Button(action: {
+                            // Save itinerary function
+                        }) {
+                            Text("Save Itinerary")
+                                .font(.headline)
+                                .foregroundColor(.white)
+                                .padding(EdgeInsets(top: 5, leading: 10, bottom: 5, trailing: 10))
                         }
-                            
-                        // Call the function to save the data to Firestore
-                        saveItineraryToFirestore()
-                        
-                        if let user = Auth.auth().currentUser {
-                           let db = Firestore.firestore()
-                           let userId = user.uid
-                           
-                           // Reference the user's document in Firestore
-                           let userRef = db.collection("users").document(userId)
-                           
-                           // Add the new itinerary ID to the user's array of itinerary IDs
-                           userRef.updateData([
-                            "itineraryIDs": FieldValue.arrayUnion([itinerary.id])
-                           ]) { error in
-                               if let error = error {
-                                   print("Error updating user document: \(error)")
-                               } else {
-                                   print("User document updated with itinerary ID")
-                               }
-                           }
-                       }
-                    }) {
-                        Text("Save Itinerary")
-                            .font(.headline) // Adjust the font size as desired
-                            .foregroundColor(.white)
-                            .padding(EdgeInsets(top: 5, leading: 10, bottom: 5, trailing: 10)) // Adjust the padding for a smaller button
-                    }
-                    .background(Color.blue) // Change the color as desired
-                    .cornerRadius(10)
-                    .disabled(disableSave)
-                    
-                    Spacer();
-                    
-                    Button(action: {
-                        saveAsPDF()
+                        .background(Color.blue)
+                        .cornerRadius(10)
+                        .disabled(disableSave)
 
-                    }) {
-                        Image(systemName: "arrow.down.to.line.alt")
+                        Spacer()
+
+                        Button(action: {
+                            saveAsPDF()
+                        }) {
+                            Image(systemName: "arrow.down.to.line.alt")
+                                .font(.title)
+                        }
+                        .padding(EdgeInsets(top: 0, leading: 10, bottom: 0, trailing: 10))
+                    }
+
+                    Picker("Day", selection: $selectedDayIndex) {
+                        ForEach(0..<itinerary.plan.count, id: \.self) { dayIndex in
+                            Text("Day \(dayIndex + 1)").tag(dayIndex)
+                        }
+                    }
+                    .pickerStyle(SegmentedPickerStyle())
+                    .padding()
+
+                    ScrollView {
+                        Text("Total Time: \(formatTourDuration(selectedDayIndex < itinerary.tourDuration.count ? itinerary.tourDuration[selectedDayIndex] : 0.0))")
                             .font(.title)
-                    }
-                    .padding(EdgeInsets(top: 0, leading: 10, bottom: 0, trailing: 10))
-               }
-                
-                Picker("Day", selection: $selectedDayIndex) {
-                    ForEach(0..<itinerary.plan.count, id: \.self) { dayIndex in
-                        Text("Day \(dayIndex + 1)").tag(dayIndex)
-                    }
-                }
-                .pickerStyle(SegmentedPickerStyle())
-                .padding()
 
-                ScrollView {
-                    Text("Total Time: \(formatTourDuration(itinerary.tourDuration[selectedDayIndex]))")
-                        .font(.title)
-                        
-                    ForEach(itinerary.plan[selectedDayIndex].indices, id: \.self) { index in
+                        ForEach(itinerary.plan[selectedDayIndex].indices, id: \.self) { index in
                             HStack(alignment: .top, spacing: 10) {
                                 Text("\(index + 1).")
                                     .font(.title3)
                                 Text(itinerary.plan[selectedDayIndex][index].name)
                                     .font(.title3)
-                                
-                                Spacer() // for left align
+                                Spacer()
                             }
                             .padding(EdgeInsets(top: 5, leading: 0, bottom: 5, trailing: 0))
                         }
-                
                     }
-                
-                // Toggle for selecting map mode (car or public transport)
-                Picker("Map Mode", selection: $selectedMapMode) {
-                    Text("Car").tag(MapMode.car)
-                    Text("Walk").tag(MapMode.walk)
-                }
-                .pickerStyle(SegmentedPickerStyle())
-                .padding()
-                    
-                // Display Map
-                MapView(directions: $directions, selectedMapMode: selectedMapMode, attractions: itinerary.plan[selectedDayIndex], selectedDayIndex: selectedDayIndex)
-                    .frame(height: 300) // Adjust the map height as needed
-                
-                Spacer()
-                
-                // Button to open in external map
-                Button(action: {
-                    showMapsAlert = true
-                }) {
-                    HStack {
-                        Image("apple_maps_icon")
-                            .resizable()
-                            .scaledToFit()
-                            .frame(width: 30, height: 30) // Adjust the width and height as needed
-                        Image("google_maps_icon")
-                            .resizable()
-                            .scaledToFit()
-                            .frame(width: 30, height: 30) // Adjust the width and height as needed
 
-                        Text("Open in External Maps")
-                            .font(.title2)
-                            .foregroundColor(Color.accentColor)
+                    Picker("Map Mode", selection: $selectedMapMode) {
+                        Text("Car").tag(MapMode.car)
+                        Text("Walk").tag(MapMode.walk)
+                    }
+                    .pickerStyle(SegmentedPickerStyle())
+                    .padding()
+
+                    // Display Map
+                    MapView(directions: $directions, selectedMapMode: selectedMapMode, attractions: itinerary.plan[selectedDayIndex], selectedDayIndex: selectedDayIndex)
+                        .frame(height: 300)
+
+                    Spacer()
+
+                    Button(action: {
+                        showMapsAlert = true
+                    }) {
+                        HStack {
+                            Image("apple_maps_icon")
+                                .resizable()
+                                .scaledToFit()
+                                .frame(width: 30, height: 30)
+                            Image("google_maps_icon")
+                                .resizable()
+                                .scaledToFit()
+                                .frame(width: 30, height: 30)
+
+                            Text("Open in External Maps")
+                                .font(.title2)
+                                .foregroundColor(Color.accentColor)
+                        }
+                    }
+                    .padding()
+                    .cornerRadius(10)
+                    .alert(isPresented: $showMapsAlert) {
+                        Alert(
+                            title: Text("Choose a Map App"),
+                            message: Text("Open the location in Google Maps or Apple Maps?"),
+                            primaryButton: .default(Text("Google Maps")) {
+                                openGoogleMaps()
+                            },
+                            secondaryButton: .default(Text("Apple Maps")) {
+                                openAppleMaps()
+                            })
                     }
                 }
                 .padding()
-                .cornerRadius(10)
-                // Alert for choosing a map app
-                .alert(isPresented: $showMapsAlert) {
-                    Alert(
-                        title: Text("Choose a Map App"),
-                        message: Text("Open the location in Google Maps or Apple Maps?"),
-                        primaryButton: .default(Text("Google Maps")) {
-                            openGoogleMaps()
-                        },
-                        secondaryButton: .default(Text("Apple Maps")) {
-                            openAppleMaps()
-                        })
-                }
-            
-                            
             }
-            .padding()
         }
-    }
     
     func saveAsPDF() {
         guard let pdfData = self.convertToPDF() else {
