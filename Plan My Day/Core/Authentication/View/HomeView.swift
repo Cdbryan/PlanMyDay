@@ -4,7 +4,7 @@ import Firebase
 
 struct HomeView: View {
     @State private var itineraries: [FirestoreItinerary] = []
-    @State private var plan: [[Attraction]] = [[]]
+    @State var plan: [[Attraction]] = []
     @State private var noItineraries: Bool = false
 
     var body: some View {
@@ -29,16 +29,15 @@ struct HomeView: View {
         }
         .navigationBarTitle("", displayMode: .inline)
         .navigationBarItems(
-                        leading: HStack {
-                            NavigationLink(destination: LoginView().navigationBarBackButtonHidden(true)) {
-                                Text("Sign Out")
-                            }
-                            Text("My Trips")
-                                .font(.title)
-                                .foregroundColor(.primary)
-                        },
-                        trailing:
-            NavigationLink(destination: AttractionView().navigationBarBackButtonHidden(false)) {
+            leading: HStack {
+                NavigationLink(destination: LoginView().navigationBarBackButtonHidden(true)) {
+                    Text("Sign Out")
+                }
+                Text("My Trips")
+                    .font(.title)
+                    .foregroundColor(.primary)
+            },
+            trailing: NavigationLink(destination: AttractionView().navigationBarBackButtonHidden(false)) {
                 Image(systemName: "plus")
                     .font(.title)
                     .foregroundColor(.primary)
@@ -83,7 +82,14 @@ struct HomeView: View {
                                             )
 
                                             var selectedAttractions: [Attraction] = []
+
+                                            // Create a Dispatch Group
+                                            let dispatchGroup = DispatchGroup()
+
                                             for selectedAttractionRef in itinerary.selectedAttrs {
+                                                // Enter the Dispatch Group
+                                                dispatchGroup.enter()
+
                                                 selectedAttractionRef.getDocument { (attractionDocument, attractionError) in
                                                     if let attractionError = attractionError {
                                                         print("Error fetching attraction document: \(attractionError)")
@@ -104,61 +110,60 @@ struct HomeView: View {
                                                         }
                                                     }
 
-                                                    if selectedAttractions.count == itinerary.selectedAttrs.count {
-                                                        fetchedItineraries.append(itinerary)
+                                                    // Leave the Dispatch Group
+                                                    dispatchGroup.leave()
+                                                }
+                                            }
 
-                                                        if fetchedItineraries.count == querySnapshot?.documents.count {
-                                                            self.itineraries = fetchedItineraries
-                                                            self.noItineraries = false
+                                            // Notify when all attraction documents are fetched
+                                            dispatchGroup.notify(queue: .main) {
+                                                let planPerDay: Int = selectedAttractions.count / itinerary.numberOfDays
+
+                                                itinerary.tourDuration = []
+                                                self.plan = Array(repeating: [], count: itinerary.numberOfDays)
+
+                                                let dateFormatter = DateFormatter()
+                                                dateFormatter.dateFormat = "yyyy-MM-dd"
+                                                itinerary.itineraryName = dateFormatter.string(from: Date())
+
+                                                var currentDay = 0
+                                                var currentDayDuration: Double = 0
+
+                                                for attraction in selectedAttractions {
+                                                    let attractionDuration = attraction.isUSC ? 0.25 : 1.0
+                                                    if currentDayDuration + attractionDuration <= 6.0 && self.plan[currentDay].count < planPerDay {
+                                                        self.plan[currentDay].append(attraction)
+                                                        currentDayDuration += attractionDuration
+                                                    } else {
+                                                        currentDay += 1
+                                                        currentDayDuration = attractionDuration
+                                                        if currentDay < itinerary.numberOfDays {
+                                                            self.plan[currentDay].append(attraction)
                                                         }
                                                     }
                                                 }
-                                            }
 
-                                            let planPerDay: Int = selectedAttractions.count / itinerary.numberOfDays
-                                            
-                                            itinerary.tourDuration = []
-                                            self.plan = Array(repeating: [], count: itinerary.numberOfDays)
-
-                                            let dateFormatter = DateFormatter()
-                                            dateFormatter.dateFormat = "yyyy-MM-dd"
-                                            itinerary.itineraryName = dateFormatter.string(from: Date())
-
-                                            var currentDay = 0
-                                            var currentDayDuration: Double = 0
-
-                                            for attraction in selectedAttractions {
-                                                let attractionDuration = attraction.isUSC ? 0.25 : 1.0
-                                                if currentDayDuration + attractionDuration <= 6.0 && self.plan[currentDay].count < planPerDay {
-                                                    self.plan[currentDay].append(attraction)
-                                                    currentDayDuration += attractionDuration
-                                                } else {
-                                                    currentDay += 1
-                                                    currentDayDuration = attractionDuration
-                                                    if currentDay < itinerary.numberOfDays {
-                                                        self.plan[currentDay].append(attraction)
+                                                itinerary.tourDuration = self.plan.map { day in
+                                                    return day.reduce(0.0) { total, attraction in
+                                                        return total + (attraction.isUSC ? 0.25 : 1.0)
                                                     }
                                                 }
 
-                                            }
-
-                                            itinerary.tourDuration = self.plan.map { day in
-                                                return day.reduce(0.0) { total, attraction in
-                                                    return total + (attraction.isUSC ? 0.25 : 1.0)
+                                                print("Plan Array:")
+                                                for (dayIndex, dayAttractions) in self.plan.enumerated() {
+                                                    print("Day \(dayIndex + 1):")
+                                                    for attraction in dayAttractions {
+                                                        print("- \(attraction.name)")
+                                                    }
                                                 }
-                                            }
 
-                                            print("Plan Array:")
-                                            for (dayIndex, dayAttractions) in self.plan.enumerated() {
-                                                print("Day \(dayIndex + 1):")
-                                                for attraction in dayAttractions {
-                                                    print("- \(attraction.name)")
+                                                print("Tour Duration Array:")
+                                                for (dayIndex, duration) in itinerary.tourDuration.enumerated() {
+                                                    print("Day \(dayIndex + 1): \(duration) hours")
                                                 }
-                                            }
 
-                                            print("Tour Duration Array:")
-                                            for (dayIndex, duration) in itinerary.tourDuration.enumerated() {
-                                                print("Day \(dayIndex + 1): \(duration) hours")
+                                                fetchedItineraries.append(itinerary)
+                                                self.itineraries = fetchedItineraries // Update the itineraries array
                                             }
                                         }
                                     } catch let error {
