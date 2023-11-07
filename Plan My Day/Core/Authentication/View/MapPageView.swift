@@ -25,10 +25,10 @@ struct MapPageView: View {
         let integerValue = Int(duration)
         if duration - Double(integerValue) == 0 {
             // Display as a whole number if it has no fractional part
-            return String(integerValue)
+            return String("\(integerValue) hour(s)")
         } else {
             // Display with two decimal places
-            return String(format: "%.2f hours", duration)
+            return String(format: "%.2f hour(s)", duration)
         }
     }
 
