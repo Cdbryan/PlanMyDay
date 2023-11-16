@@ -11,6 +11,10 @@
 		37F7D1CB2AF3340E00D8A952 /* Itinerary.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37F7D1CA2AF3340E00D8A952 /* Itinerary.swift */; };
 		37F7D1CD2AF3343400D8A952 /* Attraction.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37F7D1CC2AF3343400D8A952 /* Attraction.swift */; };
 		37F7D1D22AF8626D00D8A952 /* FirebaseStructs.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37F7D1D12AF8626D00D8A952 /* FirebaseStructs.swift */; };
+		931E44222B05BBC6008D90C5 /* Plan_My_DayTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 931E44212B05BBC6008D90C5 /* Plan_My_DayTests.swift */; };
+		931E442A2B05BE68008D90C5 /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = 931E44292B05BE68008D90C5 /* FirebaseAuth */; };
+		931E442C2B05BEAF008D90C5 /* FirebaseFirestore in Frameworks */ = {isa = PBXBuildFile; productRef = 931E442B2B05BEAF008D90C5 /* FirebaseFirestore */; };
+		931E442E2B05BEBB008D90C5 /* FirebaseFirestoreSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 931E442D2B05BEBB008D90C5 /* FirebaseFirestoreSwift */; };
 		933B08C92AE89091009BD0D2 /* Plan_My_DayApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 933B08C82AE89091009BD0D2 /* Plan_My_DayApp.swift */; };
 		933B08CB2AE89091009BD0D2 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 933B08CA2AE89091009BD0D2 /* ContentView.swift */; };
 		933B08CD2AE89092009BD0D2 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 933B08CC2AE89092009BD0D2 /* Assets.xcassets */; };
@@ -32,12 +36,24 @@
 		E241A90C2AE9E11000203F24 /* AuthViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E241A90B2AE9E11000203F24 /* AuthViewModel.swift */; };
 /* End PBXBuildFile section */
 
+/* Begin PBXContainerItemProxy section */
+		931E44232B05BBC6008D90C5 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 933B08BD2AE89091009BD0D2 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 933B08C42AE89091009BD0D2;
+			remoteInfo = "Plan My Day";
+		};
+/* End PBXContainerItemProxy section */
+
 /* Begin PBXFileReference section */
 		37F7D1C82AF3068600D8A952 /* MapPageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapPageView.swift; sourceTree = "<group>"; };
 		37F7D1CA2AF3340E00D8A952 /* Itinerary.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Itinerary.swift; sourceTree = "<group>"; };
 		37F7D1CC2AF3343400D8A952 /* Attraction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Attraction.swift; sourceTree = "<group>"; };
 		37F7D1CE2AF6E1ED00D8A952 /* Plan-My-Day-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = "Plan-My-Day-Info.plist"; sourceTree = SOURCE_ROOT; };
 		37F7D1D12AF8626D00D8A952 /* FirebaseStructs.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseStructs.swift; sourceTree = "<group>"; };
+		931E441F2B05BBC5008D90C5 /* Plan My DayTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Plan My DayTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
+		931E44212B05BBC6008D90C5 /* Plan_My_DayTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Plan_My_DayTests.swift; sourceTree = "<group>"; };
 		933B08C52AE89091009BD0D2 /* Plan My Day.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Plan My Day.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		933B08C82AE89091009BD0D2 /* Plan_My_DayApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Plan_My_DayApp.swift; sourceTree = "<group>"; };
 		933B08CA2AE89091009BD0D2 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -57,6 +73,16 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		931E441C2B05BBC5008D90C5 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				931E442A2B05BE68008D90C5 /* FirebaseAuth in Frameworks */,
+				931E442C2B05BEAF008D90C5 /* FirebaseFirestore in Frameworks */,
+				931E442E2B05BEBB008D90C5 /* FirebaseFirestoreSwift in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		933B08C22AE89091009BD0D2 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -71,11 +97,28 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		931E44202B05BBC6008D90C5 /* Plan My DayTests */ = {
+			isa = PBXGroup;
+			children = (
+				931E44212B05BBC6008D90C5 /* Plan_My_DayTests.swift */,
+			);
+			path = "Plan My DayTests";
+			sourceTree = "<group>";
+		};
+		931E44282B05BE68008D90C5 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		933B08BC2AE89091009BD0D2 = {
 			isa = PBXGroup;
 			children = (
 				933B08C72AE89091009BD0D2 /* Plan My Day */,
+				931E44202B05BBC6008D90C5 /* Plan My DayTests */,
 				933B08C62AE89091009BD0D2 /* Products */,
+				931E44282B05BE68008D90C5 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -83,6 +126,7 @@
 			isa = PBXGroup;
 			children = (
 				933B08C52AE89091009BD0D2 /* Plan My Day.app */,
+				931E441F2B05BBC5008D90C5 /* Plan My DayTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -197,6 +241,29 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
+		931E441E2B05BBC5008D90C5 /* Plan My DayTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 931E44272B05BBC6008D90C5 /* Build configuration list for PBXNativeTarget "Plan My DayTests" */;
+			buildPhases = (
+				931E441B2B05BBC5008D90C5 /* Sources */,
+				931E441C2B05BBC5008D90C5 /* Frameworks */,
+				931E441D2B05BBC5008D90C5 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				931E44242B05BBC6008D90C5 /* PBXTargetDependency */,
+			);
+			name = "Plan My DayTests";
+			packageProductDependencies = (
+				931E44292B05BE68008D90C5 /* FirebaseAuth */,
+				931E442B2B05BEAF008D90C5 /* FirebaseFirestore */,
+				931E442D2B05BEBB008D90C5 /* FirebaseFirestoreSwift */,
+			);
+			productName = "Plan My DayTests";
+			productReference = 931E441F2B05BBC5008D90C5 /* Plan My DayTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
 		933B08C42AE89091009BD0D2 /* Plan My Day */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 933B08D32AE89092009BD0D2 /* Build configuration list for PBXNativeTarget "Plan My Day" */;
@@ -230,6 +297,10 @@
 				LastSwiftUpdateCheck = 1420;
 				LastUpgradeCheck = 1420;
 				TargetAttributes = {
+					931E441E2B05BBC5008D90C5 = {
+						CreatedOnToolsVersion = 14.2;
+						TestTargetID = 933B08C42AE89091009BD0D2;
+					};
 					933B08C42AE89091009BD0D2 = {
 						CreatedOnToolsVersion = 14.2;
 					};
@@ -252,11 +323,19 @@
 			projectRoot = "";
 			targets = (
 				933B08C42AE89091009BD0D2 /* Plan My Day */,
+				931E441E2B05BBC5008D90C5 /* Plan My DayTests */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
+		931E441D2B05BBC5008D90C5 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		933B08C32AE89091009BD0D2 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -270,6 +349,14 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		931E441B2B05BBC5008D90C5 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				931E44222B05BBC6008D90C5 /* Plan_My_DayTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		933B08C12AE89091009BD0D2 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -295,7 +382,58 @@
 		};
 /* End PBXSourcesBuildPhase section */
 
+/* Begin PBXTargetDependency section */
+		931E44242B05BBC6008D90C5 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 933B08C42AE89091009BD0D2 /* Plan My Day */;
+			targetProxy = 931E44232B05BBC6008D90C5 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
 /* Begin XCBuildConfiguration section */
+		931E44252B05BBC6008D90C5 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 375QJN4KU9;
+				GENERATE_INFOPLIST_FILE = YES;
+				"HEADER_SEARCH_PATHS[arch=*]" = (
+					HEADER_SEARCH_PATHS,
+					"=",
+					"\"${PODS_ROOT}/Firebase/CoreOnly/Sources\"",
+				);
+				IPHONEOS_DEPLOYMENT_TARGET = 16.2;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "edu.usc.Plan-My-DayTests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Plan My Day.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/Plan My Day";
+			};
+			name = Debug;
+		};
+		931E44262B05BBC6008D90C5 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 375QJN4KU9;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.2;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "edu.usc.Plan-My-DayTests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Plan My Day.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/Plan My Day";
+			};
+			name = Release;
+		};
 		933B08D12AE89092009BD0D2 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -475,6 +613,15 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		931E44272B05BBC6008D90C5 /* Build configuration list for PBXNativeTarget "Plan My DayTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				931E44252B05BBC6008D90C5 /* Debug */,
+				931E44262B05BBC6008D90C5 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		933B08C02AE89091009BD0D2 /* Build configuration list for PBXProject "Plan My Day" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
@@ -507,6 +654,21 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		931E44292B05BE68008D90C5 /* FirebaseAuth */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = E241A8FB2AE9CCED00203F24 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseAuth;
+		};
+		931E442B2B05BEAF008D90C5 /* FirebaseFirestore */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = E241A8FB2AE9CCED00203F24 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseFirestore;
+		};
+		931E442D2B05BEBB008D90C5 /* FirebaseFirestoreSwift */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = E241A8FB2AE9CCED00203F24 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseFirestoreSwift;
+		};
 		E241A8FC2AE9CCED00203F24 /* FirebaseFirestoreSwift */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = E241A8FB2AE9CCED00203F24 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
