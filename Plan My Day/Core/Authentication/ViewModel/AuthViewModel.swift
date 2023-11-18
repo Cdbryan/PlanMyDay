@@ -103,7 +103,7 @@ class AuthViewModel: ObservableObject {
         //        print("DEBUG: Current user is \(self.currentUser)")
     }
     
-    private func validateCredentials(email: String, password: String) async -> FirebaseAuth.User? {
+    internal func validateCredentials(email: String, password: String) async -> FirebaseAuth.User? {
            do {
                let result = try await Auth.auth().signIn(withEmail: email, password: password)
                return result.user
