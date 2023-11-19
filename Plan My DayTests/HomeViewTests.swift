@@ -75,6 +75,30 @@ class HomeViewTests: XCTestCase {
         // Wait for the expectation to be fulfilled or time out
         wait(for: [expectation], timeout: 10)
     }
+    
+    func testNoItinerariesText() {
+        // Create an instance of HomeView
+        var homeView = HomeView()
+
+        // Load itineraries with a user who has no itineraries
+        let testUserID = "fXKZOuSsW7haQzKmIX4IGcDZS4K2"
+        homeView.loadItineraries(testUserID: testUserID) { [weak self] itineraryIDs in
+            guard let self = self else {
+                XCTFail("Test instance deallocated")
+                return
+            }
+
+            // Set the state variable based on the visibility of "No saved itineraries" text
+            let isNoItinerariesTextVisible = self.homeView.noItineraries
+
+            // At this point, the UI should display the text for no itineraries
+            XCTAssertTrue(isNoItinerariesTextVisible, "UI elements for no itineraries should be visible")
+        }
+    }
+
+
+
+
 
     
     func testNavigationToAttractionView() {
