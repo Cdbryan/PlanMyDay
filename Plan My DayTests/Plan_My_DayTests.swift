@@ -2,7 +2,6 @@ import XCTest
 @testable import Plan_My_Day
 import Firebase
 import FirebaseFirestore
-//import FirebaseAuth
 
 final class Plan_My_DayTests: XCTestCase {
     
