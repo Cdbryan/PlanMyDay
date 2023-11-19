@@ -78,11 +78,129 @@ final class Plan_My_DayTests: XCTestCase {
             XCTFail("Unexpected error during credentials validation: \(error.localizedDescription)")
         }
     }
+    @MainActor
+    // Alysha Kanjiyani: Test for resetting password with valid email
+        func testResetPassword() async {
+            let validEmail = "kanjiyan@usc.edu"
+
+            do {
+                // Attempt to reset the password
+                try await authViewModel.resetPassword(forEmail: validEmail)
+                
+                // Assert that the password reset request was successful (no errors thrown)
+                XCTAssert(true, "Password reset request successful")
+
+            } catch {
+                // If an error occurs, fail the test with an error message
+                XCTFail("Unexpected error during password reset: \(error.localizedDescription)")
+            }
+        }
     
+    @MainActor
+    // Alysha Kanjiyani: Test for creating a new user
+        func testCreateUser() async {
+            let validEmail = "newuser@example100.com"
+            let validPassword = "newpassword"
+            let validFullname = "John Doe"
+            let validSecurityAnswer = "Security123"
+            let validItineraryIDs = ["itinerary1", "itinerary2"]
+
+            do {
+                // Attempt to create a new user
+                try await authViewModel.createUser(withEmail: validEmail, password: validPassword, fullname: validFullname, securityAnswer: validSecurityAnswer, itineraryIDs: validItineraryIDs)
+                
+                // Assert that the user creation was successful (no errors thrown)
+                XCTAssert(true, "User creation successful")
+
+            } catch {
+                // If an error occurs, fail the test with an error message
+                XCTFail("Unexpected error during user creation: \(error.localizedDescription)")
+            }
+        }
+
+    @MainActor
+    // Alysha Kanjiyani: Test the creating user with a pre-existing email
+        func testCreateUserWithDuplicateEmail() async {
+            let existingEmail = "kanjiyan@usc.edu"
+            let password = "existingpassword"
+            let fullname = "Jane Doe"
+            let securityAnswer = "Security456"
+            let itineraryIDs = ["itinerary3", "itinerary4"]
+
+            do {
+                // Attempt to create a new user with a pre-existing email
+                try await authViewModel.createUser(withEmail: existingEmail, password: password, fullname: fullname, securityAnswer: securityAnswer, itineraryIDs: itineraryIDs)
+                
+                // If no error occurs, fail the test with a message
+                XCTFail("User creation with duplicate email should fail, but no error was thrown")
+
+            } catch let error as NSError {
+                // Assert that the error is related to the email already being in use
+                XCTAssertEqual(error.code, AuthErrorCode.emailAlreadyInUse.rawValue, "Expected error code for email already in use")
+
+            }
+        }
     
+    @MainActor
+    //Alysha Kanjiyani: Tests if user sign out functionality works
+    func testSignOut() async {
+            // Create an expectation
+            let expectation = XCTestExpectation(description: "Sign out user")
+
+            // Assume the user is already signed in
+            authViewModel.userSession = Auth.auth().currentUser
+
+            // Call the signOut function asynchronously
+            await authViewModel.signOut()
+
+            // Check if userSession is nil after signOut
+            XCTAssertNil(authViewModel.userSession)
+
+            // Check if currentUser is nil after signOut
+            XCTAssertNil(authViewModel.currentUser)
+
+            // Fulfill the expectation
+            expectation.fulfill()
+
+            // Wait for the expectation with a timeout
+            wait(for: [expectation], timeout: 5.0)
+        }
     
+    @MainActor
+    //Alysha Kanjiyani: Testing to check if it calulates the duration of the tours of each day properly
+    func testTourDurationCalculation() {
+        var tourDuration: [Double] = []
+        let testAttractions: [Attraction] = [
+            Attraction(attractionId: 1, name: "USC Village", location: "USC", isUSC: true, lat: 34.0268515, long: -118.2878486, hours: ["9:00 AM - 10:00 PM"], desc: "The USC Village provides our frehmen and sophomore Trojans a built-in community from the moment they arrive, fostering the success of USC students during their time at the university. It features a range of shops, amenities and dining options, open to USC’s community and neighbors."),
+            Attraction(attractionId: 9, name: "El Matador State Beach Malibu", location: "Los Angeles", isUSC: false, lat: 34.03830929142738, long: -118.87470591899874, hours: ["8:00 AM - 8:00 PM"], desc: "El Matador Beach is one of three beaches within Robert H. Meyer Memorial State Beach. El Matador is the most popular of the three and located in Malibu."),
+            Attraction(attractionId: 10, name: "LA Urban Lights", location: "Los Angeles", isUSC: false, lat: 34.06313901712488, long: -118.35924803248918, hours: ["Open 24 Hours"], desc: "This forest of city street lights, called Urban Light was created by artist Chris Burden.")
+        ]
+
+        let numberOfDays = 2
+        let plan: [[Attraction]] = [
+            [testAttractions[0], testAttractions[1]], // Day 1
+            [testAttractions[2]]  // Day 2
+        ]
+
+        tourDuration = plan.map { day in
+            return day.reduce(0.0) { total, attraction in
+                return total + (attraction.isUSC ? 0.25 : 1.0)
+            }
+        }
+
+        let itinerary = Itinerary(itineraryName: "Test Itinerary", attractions: testAttractions, numberOfDays: numberOfDays, tourDuration: tourDuration, plan: plan)
+
+        print("Original plan: \(plan)")
+        print("Calculated tour duration: \(itinerary.tourDuration)")
+
+        XCTAssertEqual(itinerary.tourDuration, [1.25, 1.0])
+        // Adjust the expected values based on your specific plan and attraction durations
+    }
+
     
-    
+
+
+
     
     //    var authViewModel: AuthViewModel!
     //
