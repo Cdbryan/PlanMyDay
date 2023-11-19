@@ -11,8 +11,10 @@ final class Plan_My_DayTests: XCTestCase {
         super.setUp()
         authViewModel = AuthViewModel()
     }
+    //-- WHITE BOX TESTING (loginview) --//
+    
     @MainActor
-    // White-box testing
+    //Itzel Villanueva #1 - testing login with valid email + pw
     func testValidateCredentials() async {
         // Valid credentials
         let validEmail = "itzelvil@usc.edu"
@@ -34,7 +36,9 @@ final class Plan_My_DayTests: XCTestCase {
             XCTFail("Unexpected error during credential validation: \(error.localizedDescription)")
         }
     }
+    
     @MainActor
+    //Itzel Villanueva #2 - testing login with invalid pw
     func testValidateCredentialsWithInvalidPassword() async {
         // Provide valid email and invalid password for testing
         let email = "leoMessi@testing.com"
@@ -48,7 +52,9 @@ final class Plan_My_DayTests: XCTestCase {
             XCTFail("Unexpected error during credentials validation: \(error.localizedDescription)")
         }
     }
+    
     @MainActor
+    //Itzel Villanueva #3 - testing login without any pw
     func testValidateCredentialsWithEmptyPassword() async {
         // Provide valid email with an empty password for testing
         let email = "test@example.com"
@@ -64,6 +70,7 @@ final class Plan_My_DayTests: XCTestCase {
     }
     
     @MainActor
+    //Itzel Villanueva #4 - testing login without any email
     func testValidateCredentialsWithEmptyEmail() async {
         // Provide an empty email with a valid password for testing
         let email = ""
@@ -77,6 +84,27 @@ final class Plan_My_DayTests: XCTestCase {
             XCTFail("Unexpected error during credentials validation: \(error.localizedDescription)")
         }
     }
+    
+    //Itzel Villanueva #5 - testing handle errors with invalid emails
+    func testCreateUserWithError() async {
+        let expectation = XCTestExpectation(description: "Create user with error")
+        
+        do {
+            try await authViewModel.createUser(withEmail: "invalidEmail",
+                                               password: "pass123456",
+                                               fullname: "Ted Lasso",
+                                               securityAnswer: "Kansas City",
+                                               itineraryIDs: ["id1", "id2"])
+        } catch let error as NSError {
+            XCTAssertEqual(error.code, AuthErrorCode.invalidEmail.rawValue, "Unexpected error code: \(error.code)")
+            XCTAssertEqual(error.localizedDescription, "The email address is badly formatted.", "Unexpected error message: \(error.localizedDescription)")
+            expectation.fulfill()
+        } catch {
+            XCTFail("Unexpected error: \(error.localizedDescription)")
+        }
+    }
+
+    
     @MainActor
     // Alysha Kanjiyani: Test for resetting password with valid email
         func testResetPassword() async {
@@ -140,6 +168,7 @@ final class Plan_My_DayTests: XCTestCase {
             }
         }
     
+    
     @MainActor
     //Alysha Kanjiyani: Tests if user sign out functionality works
     func testSignOut() async {
@@ -195,6 +224,7 @@ final class Plan_My_DayTests: XCTestCase {
         XCTAssertEqual(itinerary.tourDuration, [1.25, 1.0])
         // Adjust the expected values based on your specific plan and attraction durations
     }
+
 
     
 
