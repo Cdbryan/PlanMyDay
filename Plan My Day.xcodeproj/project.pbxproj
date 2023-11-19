@@ -26,6 +26,7 @@
 		937616772AE9C5D0008C5147 /* InputView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 937616762AE9C5D0008C5147 /* InputView.swift */; };
 		937616792AE9CFD9008C5147 /* SignUpView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 937616782AE9CFD9008C5147 /* SignUpView.swift */; };
 		D80A22302AF359EC002904FD /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D80A222F2AF359EC002904FD /* HomeView.swift */; };
+		D8AF02F12B082BB5006B0DF4 /* HomeViewTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8AF02F02B082BB5006B0DF4 /* HomeViewTests.swift */; };
 		E23F094E2AF1D725006BE071 /* AttractionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E23F094D2AF1D724006BE071 /* AttractionView.swift */; };
 		E23F09522AF21BB8006BE071 /* ForgotPasswordView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E23F09512AF21BB8006BE071 /* ForgotPasswordView.swift */; };
 		E241A8F92AE9C9CB00203F24 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = E241A8F82AE9C9CB00203F24 /* GoogleService-Info.plist */; };
@@ -66,6 +67,7 @@
 		937616762AE9C5D0008C5147 /* InputView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InputView.swift; sourceTree = "<group>"; };
 		937616782AE9CFD9008C5147 /* SignUpView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpView.swift; sourceTree = "<group>"; };
 		D80A222F2AF359EC002904FD /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
+		D8AF02F02B082BB5006B0DF4 /* HomeViewTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewTests.swift; sourceTree = "<group>"; };
 		E23F094D2AF1D724006BE071 /* AttractionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AttractionView.swift; sourceTree = "<group>"; };
 		E23F09512AF21BB8006BE071 /* ForgotPasswordView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ForgotPasswordView.swift; sourceTree = "<group>"; };
 		E241A8F82AE9C9CB00203F24 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
@@ -101,6 +103,7 @@
 			isa = PBXGroup;
 			children = (
 				931E44212B05BBC6008D90C5 /* Plan_My_DayTests.swift */,
+				D8AF02F02B082BB5006B0DF4 /* HomeViewTests.swift */,
 			);
 			path = "Plan My DayTests";
 			sourceTree = "<group>";
@@ -353,6 +356,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D8AF02F12B082BB5006B0DF4 /* HomeViewTests.swift in Sources */,
 				931E44222B05BBC6008D90C5 /* Plan_My_DayTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
