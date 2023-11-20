@@ -9,6 +9,15 @@ enum MapMode {
     case walk
 }
 
+struct ItineraryData {
+    var id: String
+    var itineraryName: String
+    var numberOfDays: Int
+    var tourDuration: [Double]
+    var plan: [[Attraction]]
+    var selectedAttrs: [Attraction]
+}
+
 struct MapPageView: View {
     @State private var showMapsAlert = false {
             didSet {
@@ -34,34 +43,61 @@ struct MapPageView: View {
             }
         }
         
-        @State private var selectedDayIndex = 0 {
+        @State private var selectedDayIndex: Int = 0 {
             didSet {
                 #if DEBUG
-                debugSelectedDayIndex = selectedDayIndex
+                if selectedDayIndex != debugSelectedDayIndex {
+                    debugSelectedDayIndex = selectedDayIndex
+                }
                 #endif
             }
         }
-        
-        @State private var selectedMapMode: MapMode = .car {
+    
+    @State private var selectedMapMode: MapMode = .car {
             didSet {
                 #if DEBUG
-                debugSelectedMapMode = selectedMapMode
+                if selectedMapMode != debugSelectedMapMode {
+                    debugSelectedMapMode = selectedMapMode
+                }
                 #endif
             }
         }
+
 
         // Debug properties
         #if DEBUG
         @State public var debugShowMapsAlert = false
         @State public var debugPdfData: Data?
         @State public var debugIsActivityViewPresented = false
-        @State public var debugSelectedDayIndex = 0
-        @State public var debugSelectedMapMode: MapMode = .car
+//        @State public var debugSelectedDayIndex = 0
+//        @State public var debugSelectedMapMode: MapMode = .car
+//        @State public var debugDirections: [MKDirections] = []
+        @State public var debugSelectedDayIndex = 0 {
+                didSet {
+                    selectedDayIndex = debugSelectedDayIndex
+                }
+            }
+            @State public var debugSelectedMapMode: MapMode = .car {
+                didSet {
+                    selectedMapMode = debugSelectedMapMode
+                }
+            }
+            @State public var debugDirections: [MKDirections] = []
         #endif
     
     var onGenerateURL: ((URL, Int) -> Void)?
+    var onSaveItinerary: ((ItineraryData) -> Void)?
 
-    @State private var directions: [MKDirections] = []
+
+    @State private var directions: [MKDirections] = []{
+        didSet {
+            #if DEBUG
+            debugDirections = directions
+            #endif
+        }
+        
+    }
+    
     @Environment(\.openURL) private var openURL
 
     func formatTourDuration(_ duration: Double) -> String {
@@ -84,53 +120,6 @@ struct MapPageView: View {
 
                     HStack {
                         Button(action: {
-                            func saveItineraryToFirestore() {
-                                let db = Firestore.firestore()
-                                
-                                // Create an array to store DocumentReferences for selectedAttractions
-                                var selectedAttractionRefs: [DocumentReference] = []
-                                
-                                // Iterate through the selectedAttractions array and get DocumentReferences
-                                for attraction in itinerary.selectedAttrs {
-                                    let attractionRef = db.collection("attractions").document("attraction\(attraction.attractionId-1)")
-                                    selectedAttractionRefs.append(attractionRef)
-                                }
-                                
-                                // Create an array to store references to plans
-                                var planAttractionRefs: [DocumentReference] = []
-                                
-                                for dayPlan in itinerary.plan {
-                                    // Create an array to store references to attractions for each day's plan
-                                    var dayPlanRefs: [DocumentReference] = []
-                                    
-                                    for attraction in dayPlan {
-                                        let attractionRef = db.collection("attractions").document("attraction\(attraction.attractionId)")
-                                        dayPlanRefs.append(attractionRef)
-                                    }
-                                    
-                                    // Append the references to attractions for this day's plan
-                                    planAttractionRefs.append(contentsOf: dayPlanRefs)
-                                }
-                                
-                                // Create a FirestoreItinerary struct with the necessary data
-                                let itineraryData: [String: Any] = [
-                                    "id": itinerary.id, //pls work
-                                    "itineraryName": itinerary.itineraryName, // Replace with your itinerary name
-                                    "numberOfDays": itinerary.numberOfDays, // Replace with the number of days
-                                    "tourDuration": itinerary.tourDuration, // Replace with your tour duration data
-                                    "plan": planAttractionRefs, // Use the plan attraction references
-                                    "selectedAttrs": selectedAttractionRefs // Use the selected attraction references
-                                ]
-                                
-                                // Add the itinerary data to Firestore
-                                db.collection("itineraries").document(itinerary.id).setData(itineraryData){error in
-                                    if let error = error {
-                                        print("Error adding itinerary: \(error)")
-                                    } else {
-                                        print("Itinerary added successfully")
-                                    }
-                                }
-                            }
                                 
                             // Call the function to save the data to Firestore
                             saveItineraryToFirestore()
@@ -319,6 +308,65 @@ struct MapPageView: View {
     }
 
 
+    func saveItineraryToFirestore() {
+        let db = Firestore.firestore()
+        
+        // Create an array to store DocumentReferences for selectedAttractions
+        var selectedAttractionRefs: [DocumentReference] = []
+        
+        // Iterate through the selectedAttractions array and get DocumentReferences
+        for attraction in itinerary.selectedAttrs {
+            let attractionRef = db.collection("attractions").document("attraction\(attraction.attractionId-1)")
+            selectedAttractionRefs.append(attractionRef)
+        }
+        
+        // Create an array to store references to plans
+        var planAttractionRefs: [DocumentReference] = []
+        
+        for dayPlan in itinerary.plan {
+            // Create an array to store references to attractions for each day's plan
+            var dayPlanRefs: [DocumentReference] = []
+            
+            for attraction in dayPlan {
+                let attractionRef = db.collection("attractions").document("attraction\(attraction.attractionId)")
+                dayPlanRefs.append(attractionRef)
+            }
+            
+            // Append the references to attractions for this day's plan
+            planAttractionRefs.append(contentsOf: dayPlanRefs)
+        }
+        
+        // Create a FirestoreItinerary struct with the necessary data
+        let itineraryData: [String: Any] = [
+            "id": itinerary.id, //pls work
+            "itineraryName": itinerary.itineraryName, // Replace with your itinerary name
+            "numberOfDays": itinerary.numberOfDays, // Replace with the number of days
+            "tourDuration": itinerary.tourDuration, // Replace with your tour duration data
+            "plan": planAttractionRefs, // Use the plan attraction references
+            "selectedAttrs": selectedAttractionRefs // Use the selected attraction references
+        ]
+        
+        let debugItinerary = ItineraryData(
+                id: itinerary.id,
+                itineraryName: itinerary.itineraryName,
+                numberOfDays: itinerary.numberOfDays,
+                tourDuration: itinerary.tourDuration,
+                plan: itinerary.plan,
+                selectedAttrs: itinerary.selectedAttrs
+            )
+        
+        onSaveItinerary?(debugItinerary)
+
+        // Add the itinerary data to Firestore
+        db.collection("itineraries").document(itinerary.id).setData(itineraryData){error in
+            if let error = error {
+                print("Error adding itinerary: \(error)")
+            } else {
+                print("Itinerary added successfully")
+            }
+        }
+    }
+    
     func openAppleMaps() {
         if itinerary.plan[selectedDayIndex].count == 1 {
             
@@ -367,7 +415,7 @@ struct AttractionRowView: View {
     }
 }
 
-struct MapView: UIViewRepresentable { // Transit doesnt work!
+struct MapView: UIViewRepresentable {
     typealias UIViewType = MKMapView
 
     @Binding var directions: [MKDirections]
@@ -413,21 +461,6 @@ struct MapView: UIViewRepresentable { // Transit doesnt work!
                 placemarks.append(placemark)
             }
             
-//            // Calculate directions for all attractions when using car mode
-//            if selectedMapMode == .car {
-//                for attraction in dayAttractions {
-//                    let placemark = MKPlacemark(coordinate: CLLocationCoordinate2D(latitude: attraction.lat, longitude: attraction.long))
-//                    placemarks.append(placemark)
-//                }
-//            } else if selectedMapMode == .publicTransport {
-//                // Limit the attractions to the first two when using public transport mode
-//                let attractionsToDisplay = Array(dayAttractions.prefix(2))
-//                for attraction in attractionsToDisplay {
-//                    let placemark = MKPlacemark(coordinate: CLLocationCoordinate2D(latitude: attraction.lat, longitude: attraction.long))
-//                    placemarks.append(placemark)
-//                }
-//            }
-
             // Calculate directions for the placemarks
             for i in 0..<placemarks.count - 1 {
                 let sourcePlacemark = placemarks[i]
@@ -487,9 +520,6 @@ struct MapView: UIViewRepresentable { // Transit doesnt work!
         
         func mapView(_ mapView: MKMapView, rendererFor overlay: MKOverlay) -> MKOverlayRenderer {
             let renderer = MKPolylineRenderer(overlay: overlay)
-//            renderer.strokeColor = .black
-//            renderer.lineWidth = 3
-//            renderer.lineDashPattern = [1, 5]
             if(selectedMapMode == .walk){
                 let renderer = MKPolylineRenderer(overlay: overlay)
                 renderer.strokeColor = .black

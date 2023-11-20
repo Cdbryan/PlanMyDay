@@ -1,6 +1,9 @@
 import XCTest
+import SwiftUI
 import MapKit
 @testable import Plan_My_Day // Replace with your actual app module name
+import FirebaseFirestore
+import PDFKit
 
 let attractionList = [
     Attraction(attractionId: 1, name: "USC Village", location: "USC", isUSC: true, lat: 34.0268515, long: -118.2878486, hours: ["9:00 AM - 10:00 PM"], desc: "The USC Village provides our freshmen and sophomore Trojans a built-in community from the moment they arrive, fostering the success of USC students during their time at the university. It features a range of shops, amenities and dining options, open to USC’s community and neighbors."),
@@ -28,7 +31,53 @@ class MapPageViewTests: XCTestCase {
         mockItinerary = Itinerary(itineraryName: "Mock Itinerary", attractions: [], numberOfDays: 2, tourDuration: tourDuration, plan: plan)
     }
     
-    // TEST 1: APPLE MAPS
+    // TEST 1: State Management
+    // Written by Josheta Srinivasan
+    func testStateManagement() {
+        let mapView = MapPageView(itinerary: mockItinerary, disableSave: false)
+        // itinerary
+        XCTAssertEqual(mockItinerary, mapView.itinerary)
+        XCTAssertEqual(mockItinerary?.numberOfDays, mapView.itinerary.numberOfDays)
+        for (index1, attractions) in mockItinerary.plan.enumerated() {
+            for(index2, attraction) in attractions.enumerated(){
+                XCTAssertEqual(attraction.name, mapView.itinerary.plan[index1][index2].name)
+            }
+        }
+        XCTAssertEqual(mockItinerary.tourDuration, mapView.itinerary.tourDuration)
+
+        
+//        // Directions update
+//        var updated_directions: [[MKDirections]] = [[]]
+//        mapView.debugSelectedDayIndex = 1
+//        mapView.debugSelectedMapMode = .walk
+//        updated_directions.append(mapView.debugDirections)
+//
+//        mapView.debugSelectedDayIndex = 1
+//        mapView.debugSelectedMapMode = .car
+//        updated_directions.append(mapView.debugDirections)
+//
+//        mapView.debugSelectedDayIndex = 0
+//        mapView.debugSelectedMapMode = .walk
+//        updated_directions.append(mapView.debugDirections)
+//
+//        mapView.debugSelectedDayIndex = 0
+//        mapView.debugSelectedMapMode = .car
+//        updated_directions.append(mapView.debugDirections)
+//
+////         Check directions are accurately updated
+//        for (index1, direction1) in updated_directions.enumerated() {
+//            for (index2, direction2) in updated_directions.enumerated() {
+//                // Skip comparing the direction with itself
+//                guard index1 != index2 else { continue }
+//
+//                // Assert that the two directions are not equal
+//                XCTAssertNotEqual(direction1, direction2, "Directions at index \(index1) and \(index2) are the same.")
+//            }
+//        }
+    }
+    
+    // TEST 2: Opening Apple Maps
+    // written by Josheta Srinivasan
     func testOpenAppleMaps() {
         // Create a mock itinerary for testing
         let mapView = MapPageView(itinerary: mockItinerary, disableSave: false)
@@ -43,7 +92,8 @@ class MapPageViewTests: XCTestCase {
         }
     }
     
-    // TEST 2: GOOGLE MAPS
+    // TEST 3: Opening Google Maps
+    // written by Josheta Srinivasan
     func testOpenGoogleMaps() {
         // Create a variable to capture the generated URL
         var capturedURLs: [(URL, Int)] = []
@@ -69,6 +119,69 @@ class MapPageViewTests: XCTestCase {
             let expectedURLString = expectedURLStrings[index]
             
             XCTAssertEqual(capturedURL.0.absoluteString, expectedURLString, "Generated URL for day \(capturedURL.1) should match the expected URL")
+        }
+    }
+    
+    // TEST 4: Saving Itinerary
+    // written by Josheta Srinivasan
+    func testSaveItineraryToFirestore() {
+        var it: ItineraryData?
+
+        let expected_itinerary = ItineraryData(
+            id: mockItinerary.id,
+            itineraryName: mockItinerary.itineraryName,
+            numberOfDays: mockItinerary.numberOfDays,
+            tourDuration: mockItinerary.tourDuration,
+            plan: mockItinerary.plan,
+            selectedAttrs: mockItinerary.selectedAttrs
+        )
+
+        // Create a MapPageView
+        let mapView = MapPageView(onSaveItinerary: { itineraryData in
+            // Perform your unit test assertions or validations here
+            it = itineraryData
+        }, itinerary: mockItinerary, disableSave: false)
+
+        // Call the saveItineraryToFirestore function
+        mapView.saveItineraryToFirestore()
+
+        // Assert that the 'it' variable is not nil
+        XCTAssertNotNil(it, "Itinerary data should not be nil")
+
+        // Check Plan is saved correctly
+        XCTAssertEqual(it?.numberOfDays, expected_itinerary.numberOfDays)
+        for (index1, attractions) in expected_itinerary.plan.enumerated() {
+            for(index2, attraction) in attractions.enumerated(){
+                XCTAssertEqual(attraction.name, it?.plan[index1][index2].name)
+            }
+        }
+    }
+    
+    
+    // TEST 5: PDF Conversion
+    // Written by Josheta Srinivasan
+    func testConvertToPDF()  {
+        // Arrange
+        let mapView = MapPageView(itinerary: mockItinerary, disableSave: false)
+        // Act
+        let pdfData = mapView.convertToPDF()
+        // Assert non-nill
+        XCTAssertNotNil(pdfData, "PDF data should not be nil")
+        
+        // Check the content of the generated PDF.
+        guard let pdfDocument = PDFDocument(data: pdfData!) else {
+            XCTFail("Failed to create PDF document from data")
+            return
+        }
+        
+        // Iterate through pages and check content
+        for i in 0..<pdfDocument.pageCount {
+            guard let page = pdfDocument.page(at: i) else {
+                XCTFail("Failed to get page \(i)")
+                continue
+            }
+            let pageText = page.string ?? ""
+            XCTAssertFalse(pageText.isEmpty, "Page \(i) should not be empty")
         }
     }
 }
@@ -106,16 +219,5 @@ class MockMKMapItem: MKMapItemProtocol {
     func openMaps(with waypoints: [MKMapItemProtocol], launchOptions options: [String: Any]?) {
         // Capture the parameters for openMaps
         openMapsIsCalledWith(waypoints, options)
-    }
-}
-
-protocol URLOpenable {
-    func open(_ url: URL)
-}
-class MockURLOpener: URLOpenable {
-    var openedURL: URL?
-
-    func open(_ url: URL) {
-        openedURL = url
     }
 }
