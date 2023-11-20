@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		3790C0692B0ACBA0007D76BB /* MapViewTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3790C0682B0ACBA0007D76BB /* MapViewTests.swift */; };
 		37F7D1C92AF3068600D8A952 /* MapPageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37F7D1C82AF3068600D8A952 /* MapPageView.swift */; };
 		37F7D1CB2AF3340E00D8A952 /* Itinerary.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37F7D1CA2AF3340E00D8A952 /* Itinerary.swift */; };
 		37F7D1CD2AF3343400D8A952 /* Attraction.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37F7D1CC2AF3343400D8A952 /* Attraction.swift */; };
@@ -48,6 +49,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		3790C0682B0ACBA0007D76BB /* MapViewTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapViewTests.swift; sourceTree = "<group>"; };
 		37F7D1C82AF3068600D8A952 /* MapPageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapPageView.swift; sourceTree = "<group>"; };
 		37F7D1CA2AF3340E00D8A952 /* Itinerary.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Itinerary.swift; sourceTree = "<group>"; };
 		37F7D1CC2AF3343400D8A952 /* Attraction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Attraction.swift; sourceTree = "<group>"; };
@@ -104,6 +106,7 @@
 			children = (
 				931E44212B05BBC6008D90C5 /* Plan_My_DayTests.swift */,
 				D8AF02F02B082BB5006B0DF4 /* HomeViewTests.swift */,
+				3790C0682B0ACBA0007D76BB /* MapViewTests.swift */,
 			);
 			path = "Plan My DayTests";
 			sourceTree = "<group>";
@@ -356,6 +359,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3790C0692B0ACBA0007D76BB /* MapViewTests.swift in Sources */,
 				D8AF02F12B082BB5006B0DF4 /* HomeViewTests.swift in Sources */,
 				931E44222B05BBC6008D90C5 /* Plan_My_DayTests.swift in Sources */,
 			);

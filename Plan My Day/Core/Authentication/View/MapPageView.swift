@@ -497,19 +497,66 @@ extension View {
 }
 
 extension MapPageView {
+    
     func convertToPDF() -> Data? {
-            // Capture a screenshot of the SwiftUI view
-            let uiImage = asImage()
+        
+        let pdfView = PDFItineraryView(plan: itinerary.plan, tourDuration: itinerary.tourDuration)
+        
+        // Capture a screenshot of the SwiftUI view
+        let uiImage = pdfView.asImage()
 
-            // Create a PDF document
-            let pdfData = NSMutableData()
-            UIGraphicsBeginPDFContextToData(pdfData, CGRect(x: 0, y: 0, width: uiImage.size.width, height: uiImage.size.height), nil)
+        // Create a PDF document
+        let pdfData = NSMutableData()
+        UIGraphicsBeginPDFContextToData(pdfData, CGRect(x: 0, y: 0, width: uiImage.size.width, height: uiImage.size.height), nil)
 
-            UIGraphicsBeginPDFPage()
-            uiImage.draw(in: CGRect(x: 0, y: 0, width: uiImage.size.width, height: uiImage.size.height))
+        UIGraphicsBeginPDFPage()
+        uiImage.draw(in: CGRect(x: 0, y: 0, width: uiImage.size.width, height: uiImage.size.height))
 
-            UIGraphicsEndPDFContext()
+        UIGraphicsEndPDFContext()
 
-            return pdfData as Data
-        }
+        return pdfData as Data
+    }
 }
+
+struct PDFItineraryView: View {
+    var plan: [[Attraction]]
+    var tourDuration: [Double]
+    
+    var body: some View {
+        VStack(alignment: .leading) {
+            ForEach(plan.indices, id: \.self) { dayIndex in
+                DayView(dayIndex: dayIndex + 1, attractions: plan[dayIndex], hours: tourDuration[dayIndex])
+            }
+        }
+    }
+}
+
+struct DayView: View {
+    var dayIndex: Int
+    var attractions: [Attraction]
+    var hours: Double
+
+    var body: some View {
+        VStack(alignment: .leading) {
+            HStack {
+                Text("Day \(dayIndex)")
+                    .font(.title)
+                    .fontWeight(.bold)
+                Spacer()
+                Text("(\(String(format: "%.2f", hours)) Hours)")
+                    .font(.caption)
+                    .foregroundColor(.gray)
+            }
+
+            ForEach(attractions.indices) { attractionIndex in
+                HStack {
+                    Text("- \(attractions[attractionIndex].name)")
+                    Spacer()
+                }
+                .padding(.leading, 20)
+            }
+        }
+        .padding(EdgeInsets(top: 10, leading: 0, bottom: 10, trailing: 0))
+    }
+}
+
