@@ -104,9 +104,24 @@ class MapPageViewUITests: XCTestCase {
                           "MapView should be updated after picker interaction")
     }
     
-    
-    
+    // Written By Josheta Srinivasan
+    func testPickerUpdatesAttractionView(){
+        // Get a reference to the MapView before picker interaction
+        let scrollViewBeforeInteraction = app.scrollViews.firstMatch
 
+        // Interact with the pickers, for example, changing the selected day
+        app.segmentedControls["DayPicker"].buttons["Day 2"].tap()
+        
+        // Get a reference to the MapView after picker interaction
+        let scrollViewAfterInteraction = app.scrollViews.firstMatch
+
+        // Assert that the ScrollView content has been updated
+        XCTAssertNotEqual(scrollViewBeforeInteraction.coordinate(withNormalizedOffset: CGVector(dx: 0.5, dy: 0.5)),
+                          scrollViewAfterInteraction.coordinate(withNormalizedOffset: CGVector(dx: 0.5, dy: 0.5)),
+                          "ScrollView content should be updated after day picker interaction")
+        
+    }
+    
 }
 
 
