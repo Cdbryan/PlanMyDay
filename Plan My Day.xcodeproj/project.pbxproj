@@ -31,6 +31,7 @@
 		937616772AE9C5D0008C5147 /* InputView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 937616762AE9C5D0008C5147 /* InputView.swift */; };
 		937616792AE9CFD9008C5147 /* SignUpView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 937616782AE9CFD9008C5147 /* SignUpView.swift */; };
 		D80A22302AF359EC002904FD /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D80A222F2AF359EC002904FD /* HomeView.swift */; };
+		D8A5507E2B0BDB7B00B2382C /* HomeViewBlackBox.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8A5507D2B0BDB7B00B2382C /* HomeViewBlackBox.swift */; };
 		D8AF02F12B082BB5006B0DF4 /* HomeViewTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8AF02F02B082BB5006B0DF4 /* HomeViewTests.swift */; };
 		E23F094E2AF1D725006BE071 /* AttractionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E23F094D2AF1D724006BE071 /* AttractionView.swift */; };
 		E23F09522AF21BB8006BE071 /* ForgotPasswordView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E23F09512AF21BB8006BE071 /* ForgotPasswordView.swift */; };
@@ -85,6 +86,7 @@
 		937616762AE9C5D0008C5147 /* InputView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InputView.swift; sourceTree = "<group>"; };
 		937616782AE9CFD9008C5147 /* SignUpView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpView.swift; sourceTree = "<group>"; };
 		D80A222F2AF359EC002904FD /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
+		D8A5507D2B0BDB7B00B2382C /* HomeViewBlackBox.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewBlackBox.swift; sourceTree = "<group>"; };
 		D8AF02F02B082BB5006B0DF4 /* HomeViewTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewTests.swift; sourceTree = "<group>"; };
 		E23F094D2AF1D724006BE071 /* AttractionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AttractionView.swift; sourceTree = "<group>"; };
 		E23F09512AF21BB8006BE071 /* ForgotPasswordView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ForgotPasswordView.swift; sourceTree = "<group>"; };
@@ -141,6 +143,7 @@
 				931E44212B05BBC6008D90C5 /* Plan_My_DayTests.swift */,
 				D8AF02F02B082BB5006B0DF4 /* HomeViewTests.swift */,
 				3790C0682B0ACBA0007D76BB /* MapViewTests.swift */,
+				D8A5507D2B0BDB7B00B2382C /* HomeViewBlackBox.swift */,
 			);
 			path = "Plan My DayTests";
 			sourceTree = "<group>";
@@ -439,6 +442,7 @@
 				3790C0692B0ACBA0007D76BB /* MapViewTests.swift in Sources */,
 				D8AF02F12B082BB5006B0DF4 /* HomeViewTests.swift in Sources */,
 				931E44222B05BBC6008D90C5 /* Plan_My_DayTests.swift in Sources */,
+				D8A5507E2B0BDB7B00B2382C /* HomeViewBlackBox.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

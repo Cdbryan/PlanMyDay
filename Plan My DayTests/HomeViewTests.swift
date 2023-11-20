@@ -2,6 +2,25 @@ import XCTest
 @testable import Plan_My_Day
 import SwiftUI
 
+
+protocol HomeViewModelProtocol {
+      func loadItineraries(testUserID: String?, completion: @escaping ([String]?) -> Void)
+  }
+
+  // Your mock implementation
+  class MockHomeViewModel: HomeViewModelProtocol {
+      var updateFunctionCalled: Bool = false
+
+      func loadItineraries(testUserID: String?, completion: @escaping ([String]?) -> Void) {
+          // Simulate the update function being called
+          updateFunctionCalled = true
+          // You can add any other necessary behavior or assertions here
+          completion(nil)
+      }
+  }
+
+
+
 class HomeViewTests: XCTestCase {
 
     var homeView: HomeView!
@@ -95,13 +114,8 @@ class HomeViewTests: XCTestCase {
             XCTAssertTrue(isNoItinerariesTextVisible, "UI elements for no itineraries should be visible")
         }
     }
-
-
-
-
-
     
-    func testNavigationToAttractionView() {
+    func testNavigationToAttractionView() { //change this test 
         // Create an instance of HomeView
         var homeView = HomeView()
 
@@ -128,7 +142,21 @@ class HomeViewTests: XCTestCase {
         homeView.simulateNavigation?()
     }
     
- 
+    
+  
+      // Your unit test for the ViewModel
+      class HomeViewModelTests: XCTestCase {
+          func testLoadItinerariesCallsUpdateFunction() {
+              // Arrange
+              let mockHomeViewModel = MockHomeViewModel()
 
-
+              // Act
+              mockHomeViewModel.loadItineraries(testUserID: "z8pxiwpXQCVrxRl5cTgGe1Z2YOM2") { _ in
+                  // This closure is called when loadItineraries completes
+                  // Add any assertions related to the test here
+                  // For example, you can check if the update function is called
+                  XCTAssertTrue(mockHomeViewModel.updateFunctionCalled)
+              }
+          }
+      }
 }
