@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Scheme
    LastUpgradeVersion = "1500"
-   version = "1.7">
+   version = "1.8">
    <BuildAction
       parallelizeBuildables = "YES"
       buildImplicitDependencies = "YES">
@@ -37,6 +37,17 @@
                BlueprintIdentifier = "931E441E2B05BBC5008D90C5"
                BuildableName = "Plan My DayTests.xctest"
                BlueprintName = "Plan My DayTests"
+               ReferencedContainer = "container:Plan My Day.xcodeproj">
+            </BuildableReference>
+         </TestableReference>
+         <TestableReference
+            skipped = "NO"
+            parallelizable = "YES">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "3790C06F2B0BDDF7007D76BB"
+               BuildableName = "Plan My DayUITests.xctest"
+               BlueprintName = "Plan My DayUITests"
                ReferencedContainer = "container:Plan My Day.xcodeproj">
             </BuildableReference>
          </TestableReference>

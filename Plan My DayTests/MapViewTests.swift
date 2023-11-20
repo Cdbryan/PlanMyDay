@@ -5,7 +5,7 @@ import MapKit
 import FirebaseFirestore
 import PDFKit
 
-let attractionList = [
+let testAttractionList = [
     Attraction(attractionId: 1, name: "USC Village", location: "USC", isUSC: true, lat: 34.0268515, long: -118.2878486, hours: ["9:00 AM - 10:00 PM"], desc: "The USC Village provides our freshmen and sophomore Trojans a built-in community from the moment they arrive, fostering the success of USC students during their time at the university. It features a range of shops, amenities and dining options, open to USC’s community and neighbors."),
     Attraction(attractionId: 2, name: "Equad", location: "USC", isUSC: true, lat: 34.021007, long: -118.2891249, hours: ["9:00 AM - 10:00 PM"], desc: "The Engineering Quad is the heart of the Viterbi School of Engineering. It has many new lounge areas and tables to eat and do work on a nice day in LA."),
     Attraction(attractionId: 3, name: "School of Cinematic Arts", location: "USC", isUSC: true,  lat: 34.0240968, long: -118.2886852, hours: ["9:00 AM - 10:00 PM"], desc: "The School of Cinematic Arts is divided into seven divisions that work together to train the leaders, scholars and media makers of tomorrow. It is by far, one of the prettiest buildings on campus with a Coffee Bean located inside."),
@@ -22,8 +22,8 @@ class MapPageViewTests: XCTestCase {
 
         // Create a mock itinerary with the specified plan and tour duration
         let plan: [[Attraction]] = [
-            [attractionList[0], attractionList[1], attractionList[2]],
-            [attractionList[3], attractionList[4]]
+            [testAttractionList[0], testAttractionList[1], testAttractionList[2]],
+            [testAttractionList[3], testAttractionList[4]]
         ]
 
         let tourDuration: [Double] = [0.75, 0.5]
@@ -85,7 +85,7 @@ class MapPageViewTests: XCTestCase {
         for dayIndex in 0..<mockItinerary.numberOfDays {
             // Set the selected day index
             mapView.debugSelectedDayIndex = dayIndex
-            XCTAssertEqual(mapView.itinerary.plan[mapView.debugSelectedDayIndex][0].name, attractionList[0].name)
+            XCTAssertEqual(mapView.itinerary.plan[mapView.debugSelectedDayIndex][0].name, testAttractionList[0].name)
 
             // Call the openAppleMaps function
             mapView.openAppleMaps() // calls asserts in MockMapItem
@@ -205,8 +205,8 @@ class MockMKMapItem: MKMapItemProtocol {
         }
         
         for (index, waypoint) in waypoints.enumerated() {
-            let expectedLat = attractionList[index].lat
-            let expectedLong = attractionList[index].long
+            let expectedLat = testAttractionList[index].lat
+            let expectedLong = testAttractionList[index].long
             XCTAssertEqual(waypoint.placemark.coordinate.latitude, expectedLat, "Latitude of waypoint \(index) should match")
             XCTAssertEqual(waypoint.placemark.coordinate.longitude, expectedLong, "Longitude of waypoint \(index) should match")
         }

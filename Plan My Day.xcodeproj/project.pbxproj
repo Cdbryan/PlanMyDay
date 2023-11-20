@@ -8,6 +8,9 @@
 
 /* Begin PBXBuildFile section */
 		3790C0692B0ACBA0007D76BB /* MapViewTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3790C0682B0ACBA0007D76BB /* MapViewTests.swift */; };
+		3790C0732B0BDDF7007D76BB /* Plan_My_DayUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3790C0722B0BDDF7007D76BB /* Plan_My_DayUITests.swift */; };
+		3790C0752B0BDDF7007D76BB /* Plan_My_DayUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3790C0742B0BDDF7007D76BB /* Plan_My_DayUITestsLaunchTests.swift */; };
+		3790C07C2B0BDE1E007D76BB /* MapViewUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3790C07B2B0BDE1E007D76BB /* MapViewUITests.swift */; };
 		37F7D1C92AF3068600D8A952 /* MapPageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37F7D1C82AF3068600D8A952 /* MapPageView.swift */; };
 		37F7D1CB2AF3340E00D8A952 /* Itinerary.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37F7D1CA2AF3340E00D8A952 /* Itinerary.swift */; };
 		37F7D1CD2AF3343400D8A952 /* Attraction.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37F7D1CC2AF3343400D8A952 /* Attraction.swift */; };
@@ -39,6 +42,13 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
+		3790C0762B0BDDF7007D76BB /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 933B08BD2AE89091009BD0D2 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 933B08C42AE89091009BD0D2;
+			remoteInfo = "Plan My Day";
+		};
 		931E44232B05BBC6008D90C5 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 933B08BD2AE89091009BD0D2 /* Project object */;
@@ -50,6 +60,10 @@
 
 /* Begin PBXFileReference section */
 		3790C0682B0ACBA0007D76BB /* MapViewTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapViewTests.swift; sourceTree = "<group>"; };
+		3790C0702B0BDDF7007D76BB /* Plan My DayUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Plan My DayUITests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
+		3790C0722B0BDDF7007D76BB /* Plan_My_DayUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Plan_My_DayUITests.swift; sourceTree = "<group>"; };
+		3790C0742B0BDDF7007D76BB /* Plan_My_DayUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Plan_My_DayUITestsLaunchTests.swift; sourceTree = "<group>"; };
+		3790C07B2B0BDE1E007D76BB /* MapViewUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapViewUITests.swift; sourceTree = "<group>"; };
 		37F7D1C82AF3068600D8A952 /* MapPageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapPageView.swift; sourceTree = "<group>"; };
 		37F7D1CA2AF3340E00D8A952 /* Itinerary.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Itinerary.swift; sourceTree = "<group>"; };
 		37F7D1CC2AF3343400D8A952 /* Attraction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Attraction.swift; sourceTree = "<group>"; };
@@ -77,6 +91,13 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		3790C06D2B0BDDF7007D76BB /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		931E441C2B05BBC5008D90C5 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -101,6 +122,16 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		3790C0712B0BDDF7007D76BB /* Plan My DayUITests */ = {
+			isa = PBXGroup;
+			children = (
+				3790C07B2B0BDE1E007D76BB /* MapViewUITests.swift */,
+				3790C0722B0BDDF7007D76BB /* Plan_My_DayUITests.swift */,
+				3790C0742B0BDDF7007D76BB /* Plan_My_DayUITestsLaunchTests.swift */,
+			);
+			path = "Plan My DayUITests";
+			sourceTree = "<group>";
+		};
 		931E44202B05BBC6008D90C5 /* Plan My DayTests */ = {
 			isa = PBXGroup;
 			children = (
@@ -123,6 +154,7 @@
 			children = (
 				933B08C72AE89091009BD0D2 /* Plan My Day */,
 				931E44202B05BBC6008D90C5 /* Plan My DayTests */,
+				3790C0712B0BDDF7007D76BB /* Plan My DayUITests */,
 				933B08C62AE89091009BD0D2 /* Products */,
 				931E44282B05BE68008D90C5 /* Frameworks */,
 			);
@@ -133,6 +165,7 @@
 			children = (
 				933B08C52AE89091009BD0D2 /* Plan My Day.app */,
 				931E441F2B05BBC5008D90C5 /* Plan My DayTests.xctest */,
+				3790C0702B0BDDF7007D76BB /* Plan My DayUITests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -247,6 +280,24 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
+		3790C06F2B0BDDF7007D76BB /* Plan My DayUITests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 3790C0782B0BDDF7007D76BB /* Build configuration list for PBXNativeTarget "Plan My DayUITests" */;
+			buildPhases = (
+				3790C06C2B0BDDF7007D76BB /* Sources */,
+				3790C06D2B0BDDF7007D76BB /* Frameworks */,
+				3790C06E2B0BDDF7007D76BB /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				3790C0772B0BDDF7007D76BB /* PBXTargetDependency */,
+			);
+			name = "Plan My DayUITests";
+			productName = "Plan My DayUITests";
+			productReference = 3790C0702B0BDDF7007D76BB /* Plan My DayUITests.xctest */;
+			productType = "com.apple.product-type.bundle.ui-testing";
+		};
 		931E441E2B05BBC5008D90C5 /* Plan My DayTests */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 931E44272B05BBC6008D90C5 /* Build configuration list for PBXNativeTarget "Plan My DayTests" */;
@@ -303,6 +354,10 @@
 				LastSwiftUpdateCheck = 1420;
 				LastUpgradeCheck = 1420;
 				TargetAttributes = {
+					3790C06F2B0BDDF7007D76BB = {
+						CreatedOnToolsVersion = 14.2;
+						TestTargetID = 933B08C42AE89091009BD0D2;
+					};
 					931E441E2B05BBC5008D90C5 = {
 						CreatedOnToolsVersion = 14.2;
 						TestTargetID = 933B08C42AE89091009BD0D2;
@@ -330,11 +385,19 @@
 			targets = (
 				933B08C42AE89091009BD0D2 /* Plan My Day */,
 				931E441E2B05BBC5008D90C5 /* Plan My DayTests */,
+				3790C06F2B0BDDF7007D76BB /* Plan My DayUITests */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
+		3790C06E2B0BDDF7007D76BB /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		931E441D2B05BBC5008D90C5 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -355,6 +418,16 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		3790C06C2B0BDDF7007D76BB /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				3790C07C2B0BDE1E007D76BB /* MapViewUITests.swift in Sources */,
+				3790C0752B0BDDF7007D76BB /* Plan_My_DayUITestsLaunchTests.swift in Sources */,
+				3790C0732B0BDDF7007D76BB /* Plan_My_DayUITests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		931E441B2B05BBC5008D90C5 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -391,6 +464,11 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
+		3790C0772B0BDDF7007D76BB /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 933B08C42AE89091009BD0D2 /* Plan My Day */;
+			targetProxy = 3790C0762B0BDDF7007D76BB /* PBXContainerItemProxy */;
+		};
 		931E44242B05BBC6008D90C5 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = 933B08C42AE89091009BD0D2 /* Plan My Day */;
@@ -399,6 +477,40 @@
 /* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
+		3790C0792B0BDDF7007D76BB /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.2;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "edu.usc.Plan-My-DayUITests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = "Plan My Day";
+			};
+			name = Debug;
+		};
+		3790C07A2B0BDDF7007D76BB /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.2;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "edu.usc.Plan-My-DayUITests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = "Plan My Day";
+			};
+			name = Release;
+		};
 		931E44252B05BBC6008D90C5 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -621,6 +733,15 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		3790C0782B0BDDF7007D76BB /* Build configuration list for PBXNativeTarget "Plan My DayUITests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				3790C0792B0BDDF7007D76BB /* Debug */,
+				3790C07A2B0BDDF7007D76BB /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		931E44272B05BBC6008D90C5 /* Build configuration list for PBXNativeTarget "Plan My DayTests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
