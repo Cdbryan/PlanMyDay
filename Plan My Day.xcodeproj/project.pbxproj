@@ -19,6 +19,7 @@
 		931E442A2B05BE68008D90C5 /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = 931E44292B05BE68008D90C5 /* FirebaseAuth */; };
 		931E442C2B05BEAF008D90C5 /* FirebaseFirestore in Frameworks */ = {isa = PBXBuildFile; productRef = 931E442B2B05BEAF008D90C5 /* FirebaseFirestore */; };
 		931E442E2B05BEBB008D90C5 /* FirebaseFirestoreSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 931E442D2B05BEBB008D90C5 /* FirebaseFirestoreSwift */; };
+		932945172B0BE0BB00BDE567 /* LoginUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 932945162B0BE0BB00BDE567 /* LoginUITests.swift */; };
 		933B08C92AE89091009BD0D2 /* Plan_My_DayApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 933B08C82AE89091009BD0D2 /* Plan_My_DayApp.swift */; };
 		933B08CB2AE89091009BD0D2 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 933B08CA2AE89091009BD0D2 /* ContentView.swift */; };
 		933B08CD2AE89092009BD0D2 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 933B08CC2AE89092009BD0D2 /* Assets.xcassets */; };
@@ -71,6 +72,7 @@
 		37F7D1D12AF8626D00D8A952 /* FirebaseStructs.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseStructs.swift; sourceTree = "<group>"; };
 		931E441F2B05BBC5008D90C5 /* Plan My DayTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Plan My DayTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		931E44212B05BBC6008D90C5 /* Plan_My_DayTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Plan_My_DayTests.swift; sourceTree = "<group>"; };
+		932945162B0BE0BB00BDE567 /* LoginUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginUITests.swift; sourceTree = "<group>"; };
 		933B08C52AE89091009BD0D2 /* Plan My Day.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Plan My Day.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		933B08C82AE89091009BD0D2 /* Plan_My_DayApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Plan_My_DayApp.swift; sourceTree = "<group>"; };
 		933B08CA2AE89091009BD0D2 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -128,6 +130,7 @@
 				3790C07B2B0BDE1E007D76BB /* MapViewUITests.swift */,
 				3790C0722B0BDDF7007D76BB /* Plan_My_DayUITests.swift */,
 				3790C0742B0BDDF7007D76BB /* Plan_My_DayUITestsLaunchTests.swift */,
+				932945162B0BE0BB00BDE567 /* LoginUITests.swift */,
 			);
 			path = "Plan My DayUITests";
 			sourceTree = "<group>";
@@ -425,6 +428,7 @@
 				3790C07C2B0BDE1E007D76BB /* MapViewUITests.swift in Sources */,
 				3790C0752B0BDDF7007D76BB /* Plan_My_DayUITestsLaunchTests.swift in Sources */,
 				3790C0732B0BDDF7007D76BB /* Plan_My_DayUITests.swift in Sources */,
+				932945172B0BE0BB00BDE567 /* LoginUITests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
