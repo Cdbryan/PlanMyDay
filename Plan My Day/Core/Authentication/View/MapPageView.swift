@@ -9,14 +9,57 @@ enum MapMode {
     case walk
 }
 
-
 struct MapPageView: View {
-    @State private var showMapsAlert = false
-    @State private var pdfData: Data?
-    @State private var isActivityViewPresented = false
-    @State private var selectedDayIndex = 0
-    @State private var selectedMapMode: MapMode = .car
+    @State private var showMapsAlert = false {
+            didSet {
+                #if DEBUG
+                debugShowMapsAlert = showMapsAlert
+                #endif
+            }
+        }
+        
+        @State private var pdfData: Data? {
+            didSet {
+                #if DEBUG
+                debugPdfData = pdfData
+                #endif
+            }
+        }
+        
+        @State private var isActivityViewPresented = false {
+            didSet {
+                #if DEBUG
+                debugIsActivityViewPresented = isActivityViewPresented
+                #endif
+            }
+        }
+        
+        @State private var selectedDayIndex = 0 {
+            didSet {
+                #if DEBUG
+                debugSelectedDayIndex = selectedDayIndex
+                #endif
+            }
+        }
+        
+        @State private var selectedMapMode: MapMode = .car {
+            didSet {
+                #if DEBUG
+                debugSelectedMapMode = selectedMapMode
+                #endif
+            }
+        }
 
+        // Debug properties
+        #if DEBUG
+        @State public var debugShowMapsAlert = false
+        @State public var debugPdfData: Data?
+        @State public var debugIsActivityViewPresented = false
+        @State public var debugSelectedDayIndex = 0
+        @State public var debugSelectedMapMode: MapMode = .car
+        #endif
+    
+    var onGenerateURL: ((URL, Int) -> Void)?
 
     @State private var directions: [MKDirections] = []
     @Environment(\.openURL) private var openURL
@@ -31,7 +74,6 @@ struct MapPageView: View {
             return String(format: "%.2f hours", duration)
         }
     }
-
     
     var itinerary: Itinerary
     var disableSave: Bool
@@ -194,7 +236,7 @@ struct MapPageView: View {
                             title: Text("Choose a Map App"),
                             message: Text("Open the location in Google Maps or Apple Maps?"),
                             primaryButton: .default(Text("Google Maps")) {
-                                openGoogleMaps()
+                                openGoogleMaps(forDay: selectedDayIndex)
                             },
                             secondaryButton: .default(Text("Apple Maps")) {
                                 openAppleMaps()
@@ -234,7 +276,7 @@ struct MapPageView: View {
         }
     }
     
-    func openGoogleMaps() {
+    func openGoogleMaps(forDay dayIndex: Int) {
         if itinerary.plan[selectedDayIndex].isEmpty {
             // Handle the case where there are no attractions in the plan
             // You can show an alert or display a message in your view.
@@ -248,6 +290,7 @@ struct MapPageView: View {
             let urlString = "https://www.google.com/maps?q=\(location)"
             
             if let url = URL(string: urlString) {
+                onGenerateURL?(url, dayIndex)
                 openURL(url)
             }
         } else {
@@ -267,8 +310,9 @@ struct MapPageView: View {
             let destinationParam = "destination=\(lastLocation)"
 
             let urlString = "https://www.google.com/maps/dir/?api=1&\(originParam)&\(destinationParam)&\(waypointsParam)"
-
+            
             if let url = URL(string: urlString) {
+                onGenerateURL?(url, dayIndex)
                 openURL(url)
             }
         }
@@ -461,28 +505,6 @@ struct MapView: UIViewRepresentable { // Transit doesnt work!
     }
 }
 
-
-//struct ItineraryView_Previews: PreviewProvider {
-//    static var previews: some View {
-//            var plan: [[Attraction]] = [
-//                [Attraction(attractionId: 1, name: "USC Village", location: "USC", isUSC: true, lat: 34.0268515, long: -118.2878486, hours: ["9:00 AM - 5:00 PM"], desc: "village"),
-//                 Attraction(attractionId: 2, name: "Equad", location: "USC", isUSC: true, lat: 34.021007, long: -118.2891249, hours: ["Open 24 Hours"], desc: "village"),
-//                 Attraction(attractionId: 3, name: "School of Cinematic Arts", location: "USC", isUSC: true, lat: 34.0240968, long: -118.2886852, hours: ["Open 24 Hours"], desc: "village"),
-//                 Attraction(attractionId: 4, name: "LA Memorial Colosseum", location: "USC", isUSC: true, lat: 34.0136691, long: -118.2904104, hours: ["Open 24 Hours"], desc: "village")
-//                ],
-//
-//                [Attraction(attractionId: 3, name: "School of Cinematic Arts", location: "USC", isUSC: true, lat: 34.0240968, long: -118.2886852, hours: ["Open 24 Hours"], desc: "village"),
-//                 Attraction(attractionId: 4, name: "LA Memorial Colosseum", location: "USC", isUSC: true, lat: 34.0136691, long: -118.2904104, hours: ["Open 24 Hours"], desc: "village")],
-//
-//                [Attraction(attractionId: 5, name: "Marshall School of Business", location: "USC", isUSC: true, lat: 34.0188441, long: -118.2883342, hours: ["Open 24 Hours"], desc: "village"),
-//                ]
-//            ]
-//        let numberOfDays = 3
-//        @State var itinerary = Itinerary(plan: plan)
-//
-//        return MapPageView(itinerary: itinerary)
-//    }
-//}
 
 extension View {
     func asImage() -> UIImage {

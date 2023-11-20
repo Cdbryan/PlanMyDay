@@ -3,4 +3,84 @@
    uuid = "ABE9D6BE-6EA0-48D3-B858-2B15EC284EEA"
    type = "1"
    version = "2.0">
+   <Breakpoints>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "60D121FD-9F2E-4171-9F72-F8FED7D36BA7"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Plan My DayTests/Plan_My_DayTests.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "137"
+            endingLineNumber = "137"
+            landmarkName = "testCreateUser()"
+            landmarkType = "7">
+            <Locations>
+               <Location
+                  uuid = "60D121FD-9F2E-4171-9F72-F8FED7D36BA7 - e85ee6e0a46f189e"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "(1) suspend resume partial function for Plan_My_DayTests.Plan_My_DayTests.testCreateUser() async -&gt; ()"
+                  moduleName = "Plan My DayTests"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/JoshetaaMacbookPro/Desktop/PlanMyDay/Plan%20My%20DayTests/Plan_My_DayTests.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "137"
+                  endingLineNumber = "137"
+                  offsetFromSymbolStart = "562">
+               </Location>
+               <Location
+                  uuid = "60D121FD-9F2E-4171-9F72-F8FED7D36BA7 - 15368345893869c2"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "(2) await resume partial function for Plan_My_DayTests.Plan_My_DayTests.testCreateUser() async -&gt; ()"
+                  moduleName = "Plan My DayTests"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/JoshetaaMacbookPro/Desktop/PlanMyDay/Plan%20My%20DayTests/Plan_My_DayTests.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "137"
+                  endingLineNumber = "137"
+                  offsetFromSymbolStart = "52">
+               </Location>
+               <Location
+                  uuid = "60D121FD-9F2E-4171-9F72-F8FED7D36BA7 - 26e6e1e64845dc10"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "(3) suspend resume partial function for Plan_My_DayTests.Plan_My_DayTests.testCreateUser() async -&gt; ()"
+                  moduleName = "Plan My DayTests"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/JoshetaaMacbookPro/Desktop/PlanMyDay/Plan%20My%20DayTests/Plan_My_DayTests.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "137"
+                  endingLineNumber = "137"
+                  offsetFromSymbolStart = "90">
+               </Location>
+               <Location
+                  uuid = "60D121FD-9F2E-4171-9F72-F8FED7D36BA7 - 1aafe695a28fe53"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "(4) suspend resume partial function for Plan_My_DayTests.Plan_My_DayTests.testCreateUser() async -&gt; ()"
+                  moduleName = "Plan My DayTests"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/JoshetaaMacbookPro/Desktop/PlanMyDay/Plan%20My%20DayTests/Plan_My_DayTests.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "137"
+                  endingLineNumber = "137"
+                  offsetFromSymbolStart = "165">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+   </Breakpoints>
 </Bucket>
