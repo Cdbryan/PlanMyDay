@@ -36,12 +36,14 @@ struct LoginView: View {
                                   title: "Email",
                                   placeholder: "tommyT11@usc.edu")
                         .autocapitalization(.none)
+                        .accessibility(identifier: "emailTextField")
                         //password
                         InputView(text: $password,
                                   title: "Password",
                                   placeholder: "Enter Password",
                                   isSecureField: true)
                         .autocapitalization(.none)
+                        .accessibility(identifier: "passwordTextField")
                     }
                     .padding(.horizontal)
                     .padding(.top, 20)
