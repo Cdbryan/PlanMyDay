@@ -18,7 +18,7 @@ struct ForgotPasswordView: View {
     var body: some View {
         NavigationView {
             VStack {
-                Text("Forgot Password")
+                Text("Forgot Password").accessibilityIdentifier("Forgot Password")
                     .font(.largeTitle)
                     .fontWeight(.bold)
                     .padding(.vertical, 32)
@@ -39,7 +39,7 @@ struct ForgotPasswordView: View {
                     }
                 } label: {
                     HStack {
-                        Text("Reset Password")
+                        Text("Reset Password").accessibilityIdentifier("Reset Password")
                             .fontWeight(.semibold)
                         Image(systemName: "arrow.right")
                     }

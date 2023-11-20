@@ -43,7 +43,7 @@ struct HomeView: View {
         .navigationBarItems(
             leading: HStack {
                 NavigationLink(destination: LoginView().navigationBarBackButtonHidden(true)) {
-                    Text("Sign Out")
+                    Text("Sign Out").accessibilityIdentifier("Sign Out")
                 }
                 Text("My Trips")
                     .font(.title)

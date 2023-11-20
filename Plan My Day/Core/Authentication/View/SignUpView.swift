@@ -49,14 +49,14 @@ struct SignUpView: View {
                 InputView(text: $password,
                           title: "Password",
                           placeholder: "Minimum 6 Characters",
-                          isSecureField: true)
-                .autocapitalization(.none)
+                          isSecureField: false)
+                .autocapitalization(.none).accessibility(identifier: "Minimum 6 Characters")
                 //password x2
                 ZStack(alignment: .trailing){
                     InputView(text: $confirmPassword,
                               title: "Confirm Password",
                               placeholder: "Confirm Password",
-                              isSecureField: true)
+                              isSecureField: false).accessibility(identifier: "Confirm Password")
                     if !password.isEmpty && !confirmPassword.isEmpty{
                         if password == confirmPassword{
                             Image(systemName: "checkmark.circle.fill")
@@ -91,7 +91,7 @@ struct SignUpView: View {
                             }
             } label: {
                 HStack {
-                    Text("Sign Up")
+                    Text("Sign Up").accessibilityIdentifier("Sign Up")
                         .fontWeight(.semibold)
                     Image(systemName: "arrow.right")
                 }
