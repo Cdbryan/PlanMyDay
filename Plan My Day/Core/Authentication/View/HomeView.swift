@@ -30,7 +30,7 @@ struct HomeView: View {
                             Text(itineraries[index].itineraryName)
                         }
                     }
-                }
+                }.accessibilityIdentifier("itineraryList")
                 .onAppear {
                     self.loadItineraries { itineraryIDs in
                         // Use itineraryIDs as needed
