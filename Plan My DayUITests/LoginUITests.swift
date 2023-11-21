@@ -13,7 +13,6 @@ final class LoginUITests: XCTestCase {
     
     //Itzel Villanueva #1 - test ensures that when sign in with valid credentials it takes you to the home view page
     func testHomeViewValid() {
-        // Launch the app and navigate to the MapPageView
         let app = XCUIApplication()
         app.launch()
         
@@ -36,7 +35,6 @@ final class LoginUITests: XCTestCase {
     
     //Itzel Villanueva #2 - test ensures that if there is no valid credentials from firebase then it will stay in the sign in page
     func testInvalidPW() {
-        // Launch the app and navigate to the MapPageView
         let app = XCUIApplication()
         app.launch()
         
@@ -80,7 +78,6 @@ final class LoginUITests: XCTestCase {
     
     //Itzel Villanueva #4 - tests that the forgot password works
     func testForgotPW() {
-        // Launch the app and navigate to the MapPageView
         let app = XCUIApplication()
         app.launch()
         
@@ -103,7 +100,6 @@ final class LoginUITests: XCTestCase {
     
     //Itzel Villanueva #5 - tests that a new user can be created
     func testNewUserSucess() {
-        // Launch the app and navigate to the MapPageView
         let app = XCUIApplication()
         app.launch()
         
