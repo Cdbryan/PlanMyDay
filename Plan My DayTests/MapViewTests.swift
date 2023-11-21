@@ -44,36 +44,6 @@ class MapPageViewTests: XCTestCase {
             }
         }
         XCTAssertEqual(mockItinerary.tourDuration, mapView.itinerary.tourDuration)
-
-        
-//        // Directions update
-//        var updated_directions: [[MKDirections]] = [[]]
-//        mapView.debugSelectedDayIndex = 1
-//        mapView.debugSelectedMapMode = .walk
-//        updated_directions.append(mapView.debugDirections)
-//
-//        mapView.debugSelectedDayIndex = 1
-//        mapView.debugSelectedMapMode = .car
-//        updated_directions.append(mapView.debugDirections)
-//
-//        mapView.debugSelectedDayIndex = 0
-//        mapView.debugSelectedMapMode = .walk
-//        updated_directions.append(mapView.debugDirections)
-//
-//        mapView.debugSelectedDayIndex = 0
-//        mapView.debugSelectedMapMode = .car
-//        updated_directions.append(mapView.debugDirections)
-//
-////         Check directions are accurately updated
-//        for (index1, direction1) in updated_directions.enumerated() {
-//            for (index2, direction2) in updated_directions.enumerated() {
-//                // Skip comparing the direction with itself
-//                guard index1 != index2 else { continue }
-//
-//                // Assert that the two directions are not equal
-//                XCTAssertNotEqual(direction1, direction2, "Directions at index \(index1) and \(index2) are the same.")
-//            }
-//        }
     }
     
     // TEST 2: Opening Apple Maps
