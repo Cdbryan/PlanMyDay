@@ -53,6 +53,7 @@ struct HomeView: View {
                 Image(systemName: "plus")
                     .font(.title)
                     .foregroundColor(.primary)
+                    .accessibilityIdentifier("plus")
             }
         )
         // Simulate the navigation link action

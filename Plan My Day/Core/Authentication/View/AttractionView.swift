@@ -49,7 +49,7 @@ struct AttractionView: View {
                     ForEach(attractions.prefix(8)) { attraction in
                         HStack {
                             Image(systemName: "mappin.circle.fill")
-                            Text(attraction.name)
+                            Text(attraction.name).accessibilityIdentifier("USC Village")
                                 .onTapGesture {
                                     selectedAttraction = attraction
                                 }
@@ -76,7 +76,7 @@ struct AttractionView: View {
                     Button(action: {
                         isChecklistVisible.toggle()
                     }) {
-                        Text("Select Attractions")
+                        Text("Select Attractions").accessibilityIdentifier("Select Attractions")
                     }
                 }
                 ToolbarItem(placement: .navigationBarTrailing) {
@@ -248,7 +248,7 @@ struct AttractionChecklistView: View {
                 List {
                     ForEach(attractions) { attraction in
                         HStack {
-                            Image(systemName: selectedAttractions.contains { $0.id == attraction.id } ? "checkmark.square" : "square")
+                            Image(systemName: selectedAttractions.contains { $0.id == attraction.id } ? "checkmark.square" : "square").accessibilityIdentifier("checkmark.square")
                             Text(attraction.name)
                         }
                         .onTapGesture {
@@ -262,11 +262,11 @@ struct AttractionChecklistView: View {
                         Button("Cancel") {
                             selectedAttractions = []
                             isChecklistVisible.toggle()
-                        }
+                        }.accessibilityIdentifier("Cancel")
                     }
                     ToolbarItem(placement: .navigationBarTrailing) {
                         NavigationLink(destination: NumberofDaysInputView(selectedAttractions: $selectedAttractions, itineraryName: $itineraryName, plan: $plan, tourDuration: $tourDuration, numberOfDays: $numberOfDays, isNumberofDaysActive: $isNumberofDaysActive, isChecklistVisible: $isChecklistVisible, validPlan: $validPlan)) {
-                            Text("Next")
+                            Text("Next").accessibilityIdentifier("Next")
                         }
                     }                }
             }
@@ -289,6 +289,7 @@ struct AttractionDetailView: View {
         VStack {
             Text(attraction.name)
                 .font(.title)
+                .accessibilityIdentifier("attractionNameLabel")
             Text("Location: \(attraction.location)")
             Text("Hours: \(attraction.hours.joined(separator: ", "))")
             Text("Description: \(attraction.desc)")
