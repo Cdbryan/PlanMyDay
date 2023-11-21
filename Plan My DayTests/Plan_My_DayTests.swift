@@ -106,7 +106,7 @@ final class Plan_My_DayTests: XCTestCase {
 
     
     @MainActor
-    // Alysha Kanjiyani: Test for resetting password with valid email
+    // Alysha Kanjiyani #1: Test for resetting password with valid email
         func testResetPassword() async {
             let validEmail = "kanjiyan@usc.edu"
 
@@ -124,9 +124,9 @@ final class Plan_My_DayTests: XCTestCase {
         }
     
     @MainActor
-    // Alysha Kanjiyani: Test for creating a new user
+    // Alysha Kanjiyani #2: Test for creating a new user
         func testCreateUser() async {
-            let validEmail = "newuser@example100.com"
+            let validEmail = "newuser@example102.com"
             let validPassword = "newpassword"
             let validFullname = "John Doe"
             let validSecurityAnswer = "Security123"
@@ -146,7 +146,7 @@ final class Plan_My_DayTests: XCTestCase {
         }
 
     @MainActor
-    // Alysha Kanjiyani: Test the creating user with a pre-existing email
+    // Alysha Kanjiyani #3: Test the creating user with a pre-existing email
         func testCreateUserWithDuplicateEmail() async {
             let existingEmail = "kanjiyan@usc.edu"
             let password = "existingpassword"
@@ -170,7 +170,7 @@ final class Plan_My_DayTests: XCTestCase {
     
     
     @MainActor
-    //Alysha Kanjiyani: Tests if user sign out functionality works
+    //Alysha Kanjiyani #4: Tests if user sign out functionality works
     func testSignOut() async {
             // Create an expectation
             let expectation = XCTestExpectation(description: "Sign out user")
@@ -195,7 +195,7 @@ final class Plan_My_DayTests: XCTestCase {
         }
     
     @MainActor
-    //Alysha Kanjiyani: Testing to check if it calulates the duration of the tours of each day properly
+    //Alysha Kanjiyani #5: Testing to check if it calulates the duration of the tours of each day properly
     func testTourDurationCalculation() {
         var tourDuration: [Double] = []
         let testAttractions: [Attraction] = [
