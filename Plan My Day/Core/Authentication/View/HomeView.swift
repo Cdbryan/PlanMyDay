@@ -48,12 +48,13 @@ struct HomeView: View {
                 Text("My Trips")
                     .font(.title)
                     .foregroundColor(.primary)
+                    .accessibilityIdentifier("MyTripsIdentifier")
             },
             trailing: NavigationLink(destination: AttractionView().navigationBarBackButtonHidden(false)) {
                 Image(systemName: "plus")
                     .font(.title)
                     .foregroundColor(.primary)
-                    .accessibilityIdentifier("plus")
+                    .accessibilityIdentifier("PlusIdentifier")
             }
         )
         // Simulate the navigation link action

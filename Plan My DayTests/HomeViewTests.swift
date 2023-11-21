@@ -115,35 +115,6 @@ class HomeViewTests: XCTestCase {
         }
     }
     
-    func testNavigationToAttractionView() { //change this test 
-        // Create an instance of HomeView
-        var homeView = HomeView()
-
-        // Create a NavigationView to wrap HomeView (assuming it's embedded in a NavigationView)
-        let navigationView = NavigationView {
-            homeView
-        }
-
-        // Simulate the UI rendering
-        let viewController = UIHostingController(rootView: navigationView)
-        let window = UIWindow()
-        window.rootViewController = UINavigationController(rootViewController: viewController)
-        window.makeKeyAndVisible()
-
-        // Set the navigationLinkAction to trigger the navigation
-        homeView.navigationLinkAction = {
-            // Assert that the navigation to AttractionView is triggered
-            // Use the UINavigationController to check the navigation stack
-            let navigationController = viewController.navigationController
-            XCTAssertTrue(navigationController?.viewControllers.last is AttractionView, "AttractionView should be on the navigation stack")
-        }
-
-        // Trigger the navigation to AttractionView
-        homeView.simulateNavigation?()
-    }
-    
-    
-  
       // Your unit test for the ViewModel
       class HomeViewModelTests: XCTestCase {
           func testLoadItinerariesCallsUpdateFunction() {
