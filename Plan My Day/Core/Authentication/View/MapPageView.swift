@@ -161,6 +161,7 @@ struct MapPageView: View {
                                 .font(.title)
                         }
                         .padding(EdgeInsets(top: 0, leading: 10, bottom: 0, trailing: 10))
+                        .accessibilityIdentifier("SaveAsPDF")
                     }
 
                     Picker("Day", selection: $selectedDayIndex) {
@@ -170,6 +171,8 @@ struct MapPageView: View {
                     }
                     .pickerStyle(SegmentedPickerStyle())
                     .padding()
+                    .accessibilityIdentifier("DayPicker")
+
 
                     ScrollView {
                         Text("Total Time: \(formatTourDuration(selectedDayIndex < itinerary.tourDuration.count ? itinerary.tourDuration[selectedDayIndex] : 0.0))")
@@ -185,7 +188,8 @@ struct MapPageView: View {
                             }
                             .padding(EdgeInsets(top: 5, leading: 0, bottom: 5, trailing: 0))
                         }
-                    }
+                    }.accessibilityIdentifier("Attractions")
+
 
                     Picker("Map Mode", selection: $selectedMapMode) {
                         Text("Car").tag(MapMode.car)
@@ -193,6 +197,8 @@ struct MapPageView: View {
                     }
                     .pickerStyle(SegmentedPickerStyle())
                     .padding()
+                    .accessibilityIdentifier("MapPicker")
+
 
                     // Display Map
                     MapView(directions: $directions, selectedMapMode: selectedMapMode, attractions: itinerary.plan[selectedDayIndex], selectedDayIndex: selectedDayIndex)
