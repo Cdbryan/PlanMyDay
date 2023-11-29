@@ -46,15 +46,29 @@ struct HomeView: View {
                     Text("Sign Out").accessibilityIdentifier("Sign Out")
                 }
                 Text("My Trips")
-                    .font(.title)
+                    .font(.custom("Nunito-VariableFont_wght.ttf", size: 30))
                     .foregroundColor(.primary)
                     .accessibilityIdentifier("MyTripsIdentifier")
             },
-            trailing: NavigationLink(destination: AttractionView().navigationBarBackButtonHidden(false)) {
-                Image(systemName: "plus")
-                    .font(.title)
-                    .foregroundColor(.primary)
-                    .accessibilityIdentifier("PlusIdentifier")
+            trailing:  
+                HStack {
+                Spacer()
+                
+                ZStack {
+                    Circle()
+                        .foregroundColor(Color(red: 242/255, green: 184/255, blue: 125/255)) // Use the RGB values
+                        .frame(width: 44, height: 44)
+                    
+                    NavigationLink(destination: AttractionView().navigationBarBackButtonHidden(false)) {
+                        Image(systemName: "plus")
+                            .font(.title)
+                            .foregroundColor(.white)
+                            .accessibilityIdentifier("PlusIdentifier")
+                    }
+                    .frame(width: 44, height: 44)
+                    .offset(x: -5) // Adjust the offset as needed
+                }
+                Spacer()
             }
         )
         // Simulate the navigation link action
