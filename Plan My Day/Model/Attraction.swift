@@ -57,6 +57,4 @@ struct Attraction: Identifiable, Encodable, Decodable {
         Attraction(attractionId: 19, name: "Grand Central Market", location: "Los Angeles", isUSC: false, lat: 34.050996422960075, long: -118.24905520365333, hours: ["8:00 AM - 9:00 PM"], desc: "Emporium hosting food vendors & florists, plus game nights, movies & other events, since 1917."),
         Attraction(attractionId: 20, name: "Petersen Automotive Museum", location: "Los Angeles", isUSC: false, lat: 34.06212174229391, long: -118.36140601899784, hours: ["9:00 AM - 5:00 PM"], desc: "One of the world's largest automotive museums, the Petersen Automotive Museum is a nonprofit organization specializing in automobile history and related educational programs.")
     ]
-    
-    
 }

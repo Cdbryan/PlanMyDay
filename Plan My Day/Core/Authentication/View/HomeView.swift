@@ -47,10 +47,10 @@ struct HomeView: View {
                 }
                 Text("My Trips")
                     .font(.custom("Nunito-VariableFont_wght.ttf", size: 30))
-                    .foregroundColor(.primary)
+                    .foregroundColor(Color(red: 0.42, green: 0.56, blue: 0.5))
                     .accessibilityIdentifier("MyTripsIdentifier")
             },
-            trailing:  
+            trailing:
                 HStack {
                 Spacer()
                 
