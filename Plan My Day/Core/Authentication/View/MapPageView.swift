@@ -148,7 +148,7 @@ struct MapPageView: View {
                                 .foregroundColor(.white)
                                 .padding(EdgeInsets(top: 5, leading: 10, bottom: 5, trailing: 10))
                         }
-                        .background(Color.blue)
+                        .background(Color(red: 0.8, green: 0.4, blue: 0.0))
                         .cornerRadius(10)
                         .disabled(disableSave)
 
@@ -159,6 +159,7 @@ struct MapPageView: View {
                         }) {
                             Image(systemName: "arrow.down.to.line.alt")
                                 .font(.title)
+                                .foregroundColor(Color(red: 242/255, green: 184/255, blue: 125/255))
                         }
                         .padding(EdgeInsets(top: 0, leading: 10, bottom: 0, trailing: 10))
                         .accessibilityIdentifier("SaveAsPDF")
@@ -177,6 +178,8 @@ struct MapPageView: View {
                     ScrollView {
                         Text("Total Time: \(formatTourDuration(selectedDayIndex < itinerary.tourDuration.count ? itinerary.tourDuration[selectedDayIndex] : 0.0))")
                             .font(.title)
+                            .foregroundColor(Color(red: 0.42, green: 0.56, blue: 0.5))
+
 
                         ForEach(itinerary.plan[selectedDayIndex].indices, id: \.self) { index in
                             HStack(alignment: .top, spacing: 10) {
@@ -221,7 +224,8 @@ struct MapPageView: View {
 
                             Text("Open in External Maps")
                                 .font(.title2)
-                                .foregroundColor(Color.accentColor)
+                                .foregroundColor(Color(red: 0.8, green: 0.4, blue: 0.0))
+                            
                         }
                     }
                     .padding()
