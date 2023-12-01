@@ -49,6 +49,7 @@ struct AttractionView: View {
                     ForEach(attractions.prefix(8)) { attraction in
                         HStack {
                             Image(systemName: "mappin.circle.fill")
+                                .foregroundColor(Color(red: 0.8, green: 0.4, blue: 0.0))
                             Text(attraction.name).accessibilityIdentifier("USC Village")
                                 .onTapGesture {
                                     selectedAttraction = attraction
@@ -60,6 +61,7 @@ struct AttractionView: View {
                     ForEach(attractions.dropFirst(8)) { attraction in
                         HStack {
                             Image(systemName: "mappin.circle.fill")
+                                .foregroundColor(Color(red: 0.8, green: 0.4, blue: 0.0))
                             Text(attraction.name)
                                 .onTapGesture {
                                     selectedAttraction = attraction
@@ -286,17 +288,53 @@ struct AttractionDetailView: View {
     let attraction: Attraction
     
     var body: some View {
-        VStack {
+        VStack(alignment: .leading) {
             Text(attraction.name)
                 .font(.title)
                 .accessibilityIdentifier("attractionNameLabel")
-            Text("Location: \(attraction.location)")
-            Text("Hours: \(attraction.hours.joined(separator: ", "))")
-            Text("Description: \(attraction.desc)")
+                .padding(EdgeInsets(top: 10, leading: 25, bottom: 10, trailing: 0))
+                .foregroundColor(Color(red: 0.42, green: 0.56, blue: 0.5))
+            HStack(alignment: .top){
+                Text("Location: ").bold()
+                    .foregroundColor(Color(red: 0.8, green: 0.4, blue: 0.0))
+                    .padding(EdgeInsets(top: 0, leading: 25, bottom: 10, trailing: 0))
+                Text(" \(attraction.location)")
+                    .padding(EdgeInsets(top: 0, leading: 0, bottom: 10, trailing: 0))
+            }
+
+            HStack(alignment: .top){
+                Text("Hours: ").bold()
+                    .foregroundColor(Color(red: 0.8, green: 0.4, blue: 0.0))
+                    .padding(EdgeInsets(top: 0, leading: 25, bottom: 10, trailing: 0))
+                Text(" \(attraction.hours.joined(separator: ", "))")
+                    .padding(EdgeInsets(top: 0, leading: 20, bottom: 10, trailing: 0))
+            }
+            
+            VStack(alignment: .leading){
+                Text("Description: ").bold()
+                    .foregroundColor(Color(red: 0.8, green: 0.4, blue: 0.0))
+                    .padding(EdgeInsets(top: 0, leading: 25, bottom: 0, trailing: 0))
+                Text(" \(attraction.desc)")
+                    .padding(EdgeInsets(top: 0, leading: 25, bottom: 10, trailing: 0))
+            }
+            
+            HStack {
+                Spacer() // Pushes the image to the center
+                Image("\(attraction.name)")
+                    .resizable()
+                   .scaledToFill()
+                   .frame(width: 350, height: 350) // Adjust size as needed
+                   .clipShape(Rectangle()) // You can use Circle() for a circular shape
+                   .overlay(Rectangle().stroke(Color(red: 0.8, green: 0.4, blue: 0.0), lineWidth: 4)) // Optional: add a border
+                   .padding(EdgeInsets(top: 25, leading: 25, bottom: 25, trailing: 25))
+                Spacer()
+            }
+
+            
             
             Spacer()
         }
-        .padding()
+        .padding(10)
     }
 }
 

@@ -31,8 +31,6 @@
 		937616772AE9C5D0008C5147 /* InputView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 937616762AE9C5D0008C5147 /* InputView.swift */; };
 		937616792AE9CFD9008C5147 /* SignUpView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 937616782AE9CFD9008C5147 /* SignUpView.swift */; };
 		D80A22302AF359EC002904FD /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D80A222F2AF359EC002904FD /* HomeView.swift */; };
-		D8A2FB252B16D0D900684DEE /* Nunito-VariableFont_wght.ttf in Resources */ = {isa = PBXBuildFile; fileRef = D8A2FB232B16D0D900684DEE /* Nunito-VariableFont_wght.ttf */; };
-		D8A2FB262B16D0D900684DEE /* Nunito-Italic-VariableFont_wght.ttf in Resources */ = {isa = PBXBuildFile; fileRef = D8A2FB242B16D0D900684DEE /* Nunito-Italic-VariableFont_wght.ttf */; };
 		D8A550802B0BE3EF00B2382C /* HomeViewUITest.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8A5507F2B0BE3EF00B2382C /* HomeViewUITest.swift */; };
 		D8AF02F12B082BB5006B0DF4 /* HomeViewTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8AF02F02B082BB5006B0DF4 /* HomeViewTests.swift */; };
 		E23F094E2AF1D725006BE071 /* AttractionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E23F094D2AF1D724006BE071 /* AttractionView.swift */; };
@@ -88,8 +86,6 @@
 		937616762AE9C5D0008C5147 /* InputView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InputView.swift; sourceTree = "<group>"; };
 		937616782AE9CFD9008C5147 /* SignUpView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpView.swift; sourceTree = "<group>"; };
 		D80A222F2AF359EC002904FD /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
-		D8A2FB232B16D0D900684DEE /* Nunito-VariableFont_wght.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "Nunito-VariableFont_wght.ttf"; path = "../../../Nunito/Nunito-VariableFont_wght.ttf"; sourceTree = "<group>"; };
-		D8A2FB242B16D0D900684DEE /* Nunito-Italic-VariableFont_wght.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "Nunito-Italic-VariableFont_wght.ttf"; path = "../../../Nunito/Nunito-Italic-VariableFont_wght.ttf"; sourceTree = "<group>"; };
 		D8A5507F2B0BE3EF00B2382C /* HomeViewUITest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewUITest.swift; sourceTree = "<group>"; };
 		D8AF02F02B082BB5006B0DF4 /* HomeViewTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewTests.swift; sourceTree = "<group>"; };
 		E23F094D2AF1D724006BE071 /* AttractionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AttractionView.swift; sourceTree = "<group>"; };
@@ -183,8 +179,6 @@
 		933B08C72AE89091009BD0D2 /* Plan My Day */ = {
 			isa = PBXGroup;
 			children = (
-				D8A2FB242B16D0D900684DEE /* Nunito-Italic-VariableFont_wght.ttf */,
-				D8A2FB232B16D0D900684DEE /* Nunito-VariableFont_wght.ttf */,
 				37F7D1CE2AF6E1ED00D8A952 /* Plan-My-Day-Info.plist */,
 				937616702AE9C224008C5147 /* App */,
 				9376166F2AE9C222008C5147 /* Components */,
@@ -421,9 +415,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				D8A2FB252B16D0D900684DEE /* Nunito-VariableFont_wght.ttf in Resources */,
 				933B08D02AE89092009BD0D2 /* Preview Assets.xcassets in Resources */,
-				D8A2FB262B16D0D900684DEE /* Nunito-Italic-VariableFont_wght.ttf in Resources */,
 				933B08CD2AE89092009BD0D2 /* Assets.xcassets in Resources */,
 				E241A8F92AE9C9CB00203F24 /* GoogleService-Info.plist in Resources */,
 			);
