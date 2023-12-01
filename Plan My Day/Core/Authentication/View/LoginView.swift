@@ -16,25 +16,32 @@ struct LoginView: View {
     @State private var navigateToProfile = false // New state variable
     @State private var isShowingErrorAlert = false // State variable for error alert
     @State private var navigateToForgotPassword = false
-
+    
+    
     
     var body: some View {
         NavigationStack {
             NavigationView {
                 VStack {
                     //image
-                    Image("messi")
+                    Image("sunset")
                         .resizable()
                         .scaledToFill()
-                        .frame(width: 100, height: 120)
-                        .padding(.vertical, 32)
-                    
+                        .frame(width: 250, height: 270)
+                        .clipShape(Circle())
+                        .overlay(Circle().stroke(Color.white, lineWidth: 4))
+                        .overlay(Circle().stroke(Color("orange"), lineWidth: 4))
+                        .shadow(radius: 4)
+                        .padding(.top, -55)
+                        .padding(.bottom, 20)
+
                     //input fields
                     VStack(spacing: 24) {
                         //email
                         InputView(text: $email,
                                   title: "Email",
-                                  placeholder: "tommyT11@usc.edu")
+                                  placeholder: "tommyT11@usc.edu"
+                        )
                         .autocapitalization(.none)
                         .accessibility(identifier: "emailTextField")
                         //password
@@ -44,6 +51,7 @@ struct LoginView: View {
                                   isSecureField: true)
                         .autocapitalization(.none)
                         .accessibility(identifier: "passwordTextField")
+                        
                     }
                     .padding(.horizontal)
                     .padding(.top, 20)
@@ -72,10 +80,11 @@ struct LoginView: View {
                             .fontWeight(.semibold)
                         Image(systemName: "arrow.right")
                     }
+                    .font(.system(size: 20))
                     .foregroundColor(.white)
                     .frame(width: UIScreen.main.bounds.width - 32, height: 48)
                 }
-                .background(Color(.systemBlue))
+                .background(Color("orange"))
                 .disabled(!formIsValid)
                 .opacity(formIsValid ? 1.0 : 0.5)
                 .cornerRadius(10)
@@ -88,30 +97,24 @@ struct LoginView: View {
                         destination: SignUpView().navigationBarBackButtonHidden(true),
                         label: {
                             HStack(spacing: 7) {
-                                Text("Don't have an account?")
-                                Text("Sign Up")
-                                    .fontWeight(.bold)
+                                //Text("Don't have an account?")
+                                Text("Sign Up").bold()
                             }
-                            .font(.system(size: 14))
+                            .font(.system(size: 20))
+                            .foregroundColor(Color("orange"))
                         }
                     )
+                    Spacer().frame(height: 18)
                     NavigationLink(
-                                    destination: ForgotPasswordView(),
-                                    isActive: $navigateToForgotPassword,
-                                    label: { Text("Forgot Password?") }
-                                )
-//                    NavigationLink(
-//                        destination: ForgotPasswordView(),
-//                        isActive: $navigateToForgotPassword,
-//                        label: {
-//                            Text("Forgot Password?")
-//                                .font(.system(size: 14))
-//                                .foregroundColor(Color(.systemBlue))
-//                                .onTapGesture {
-//                                    navigateToForgotPassword = true
-//                                }
-//                        }
-//                    )
+                        destination: ForgotPasswordView(),
+                        isActive: $navigateToForgotPassword,
+                        label: { Text("Forgot Password?")
+                                .font(.system(size: 20))
+                                .foregroundColor(Color("orange"))
+                                .bold()
+                        }
+                    )
+                    Spacer().frame(height: 20)
                 }
             }
             .background(
@@ -121,6 +124,7 @@ struct LoginView: View {
                     label: { EmptyView() }
                 )
             )
+            
         }
         .alert(isPresented: $isShowingErrorAlert) {
             Alert(

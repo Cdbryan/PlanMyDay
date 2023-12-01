@@ -43,12 +43,16 @@ struct HomeView: View {
         .navigationBarItems(
             leading: HStack {
                 NavigationLink(destination: LoginView().navigationBarBackButtonHidden(true)) {
-                    Text("Sign Out").accessibilityIdentifier("Sign Out")
+                    Text("Sign Out").accessibilityIdentifier("Sign Out").foregroundColor(Color(.systemBlue)).bold()
                 }
+                Spacer().frame(width: 40)
                 Text("My Trips")
-                    .font(.custom("Nunito-VariableFont_wght.ttf", size: 30))
-                    .foregroundColor(Color(red: 0.42, green: 0.56, blue: 0.5))
+                    .font(.largeTitle)
+                    .foregroundColor(Color("purps"))
                     .accessibilityIdentifier("MyTripsIdentifier")
+                    .navigationBarTitleDisplayMode(.inline)
+                    .bold()
+
             },
             trailing:
                 HStack {
@@ -56,17 +60,19 @@ struct HomeView: View {
                 
                 ZStack {
                     Circle()
-                        .foregroundColor(Color(red: 242/255, green: 184/255, blue: 125/255)) // Use the RGB values
-                        .frame(width: 44, height: 44)
+                        .foregroundColor(Color("orange")) // Use the RGB values
+                        .frame(width: 22, height: 22)
                     
                     NavigationLink(destination: AttractionView().navigationBarBackButtonHidden(false)) {
                         Image(systemName: "plus")
-                            .font(.title)
                             .foregroundColor(.white)
                             .accessibilityIdentifier("PlusIdentifier")
+                            .frame(width: 22, height: 22)
+                            .bold()
+
                     }
-                    .frame(width: 44, height: 44)
-                    .offset(x: -5) // Adjust the offset as needed
+                    .frame(width: 22, height: 22)
+                    .offset(x: -4) // Adjust the offset as needed
                 }
                 Spacer()
             }

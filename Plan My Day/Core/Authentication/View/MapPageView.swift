@@ -148,7 +148,7 @@ struct MapPageView: View {
                                 .foregroundColor(.white)
                                 .padding(EdgeInsets(top: 5, leading: 10, bottom: 5, trailing: 10))
                         }
-                        .background(Color(red: 0.8, green: 0.4, blue: 0.0))
+                        .background(Color("orange"))
                         .cornerRadius(10)
                         .disabled(disableSave)
 
@@ -159,7 +159,7 @@ struct MapPageView: View {
                         }) {
                             Image(systemName: "arrow.down.to.line.alt")
                                 .font(.title)
-                                .foregroundColor(Color(red: 242/255, green: 184/255, blue: 125/255))
+                                .foregroundColor(Color("orange"))
                         }
                         .padding(EdgeInsets(top: 0, leading: 10, bottom: 0, trailing: 10))
                         .accessibilityIdentifier("SaveAsPDF")
@@ -178,7 +178,8 @@ struct MapPageView: View {
                     ScrollView {
                         Text("Total Time: \(formatTourDuration(selectedDayIndex < itinerary.tourDuration.count ? itinerary.tourDuration[selectedDayIndex] : 0.0))")
                             .font(.title)
-                            .foregroundColor(Color(red: 0.42, green: 0.56, blue: 0.5))
+                            .foregroundColor(Color(.systemBlue))
+                            .bold()
 
 
                         ForEach(itinerary.plan[selectedDayIndex].indices, id: \.self) { index in
@@ -224,7 +225,7 @@ struct MapPageView: View {
 
                             Text("Open in External Maps")
                                 .font(.title2)
-                                .foregroundColor(Color(red: 0.8, green: 0.4, blue: 0.0))
+                                .foregroundColor(Color("orange"))
                             
                         }
                     }
@@ -244,6 +245,17 @@ struct MapPageView: View {
                 }
                 .padding()
             }
+            .navigationBarTitle("", displayMode: .inline)
+            .navigationBarItems(
+                leading: HStack {
+                    Spacer().frame(width: 50)
+                    Text("Planned")
+                        .font(.largeTitle)
+                        .foregroundColor(Color("purps"))
+                        .navigationBarTitleDisplayMode(.inline)
+                        .bold()
+
+                })
         }
     
     func saveAsPDF() {

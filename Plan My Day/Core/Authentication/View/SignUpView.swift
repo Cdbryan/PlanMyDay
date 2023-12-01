@@ -24,11 +24,15 @@ struct SignUpView: View {
     var body: some View {
         VStack{
             //image
-            Image("messi")
+            Image("sunset")
                 .resizable()
                 .scaledToFill()
-                .frame(width: 100, height: 120)
-                .padding(.vertical, 32)
+                .frame(width: 150, height: 170)
+                .clipShape(Circle())
+                .overlay(Circle().stroke(Color.white, lineWidth: 4))
+                .overlay(Circle().stroke(Color("orange"), lineWidth: 4))
+                .shadow(radius: 4)
+                .padding(.top, 0)
             
             //input fields
             VStack(spacing: 24){
@@ -95,10 +99,12 @@ struct SignUpView: View {
                         .fontWeight(.semibold)
                     Image(systemName: "arrow.right")
                 }
+                .font(.system(size: 20))
                 .foregroundColor(.white)
                 .frame(width: UIScreen.main.bounds.width - 32, height: 48)
+                .background(Color("orange"))
+
             }
-            .background(Color(.systemBlue))
             .disabled(!formIsValid)
             .opacity(formIsValid ? 1.0 : 0.5)
             .cornerRadius(10)
@@ -131,8 +137,10 @@ struct SignUpView: View {
                         }) {
                             Text("Back to Login")
                         }
-                        .foregroundColor(Color(.systemBlue))
+                        .foregroundColor(Color("orange"))
                         .padding(.top, 16)
+                        .font(.system(size: 20))
+                        .bold()
         }
     }
 }

@@ -126,7 +126,7 @@ final class Plan_My_DayTests: XCTestCase {
     @MainActor
     // Alysha Kanjiyani #2: Test for creating a new user
         func testCreateUser() async {
-            let validEmail = "newuser@example102.com"
+            let validEmail = "newuser1@example102.com"
             let validPassword = "newpassword"
             let validFullname = "John Doe"
             let validSecurityAnswer = "Security123"

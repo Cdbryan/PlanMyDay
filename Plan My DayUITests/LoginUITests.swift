@@ -115,7 +115,7 @@ final class LoginUITests: XCTestCase {
         let confirmPasswordTextField = app.textFields["Confirm Password"]
         
         emailTextField.tap()
-        emailTextField.typeText("cr7@gmail.com")
+        emailTextField.typeText("cr78@gmail.com")
         
         fullNameTextField.tap()
         fullNameTextField.typeText("CR7")
